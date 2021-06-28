@@ -1,5 +1,15 @@
 #include "linalg.h"
-// #include "stb_ds.h"
+
+
+#define REGISTER_ENUM(type) type linalg_dotProduct_##type(type * arr1, type * arr2, size_t arr_len) {\
+    type out = 0;\
+    for (size_t i = 0; i < arr_len; i++) {\
+        out += arr1[i] * arr2[i];\
+    }\
+    return (out);\
+}
+LINALG_TEMPLATE_TYPES
+#undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) bool list_isIn_1D_##type(type * list_2D, size_t list_len, type x) {\
     bool found = false;\
@@ -11,7 +21,7 @@
     }\
     return (found);\
 }
-#include "names/template_types.h"
+LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) bool list_isIn_2D_##type(type * list_2D, size_t list_len, type x, type y) {\
@@ -24,7 +34,7 @@
     }\
     return (found);\
 }
-#include "names/template_types.h"
+LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) bool list_isIn_3D_##type(type * list_3D, size_t list_len, type x, type y, type z) {\
@@ -37,7 +47,7 @@
     }\
     return (found);\
 }
-#include "names/template_types.h"
+LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) bool array_isIn_##type(type * array, type to_find, size_t arr_len) {\
@@ -50,7 +60,7 @@
     }\
     return (found);\
 }
-#include "names/template_types.h"
+LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) size_t * array_where_##type(type * array, type to_find, size_t arr_len) {\
@@ -67,7 +77,7 @@
     found_list = DARR_REALLOC(found_list, DARR_NUM(found_list));\
     return (found_list);\
 }
-#include "names/template_types.h"
+LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 // size_t * found_list = (size_t* )malloc(sizeof(size_t)*(row_len*col_len + 1)) + 1;
@@ -87,7 +97,7 @@
     found_list = DARR_REALLOC(found_list, DARR_NUM(found_list));\
     return (found_list);\
 }
-#include "names/template_types.h"
+LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 #define REGISTER_ENUM(type) bool matrix_isIn_##type(type * matrix, type to_find, size_t row_len, size_t col_len) {\
     bool found = false;\
@@ -102,7 +112,7 @@
     OUT:;\
     return (found);\
 }
-#include "names/template_types.h"
+LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * list2matrix_##type(type * list, size_t row_len, size_t col_len, size_t list_len) {\
@@ -112,7 +122,7 @@
     }\
     return (out);\
 }
-#include "names/template_types_int.h"
+LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 void matrix_print_int16_t(int16_t * array, size_t row_len, size_t col_len) {
@@ -137,7 +147,7 @@ void matrix_print_int16_t(int16_t * array, size_t row_len, size_t col_len) {
 OUT:;\
 return (equal);\
 }
-#include "names/template_types.h"
+LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * matrix_and_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len) {\
@@ -149,7 +159,7 @@ return (equal);\
     }\
     return (out);\
 }
-#include "names/template_types.h"
+LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * matrix_or_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len) {\
@@ -161,7 +171,7 @@ return (equal);\
     }\
     return (out);\
 }
-#include "names/template_types.h"
+LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * matrix_plus_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len, int8_t sign) {\
@@ -173,7 +183,7 @@ return (equal);\
     }\
     return (out);\
 }
-#include "names/template_types.h"
+LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 
@@ -186,7 +196,7 @@ return (equal);\
     }\
     return (out);\
 }
-#include "names/template_types.h"
+LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 
@@ -210,7 +220,7 @@ return (equal);\
     DARR_FREE(list);\
     return (out);\
 }
-#include "names/template_types.h"
+LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 
