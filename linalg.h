@@ -100,7 +100,7 @@ enum Dimensions {
 // -> determinant of square matrix
 // Need LU decomposition for that....cross product
 // -> dot product DONE
-// -> cross product
+// -> cross product DONE
 // -> Diagonalization?
 // -> Eigenvalue/Eigenvectors?
 // -> Matrix multiplication
