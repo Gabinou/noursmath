@@ -82,7 +82,7 @@ REGISTER_ENUM(int32_t) \
 REGISTER_ENUM(uint32_t) \
 REGISTER_ENUM(int64_t) \
 REGISTER_ENUM(uint64_t) \
- REGISTER_ENUM(float) \
+REGISTER_ENUM(float) \
 REGISTER_ENUM(double)
 
 /**********************UTILITIES FOR MULTI_DIMENSIONAL ARRAYS******************/
