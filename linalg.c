@@ -11,7 +11,7 @@
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) bool list_isIn_1D_##type(type * list_2D, size_t list_len, type x) {\
+#define REGISTER_ENUM(type) bool linalg_list_isIn_1D_##type(type * list_2D, size_t list_len, type x) {\
     bool found = false;\
     for (size_t i = 0; i < list_len; i++) {\
         if (x == list_2D[i * ONE_D + 0]) {\
@@ -24,7 +24,7 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) bool list_isIn_2D_##type(type * list_2D, size_t list_len, type x, type y) {\
+#define REGISTER_ENUM(type) bool linalg_list_isIn_2D_##type(type * list_2D, size_t list_len, type x, type y) {\
     bool found = false;\
     for (size_t i = 0; i < list_len; i++) {\
         if ((x == list_2D[i * TWO_D + 0]) && (y == list_2D[i * TWO_D + 1])) {\
@@ -37,7 +37,7 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) bool list_isIn_3D_##type(type * list_3D, size_t list_len, type x, type y, type z) {\
+#define REGISTER_ENUM(type) bool linalg_list_isIn_3D_##type(type * list_3D, size_t list_len, type x, type y, type z) {\
     bool found = false;\
     for (size_t i = 0; i < list_len; i++) {\
         if ((x == list_3D[i * THREE_D + 0]) && (y == list_3D[i * THREE_D + 1]) && (z == list_3D[i * THREE_D + 2])) {\
@@ -50,7 +50,7 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) bool array_isIn_##type(type * array, type to_find, size_t arr_len) {\
+#define REGISTER_ENUM(type) bool linalg_array_isIn_##type(type * array, type to_find, size_t arr_len) {\
     bool found = false;\
     for (size_t i = 0; i < arr_len; i++) {\
         if (array[i] == to_find) {\
@@ -63,8 +63,8 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) size_t * array_where_##type(type * array, type to_find, size_t arr_len) {\
-    size_t * found_list = DARR_INIT(size_t, arr_len);\
+#define REGISTER_ENUM(type) size_t * linalg_array_where_##type(type * array, type to_find, size_t arr_len) {\
+    size_t * found_list = DARR_INIT(found_list, size_t, arr_len);\
     DARR_LEN(found_list) = arr_len;\
     DARR_NUM(found_list) = 0;\
     for (size_t i = 0; i < arr_len; i++) {\
@@ -81,8 +81,8 @@ LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 // size_t * found_list = (size_t* )malloc(sizeof(size_t)*(row_len*col_len + 1)) + 1;
-#define REGISTER_ENUM(type) size_t * matrix_where_##type(type * matrix, type to_find, size_t row_len, size_t col_len) {\
-    size_t * found_list = DARR_INIT(size_t, row_len*col_len);\
+#define REGISTER_ENUM(type) size_t * linalg_matrix_where_##type(type * matrix, type to_find, size_t row_len, size_t col_len) {\
+    size_t * found_list = DARR_INIT(found_list, size_t, row_len*col_len);\
     DARR_LEN(found_list) = row_len*col_len;\
     DARR_NUM(found_list) = 0;\
     for (size_t row = 0; row < row_len; row++) {\
@@ -99,7 +99,7 @@ LINALG_TEMPLATE_TYPES
 }
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
-#define REGISTER_ENUM(type) bool matrix_isIn_##type(type * matrix, type to_find, size_t row_len, size_t col_len) {\
+#define REGISTER_ENUM(type) bool linalg_matrix_isIn_##type(type * matrix, type to_find, size_t row_len, size_t col_len) {\
     bool found = false;\
     for (size_t row = 0; row < row_len; row++) {\
         for (size_t col = 0; col < col_len; col++) {\
@@ -115,7 +115,7 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * list2matrix_##type(type * list, size_t row_len, size_t col_len, size_t list_len) {\
+#define REGISTER_ENUM(type) type * linalg_list2matrix_##type(type * list, size_t row_len, size_t col_len, size_t list_len) {\
     type * out = calloc(row_len * col_len, sizeof(type));\
     for (size_t elem = 0; elem < list_len; elem++) {\
         out[list[2 * elem + 1] * col_len + list[2 * elem + 0]] = 1;\
@@ -125,16 +125,16 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-void matrix_print_int16_t(int16_t * array, size_t row_len, size_t col_len) {
-    for (size_t row = 0; row < row_len; row++) {
-        for (size_t col = 0; col < col_len; col++) {
-            printf("%02d ", array[row * col_len + col]);
-        }
-        printf("\n");
-    }
+#define REGISTER_ENUM(type) void matrix_print_##type(type * array, size_t row_len, size_t col_len) {\
+    for (size_t row = 0; row < row_len; row++) {\
+        for (size_t col = 0; col < col_len; col++) {\
+            printf("%02d ", array[row * col_len + col]);\
+        }\
+        printf("\n");\
+    }\
 }
 
-#define REGISTER_ENUM(type) bool matrix_equal_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len) {\
+#define REGISTER_ENUM(type) bool linalg_matrix_equal_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len) {\
     bool equal = true;\
     for (size_t row = 0; row < row_len; row++) {\
         for (size_t col = 0; col < col_len; col++) {\
@@ -150,7 +150,7 @@ return (equal);\
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * matrix_and_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len) {\
+#define REGISTER_ENUM(type) type * linalg_matrix_and_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len) {\
     type * out = calloc(row_len * col_len, sizeof(type));\
     for (size_t row = 0; row < row_len; row++) {\
         for (size_t col = 0; col < col_len; col++) {\
@@ -162,7 +162,7 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * matrix_or_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len) {\
+#define REGISTER_ENUM(type) type * linalg_matrix_or_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len) {\
     type * out = calloc(row_len * col_len, sizeof(type));\
     for (size_t row = 0; row < row_len; row++) {\
         for (size_t col = 0; col < col_len; col++) {\
@@ -174,7 +174,7 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * matrix_plus_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len, int8_t sign) {\
+#define REGISTER_ENUM(type) type * linalg_matrix_plus_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len, int8_t sign) {\
     type * out = calloc(row_len * col_len, sizeof(type));\
     for (size_t row = 0; row < row_len; row++) {\
         for (size_t col = 0; col < col_len; col++) {\
@@ -187,7 +187,7 @@ LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 
-#define REGISTER_ENUM(type) type * matrix_mask_##type(type * matrix, type * mask, size_t row_len, size_t col_len) {\
+#define REGISTER_ENUM(type) type * linalg_matrix_mask_##type(type * matrix, type * mask, size_t row_len, size_t col_len) {\
     type * out = calloc(row_len * col_len, sizeof(type));\
     for (size_t row = 0; row < row_len; row++) {\
         for (size_t col = 0; col < col_len; col++) {\
@@ -200,9 +200,8 @@ LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 
-// type * list = (type*)((size_t* )malloc(sizeof(size_t) + sizeof(type)*row_len*col_len) + 1);
-#define REGISTER_ENUM(type) type * matrix2list_##type(type * matrix, size_t row_len, size_t col_len) {\
-    type * list = DARR_INIT(type, row_len*col_len*2);\
+#define REGISTER_ENUM(type) type * linalg_matrix2list_##type(type * matrix, size_t row_len, size_t col_len) {\
+    type * list = DARR_INIT(list, type, row_len*col_len*2);\
     DARR_LEN(list) = row_len*col_len*2;\
     DARR_NUM(list) = 0;\
     for (size_t col = 0; col < col_len; col++) {\
@@ -213,7 +212,7 @@ LINALG_TEMPLATE_TYPES
             }\
         }\
     }\
-    type * out = DARR_INIT(type, DARR_NUM(list));\
+    type * out = DARR_INIT(out, type, DARR_NUM(list));\
     DARR_LEN(out) = DARR_NUM(list);\
     DARR_NUM(out) = DARR_NUM(list);\
     out = memcpy(out, list, DARR_NUM(list)*sizeof(type));\

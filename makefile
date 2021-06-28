@@ -81,27 +81,25 @@ else
 endif
 
 EXEC := $(PREFIX)test$(EXTENSION)
-EXEC_TCC := $(PREFIX)test_tcc$(EXTENSION)
-EXEC_GCC := $(PREFIX)test_gcc$(EXTENSION)
-EXEC_CLANG := $(PREFIX)test_clang$(EXTENSION)
 EXEC_ALL := ${EXEC} ${EXEC_TCC} ${EXEC_GCC} ${EXEC_CLANG}
 
 .PHONY: all 
 all: ${ASTYLE} $(EXEC) run 
-SOURCES_TNECS := tnecs.c
 SOURCES_TEST := test.c
+SOURCES_LINALG := linalg.c
 HEADERS := $(wildcard *.h)
-SOURCES_ALL := $(SOURCES_TEST) $(SOURCES_TNECS) 
-TARGETS_TNECS := $(SOURCES_TNECS:.c=.o)
-TARGETS_TNECS_GCC := $(SOURCES_TNECS:.c=_gcc.o)
-TARGETS_TNECS_TCC := $(SOURCES_TNECS:.c=_tcc.o)
-TARGETS_TNECS_CLANG := $(SOURCES_TNECS:.c=_clang.o)
-TARGETS_ALL := ${TARGETS_TNECS} ${TARGETS_TNECS_GCC} ${TARGETS_TNECS_TCC} ${TARGETS_TNECS_CLANG}
+SOURCES_ALL := $(SOURCES_TEST)
+TARGETS_LINALG := $(SOURCES_LINALG:.c=.o)
+EXEC_GCC := $(PREFIX)test_gcc$(EXTENSION)
+EXEC_TCC := $(PREFIX)test_tcc$(EXTENSION)
+EXEC_CLANG := $(PREFIX)test_clang$(EXTENSION)
+TARGETS_ALL := ${TARGETS_TNECS} ${EXEC_GCC} ${EXEC_TCC} ${EXEC_CLANG}
+
 .PHONY: compile_test
 compile_test: ${ASTYLE} ${EXEC_TCC} ${EXEC_GCC} ${EXEC_CLANG} tcc gcc clang
 
 .PHONY : cov
-cov:  $(TARGETS_TNECS) $(EXEC) run ; lcov -c --no-external -d . -o main_coverage.info ; genhtml main_coverage.info -o out
+cov:  $(TARGETS_LINALG) $(EXEC) run ; lcov -c --no-external -d . -o main_coverage.info ; genhtml main_coverage.info -o out
 
 .PHONY : run
 run: $(EXEC); $(EXEC)
@@ -114,22 +112,17 @@ clang: $(EXEC_CLANG) ; $(EXEC_CLANG)
 .PHONY : astyle
 astyle: $(HEADERS) $(SOURCES_ALL); astyle --style=java --indent=spaces=4 --indent-switches --pad-oper --pad-comma --pad-header --unpad-paren  --align-pointer=middle --align-reference=middle --add-braces --add-one-line-braces --attach-return-type --convert-tabs --suffix=none *.h *.c
 
-$(TARGETS_TNECS) : $(SOURCES_TNECS) ; $(COMPILER) $< -c -o $@ $(FLAGS_COV)
+$(EXEC): $(SOURCES_TEST) $(TARGETS_LINALG); ${COMPILER} $< $(TARGETS_LINALG) -o $@ $(CFLAGS) $(FLAGS_COV)
 
-$(TARGETS_TNECS_CLANG) : $(SOURCES_TNECS) ; clang $< -c -o $@ 
-$(TARGETS_TNECS_GCC) : $(SOURCES_TNECS) ; gcc $< -c -o $@
-$(TARGETS_TNECS_TCC) : $(SOURCES_TNECS) ; tcc $< -c -o $@ 
+$(TARGETS_LINALG) : $(SOURCES_LINALG) ; $(COMPILER) $< -c -o $@ $(FLAGS_COV)
 
-$(EXEC): $(SOURCES_TEST) $(TARGETS_TNECS); ${COMPILER} $< $(TARGETS_TNECS) -o $@ $(CFLAGS) $(FLAGS_COV)
-$(EXEC_TCC): $(SOURCES_TEST) $(TARGETS_TNECS_TCC); tcc $< $(TARGETS_TNECS_TCC) -o $@ $(CFLAGS)
-$(EXEC_GCC): $(SOURCES_TEST) $(TARGETS_TNECS_GCC); gcc $< $(TARGETS_TNECS_GCC) -o $@ $(CFLAGS)
-$(EXEC_CLANG): $(SOURCES_TEST) $(TARGETS_TNECS_CLANG); clang $< $(TARGETS_TNECS_CLANG) -o $@ $(CFLAGS)
-
-
+$(EXEC_TCC): $(SOURCES_TEST) $(TARGETS_LINALG_TCC); tcc $< $(TARGETS_LINALG_TCC) -o $@ $(CFLAGS)
+$(EXEC_GCC): $(SOURCES_TEST) $(TARGETS_LINALG_GCC); gcc $< $(TARGETS_LINALG_GCC) -o $@ $(CFLAGS)
+$(EXEC_CLANG): $(SOURCES_TEST) $(TARGETS_LINALG_CLANG); clang $< $(TARGETS_LINALG_CLANG) -o $@ $(CFLAGS)
 
 .PHONY: clean
-clean: ; @echo "Cleaning tnecs" & rm -frv $(TARGETS_ALL) $(EXEC_ALL) 
+clean: ; @echo "Cleaning linalg" & rm -frv $(TARGETS_ALL) $(EXEC_ALL) 
 .PHONY: cleancov
-cleancov: ; @echo "Cleaning tnecs coverage tests" & rm -frv out *.gcda *.gcno *.gcov *.info
+cleancov: ; @echo "Cleaning linalg coverage tests" & rm -frv out *.gcda *.gcno *.gcov *.info *.bin *.exe
 .PHONY: cleanall
 cleanall: clean cleancov

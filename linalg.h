@@ -8,7 +8,6 @@
 
 /**********************DARR: DYNAMIC ARRAYS v1.0******************/
 
-
 // DARR: Dynamic arrays for C99.
 // A darr is a simple array with two additional elements: allocated length and number of active element, saved at positions -2 and -1 respectively.
 
@@ -98,7 +97,7 @@ enum Dimensions {
 // to do:
 // -> trace of 2D matrix
 // -> determinant of square matrix
-// -> dot product
+// -> dot product DONE
 // -> cross product
 // -> Diagonalization?
 // -> Eigenvalue/Eigenvectors?
@@ -108,63 +107,63 @@ enum Dimensions {
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern bool array_isIn_##type(type * array, type to_find, size_t arr_len);
+#define REGISTER_ENUM(type) extern bool linalg_array_isIn_##type(type * array, type to_find, size_t arr_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern bool list_isIn_1D_##type(type * list_1D, size_t list_len, type x);
+#define REGISTER_ENUM(type) extern bool linalg_list_isIn_1D_##type(type * list_1D, size_t list_len, type x);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern bool list_isIn_2D_##type(type * list_1D, size_t list_len, type x, type y);
+#define REGISTER_ENUM(type) extern bool linalg_list_isIn_2D_##type(type * list_1D, size_t list_len, type x, type y);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern bool list_isIn_3D_##type(type * list_1D, size_t list_len, type x, type y, type z);
+#define REGISTER_ENUM(type) extern bool linalg_list_isIn_3D_##type(type * list_1D, size_t list_len, type x, type y, type z);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern size_t * array_where_##type(type * array, type to_find, size_t arr_len);
+#define REGISTER_ENUM(type) extern size_t * linalg_array_where_##type(type * array, type to_find, size_t arr_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern void matrix_print_##type(type * array, size_t row_len, size_t col_len);
+#define REGISTER_ENUM(type) extern void linalg_matrix_print_##type(type * array, size_t row_len, size_t col_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern bool matrix_equal_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len);
+#define REGISTER_ENUM(type) extern bool linalg_matrix_equal_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * matrix_plus_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len, int8_t sign);
+#define REGISTER_ENUM(type) extern type * linalg_matrix_plus_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len, int8_t sign);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * matrix_and_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len);
+#define REGISTER_ENUM(type) extern type * linalg_matrix_and_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * matrix_or_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len);
+#define REGISTER_ENUM(type) extern type * linalg_matrix_or_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * matrix_mask_##type(type * matrix, type * mask, size_t row_len, size_t col_len);
+#define REGISTER_ENUM(type) extern type * linalg_matrix_mask_##type(type * matrix, type * mask, size_t row_len, size_t col_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * matrix2list_##type(type * matrix, size_t row_len, size_t col_len);
+#define REGISTER_ENUM(type) extern type * linalg_matrix2list_##type(type * matrix, size_t row_len, size_t col_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * list2matrix_##type(type * list, size_t row_len, size_t col_len, size_t list_len);
+#define REGISTER_ENUM(type) extern type * linalg_list2matrix_##type(type * list, size_t row_len, size_t col_len, size_t list_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern bool matrix_isIn_##type(type * matrix, type to_find, size_t row_len, size_t col_len);
+#define REGISTER_ENUM(type) extern bool linalg_matrix_isIn_##type(type * matrix, type to_find, size_t row_len, size_t col_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern size_t * matrix_where_##type(type * matrix, type to_find, size_t row_len, size_t col_len);
+#define REGISTER_ENUM(type) extern size_t * linalg_matrix_where_##type(type * matrix, type to_find, size_t row_len, size_t col_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
