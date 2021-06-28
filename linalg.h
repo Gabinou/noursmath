@@ -98,7 +98,7 @@ enum Dimensions {
 // to do:
 // -> trace of 2D matrix DONE
 // -> determinant of square matrix
-// Need LU decomposition for that....cross product
+//         - Need LU decomposition for that
 // -> dot product DONE
 // -> cross product DONE
 // -> Diagonalization?
