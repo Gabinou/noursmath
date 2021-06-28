@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 
 /**********************DARR: DYNAMIC ARRAYS v1.0******************/
 
@@ -95,15 +96,29 @@ enum Dimensions {
 };
 
 // to do:
-// -> trace of 2D matrix
+// -> trace of 2D matrix DONE
 // -> determinant of square matrix
+// Need LU decomposition for that....cross product
 // -> dot product DONE
 // -> cross product
 // -> Diagonalization?
 // -> Eigenvalue/Eigenvectors?
 // -> Matrix multiplication
+//      less naive operations? no -> performance.
+
+#define REGISTER_ENUM(type) extern type linalg_determinant_##type(type * square_mat, size_t sq_len);
+LINALG_TEMPLATE_TYPES
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type linalg_trace_##type(type * square_mat, size_t sq_len);
+LINALG_TEMPLATE_TYPES
+#undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type linalg_dotProduct_##type(type * arr1, type * arr2, size_t arr_len);
+LINALG_TEMPLATE_TYPES
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_crossProduct_##type(type * vec3D1, type * vec3D2);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 

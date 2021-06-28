@@ -1,5 +1,25 @@
 #include "linalg.h"
 
+#define REGISTER_ENUM(type) type linalg_trace_##type(type * square_mat, size_t sq_len) {\
+    type trace = 0;\
+    for (size_t i = 0; i < sq_len; i++) {\
+        trace += square_mat[arr2d_index(i, i, sq_len)];\
+    }\
+    return(trace);\
+}
+
+LINALG_TEMPLATE_TYPES
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) type * linalg_crossProduct_##type(type * vec3D1, type * vec3D2) {\
+    type * product = calloc(3, sizeof(type));\
+    product[0] = vec3D1[1] * vec3D2[2] - vec3D1[2] * vec3D2[1];\
+    product[1] = vec3D1[2] * vec3D2[0] - vec3D1[0] * vec3D2[2];\
+    product[2] = vec3D1[0] * vec3D2[1] - vec3D1[1] * vec3D2[0];\
+    return(product);\
+}
+LINALG_TEMPLATE_TYPES
+#undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type linalg_dotProduct_##type(type * arr1, type * arr2, size_t arr_len) {\
     type out = 0;\
