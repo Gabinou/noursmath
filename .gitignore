@@ -1,0 +1,11 @@
+*.*
+!*.h
+!*.c
+!*.md
+!.gitignore
+!.gitattributes
+!makefile
+!LICENSE.txt
+!flecs_LICENSE.txt
+!notes.txt
+!readme.md
