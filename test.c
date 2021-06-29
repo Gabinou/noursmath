@@ -1783,8 +1783,8 @@ void test_int64_t() {
     free(matrixed2d);
     DARR_FREE(listeded2d);
 }
-void test_float() {
 
+void test_float() {
     float tempssq1[LINALG_SQUARE * LINALG_SQUARE] = {
          1.0f,  2.0f,  3.0f,  4.0f,
          5.0f,  6.0f,  7.0f,  8.0f,
@@ -1861,33 +1861,86 @@ void test_float() {
     lok(linalg_all_bool(out2, LINALG_SQUARE * LINALG_SQUARE));
     free(out1);
     free(out2);
-
-    float temp2D11[LINALG_COL_LEN * LINALG_ROW_LEN] = {
-        1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        2.0f, 3.0f, 4.0f, 6.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        3.0f, 4.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        4.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        6.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f
-    };
-
 }
 
+void test_double() {
+    double tempssq1[LINALG_SQUARE * LINALG_SQUARE] = {
+         1.0f,  2.0f,  3.0f,  4.0f,
+         5.0f,  6.0f,  7.0f,  8.0f,
+         9.0f, 10.0f, 11.0f, 12.0f,
+        13.0f, 14.0f, 15.0f, 16.0f
+    };
+    double tempssq2[LINALG_SQUARE * LINALG_SQUARE] = {
+         1.1f,  2.01f,  3.001f,  4.0001f,
+         5.1f,  6.01f,  7.001f,  8.0001f,
+         9.1f, 10.01f, 11.001f, 12.0001f,
+        13.1f, 14.01f, 15.001f, 16.0001f
+    };
+    bool tempssq3[LINALG_SQUARE * LINALG_SQUARE] = {
+        0, 1, 1, 1,
+        0, 1, 1, 1,
+        0, 1, 1, 1,
+        0, 1, 1, 1
+    };
+    bool tempssq4[LINALG_SQUARE * LINALG_SQUARE] = {
+        0, 0, 1, 1,
+        0, 0, 1, 1,
+        0, 0, 1, 1,
+        0, 0, 1, 1
+    };
+    bool tempssq5[LINALG_SQUARE * LINALG_SQUARE] = {
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1,
+        0, 0, 0, 1
+    };
+    bool tempssq6[LINALG_SQUARE * LINALG_SQUARE] = {
+        1, 1, 1, 1,
+        1, 1, 1, 1,
+        1, 1, 1, 1,
+        1, 1, 1, 1
+    };
+    bool tempssq7[LINALG_SQUARE * LINALG_SQUARE] = {
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0
+    };
+    bool * out1 = NULL, * out2 = NULL;
+
+    // matrix_print_bool(out1, LINALG_SQUARE, LINALG_SQUARE);
+    // matrix_print_bool(out2, LINALG_SQUARE, LINALG_SQUARE);
+    out1 = linalg_equal_double(tempssq1, tempssq2, LINALG_SQUARE * LINALG_SQUARE, 1.0f);
+    out2 = linalg_equal_bool(out1, tempssq6, LINALG_SQUARE * LINALG_SQUARE);
+    lok(linalg_all_bool(out2, LINALG_SQUARE * LINALG_SQUARE));
+    free(out1);
+    free(out2);    
+    out1 = linalg_equal_double(tempssq1, tempssq2, LINALG_SQUARE * LINALG_SQUARE, 0.2f);
+    out2 = linalg_equal_bool(out1, tempssq6, LINALG_SQUARE * LINALG_SQUARE);
+    lok(linalg_all_bool(out2, LINALG_SQUARE * LINALG_SQUARE));
+    free(out1);
+    free(out2);    
+    out1 = linalg_equal_double(tempssq1, tempssq2, LINALG_SQUARE * LINALG_SQUARE, 0.02f);
+    out2 = linalg_equal_bool(out1, tempssq3, LINALG_SQUARE * LINALG_SQUARE);
+    lok(linalg_all_bool(out2, LINALG_SQUARE * LINALG_SQUARE));
+    free(out1);
+    free(out2);    
+    out1 = linalg_equal_double(tempssq1, tempssq2, LINALG_SQUARE * LINALG_SQUARE, 0.002f);
+    out2 = linalg_equal_bool(out1, tempssq4, LINALG_SQUARE * LINALG_SQUARE);
+    lok(linalg_all_bool(out2, LINALG_SQUARE * LINALG_SQUARE));
+    free(out1);
+    free(out2);
+    out1 = linalg_equal_double(tempssq1, tempssq2, LINALG_SQUARE * LINALG_SQUARE, 0.0002f);
+    out2 = linalg_equal_bool(out1, tempssq5, LINALG_SQUARE * LINALG_SQUARE);
+    lok(linalg_all_bool(out2, LINALG_SQUARE * LINALG_SQUARE));
+    free(out1);
+    free(out2);    
+    out1 = linalg_equal_double(tempssq1, tempssq2, LINALG_SQUARE * LINALG_SQUARE, 0.00001f);
+    out2 = linalg_equal_bool(out1, tempssq7, LINALG_SQUARE * LINALG_SQUARE);
+    lok(linalg_all_bool(out2, LINALG_SQUARE * LINALG_SQUARE));
+    free(out1);
+    free(out2);
+}
 
 void test_bool() {
 
@@ -1899,6 +1952,7 @@ int main() {
     lrun("log2", test_log2);
     // lrun("test_uint64_t", test_uint64_t);
     // lrun("test_int64_t", test_int64_t);
+    lrun("test_double", test_double);
     lrun("test_float", test_float);
     #define REGISTER_ENUM(type) lrun(STRINGIFY(test_##type), test_##type);
     LINALG_TEMPLATE_TYPES_INT
