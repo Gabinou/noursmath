@@ -114,7 +114,7 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type linalg_dotProduct_##type(type * arr1, type * arr2, size_t arr_len);
+#define REGISTER_ENUM(type) extern size_t linalg_dotProduct_##type(type * arr1, type * arr2, size_t arr_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 

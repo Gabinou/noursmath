@@ -21,8 +21,8 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type linalg_dotProduct_##type(type * arr1, type * arr2, size_t arr_len) {\
-    type out = 0;\
+#define REGISTER_ENUM(type) size_t linalg_dotProduct_##type(type * arr1, type * arr2, size_t arr_len) {\
+    size_t out = 0;\
     for (size_t i = 0; i < arr_len; i++) {\
         out += arr1[i] * arr2[i];\
     }\
