@@ -12,7 +12,7 @@ Add ```linalg.c``` and ```linalg.h``` to your source code.
 - Benchmarks
 - Determinant (requires LU decomposition) ?
 - Diagonalization ?
-- Eignevalue/Eigenvector ?
+- Eigenvalue/Eigenvector ?
 - Matrix Multiplication
 
 ## Features
