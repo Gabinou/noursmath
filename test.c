@@ -220,7 +220,6 @@ void test_uint8_t() {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
 
-
     uint8_t dot_prod = 0;
     for (size_t row = 0; row < LINALG_SQUARE; row++) {
         for (size_t col = 0; col < LINALG_SQUARE; col++) {
@@ -249,21 +248,31 @@ void test_uint8_t() {
     // lok(tempvec3[0] == tempvec1[1] * tempvec2[2] - tempvec1[2] * tempvec2[1]);
     // lok(tempvec3[1] == tempvec1[2] * tempvec2[0] - tempvec1[0] * tempvec2[2]);
     // lok(tempvec3[2] == tempvec1[0] * tempvec2[1] - tempvec1[1] * tempvec2[0]);
-    out = linalg_and_uint8_t(temp2D1, temp2D1, LINALG_ROW_LEN* LINALG_COL_LEN);
-    lok(linalg_equal_uint8_t(out, temp2D1, LINALG_ROW_LEN* LINALG_COL_LEN));
-    free(out);
-    out = linalg_and_uint8_t(temp2D1, temp2D2, LINALG_ROW_LEN* LINALG_COL_LEN);
-    lok(linalg_equal_uint8_t(out, temp2D1, LINALG_ROW_LEN* LINALG_COL_LEN));
-    free(out);
-    out = linalg_and_uint8_t(temp2D2, temp2D2, LINALG_ROW_LEN* LINALG_COL_LEN);
-    lok(linalg_equal_uint8_t(out, temp2D1, LINALG_ROW_LEN* LINALG_COL_LEN));
-    free(out);
+    out1 = linalg_and_uint8_t(temp2D1, temp2D1, LINALG_ROW_LEN* LINALG_COL_LEN);
+    out2 = linalg_equal_uint8_t(out1, temp2D1, LINALG_ROW_LEN* LINALG_COL_LEN);
+    lok(linalg_any_uint8_t(out2, LINALG_ROW_LEN* LINALG_COL_LEN));
+    free(out1);
+    free(out2);
+    out1 = linalg_and_uint8_t(temp2D1, temp2D2, LINALG_ROW_LEN* LINALG_COL_LEN);
+    out2 = linalg_equal_uint8_t(out1, temp2D1, LINALG_ROW_LEN* LINALG_COL_LEN);
+    lok(linalg_any_uint8_t(out2, LINALG_ROW_LEN* LINALG_COL_LEN));
+    free(out1);
+    free(out2);
+    out1 = linalg_and_uint8_t(temp2D2, temp2D2, LINALG_ROW_LEN* LINALG_COL_LEN);
+    out2 = linalg_equal_uint8_t(out1, temp2D1, LINALG_ROW_LEN* LINALG_COL_LEN);
+    lok(linalg_any_uint8_t(out2, LINALG_ROW_LEN* LINALG_COL_LEN));
+    free(out1);
+    free(out2);
     out = linalg_or_uint8_t(temp2D2, temp2D2, LINALG_ROW_LEN* LINALG_COL_LEN);
-    lok(linalg_equal_uint8_t(out, temp2D1, LINALG_ROW_LEN* LINALG_COL_LEN));
-    free(out);
+    out2 = linalg_equal_uint8_t(out1, temp2D1, LINALG_ROW_LEN* LINALG_COL_LEN);
+    lok(linalg_any_uint8_t(out2, LINALG_ROW_LEN* LINALG_COL_LEN));
+    free(out1);
+    free(out2);
     out = linalg_or_uint8_t(temp2D11, temp2D11, LINALG_ROW_LEN* LINALG_COL_LEN);
-    lok(linalg_equal_uint8_t(out, temp2D11, LINALG_ROW_LEN* LINALG_COL_LEN));
-    free(out);
+    out2 = linalg_equal_uint8_t(out1, temp2D4, LINALG_ROW_LEN* LINALG_COL_LEN);
+    lok(linalg_any_uint8_t(out2, LINALG_ROW_LEN* LINALG_COL_LEN));
+    free(out1);
+    free(out2);
     uint8_t templist1[2 * 16] = {
         0, 0,
         0, 1,
@@ -303,6 +312,8 @@ void test_uint8_t() {
     free(temp2D2);
     free(temp2D3);
     free(temp2D4);
+    free(temp2D5);
+    free(temp2D6);
     free(tempsq);
     free(tempvec1);
     free(tempvec2);
