@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 /**********************DARR: DYNAMIC ARRAYS v1.0******************/
 
@@ -68,7 +69,8 @@ REGISTER_ENUM(uint16_t) \
 REGISTER_ENUM(int32_t) \
 REGISTER_ENUM(uint32_t) \
 REGISTER_ENUM(int64_t) \
-REGISTER_ENUM(uint64_t)
+REGISTER_ENUM(uint64_t)\
+REGISTER_ENUM(bool)
 
 #define LINALG_TEMPLATE_TYPES_FLOAT REGISTER_ENUM(float) \
 REGISTER_ENUM(double)
@@ -81,6 +83,7 @@ REGISTER_ENUM(int32_t) \
 REGISTER_ENUM(uint32_t) \
 REGISTER_ENUM(int64_t) \
 REGISTER_ENUM(uint64_t) \
+REGISTER_ENUM(bool) \
 REGISTER_ENUM(float) \
 REGISTER_ENUM(double)
 
@@ -150,7 +153,7 @@ LINALG_TEMPLATE_TYPES_INT
 LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len, type tolerance);
+#define REGISTER_ENUM(type) extern bool * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len, type tolerance);
 LINALG_TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 

@@ -106,6 +106,19 @@ LINALG_TEMPLATE_TYPES
         printf("\n");\
     }\
 }
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) void matrix_print_##type(type * array, size_t row_len, size_t col_len) {\
+    for (size_t row = 0; row < row_len; row++) {\
+        for (size_t col = 0; col < col_len; col++) {\
+            printf("%2.4f ", array[row * col_len + col]);\
+        }\
+        printf("\n");\
+    }\
+}
+LINALG_TEMPLATE_TYPES_FLOAT
+#undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len) {\
     type * out = calloc(arr_len, sizeof(type));\
@@ -117,10 +130,10 @@ return (out);\
 LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len, type tolerance) {\
-    type * out = calloc(arr_len, sizeof(type));\
+#define REGISTER_ENUM(type) bool * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len, type tolerance) {\
+    bool * out = calloc(arr_len, sizeof(type));\
     for (size_t i = 0; i < arr_len; i++) {\
-        out[i] = (abs(matrix1[i] - matrix2[i]) < tolerance);\
+        out[i] = (fabs(matrix1[i] - matrix2[i]) < tolerance);\
     }\
 return (out);\
 }
@@ -151,7 +164,7 @@ LINALG_TEMPLATE_TYPES_INT
     }\
 return (equal);\
 }
-LINALG_TEMPLATE_TYPES_INT
+LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 
