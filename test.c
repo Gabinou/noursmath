@@ -1784,6 +1784,215 @@ void test_int64_t() {
     DARR_FREE(listeded2d);
 }
 
+void test_bool() {
+    bool * temp2D1 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(bool));
+    bool * temp2D2 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(bool));
+    bool * temp2D3 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(bool));
+    bool * temp2D4 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(bool));
+    bool * temp2D5 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(bool));
+    bool * temp2D6 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(bool));
+    bool * tempsq = calloc(LINALG_SQUARE * LINALG_SQUARE, sizeof(bool));
+    bool * tempvec1 = calloc(3, sizeof(bool));
+    bool * tempvec2 = calloc(3, sizeof(bool));
+    tempvec1[0] = 1; 
+    tempvec1[1] = 2; 
+    tempvec1[2] = 3;     
+    tempvec2[0] = 4; 
+    tempvec2[1] = 5; 
+    tempvec2[2] = 6; 
+    for (size_t row = 0; row < LINALG_ROW_LEN; row++) {
+        for (size_t col = 0; col < LINALG_COL_LEN; col++) {
+            temp2D1[(row * LINALG_COL_LEN + col)] = 1;
+            temp2D2[(row * LINALG_COL_LEN + col)] = 2;
+            temp2D3[(row * LINALG_COL_LEN + col)] = 3;
+        }
+    }
+    bool * out1 = NULL, * out2 = NULL, *out = NULL;
+    out1 = linalg_plus_bool(temp2D3, temp2D2, LINALG_ROW_LEN * LINALG_COL_LEN, -1);
+    out2 = linalg_equal_bool(out1, temp2D1, LINALG_ROW_LEN * LINALG_COL_LEN);
+    lok(linalg_all_bool(out2, LINALG_ROW_LEN * LINALG_COL_LEN));
+    free(out1);
+    free(out2);
+    bool tempssq[LINALG_SQUARE * LINALG_SQUARE] = {
+         1,  2,  3,  4,
+         5,  6,  7,  8,
+         9, 10, 11, 12,
+        13, 14, 15, 16
+    };
+    bool tempssq2[LINALG_SQUARE * LINALG_SQUARE] = {
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0,
+        0, 0, 0, 0
+    };
+    lok(linalg_all_bool(tempssq, LINALG_SQUARE * LINALG_SQUARE));
+    lok(!linalg_all_bool(tempssq2, LINALG_SQUARE * LINALG_SQUARE));
+    bool temp2D11[LINALG_COL_LEN * LINALG_ROW_LEN] = {
+        1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    };
+
+    bool temp2D22[LINALG_COL_LEN * LINALG_ROW_LEN] = {
+        1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        2, 3, 4, 6, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        6, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    };
+
+    bool temp2D33[LINALG_COL_LEN * LINALG_ROW_LEN] = {
+        1, 2, 3, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        2, 3, 4, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        3, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    };
+
+    bool dot_prod = 0;
+    for (size_t row = 0; row < LINALG_SQUARE; row++) {
+        for (size_t col = 0; col < LINALG_SQUARE; col++) {
+            tempsq[linalg_index_arr2D(row, col, LINALG_SQUARE)] = tempssq[linalg_index_arr2D(row, col, LINALG_SQUARE)];
+            dot_prod += tempsq[linalg_index_arr2D(row, col, LINALG_SQUARE)] * tempsq[linalg_index_arr2D(row, col, LINALG_SQUARE)];
+        }
+    }
+    for (size_t row = 0; row < LINALG_ROW_LEN; row++) {
+        for (size_t col = 0; col < LINALG_COL_LEN; col++) {
+            temp2D4[(row * LINALG_COL_LEN + col)] = temp2D11[(row * LINALG_COL_LEN + col)];
+            temp2D5[(row * LINALG_COL_LEN + col)] = temp2D22[(row * LINALG_COL_LEN + col)];
+            temp2D6[(row * LINALG_COL_LEN + col)] = temp2D33[(row * LINALG_COL_LEN + col)];
+        }
+    }
+
+    out1 = linalg_mask_bool(temp2D5, temp2D4, LINALG_ROW_LEN * LINALG_COL_LEN);
+    out2 = linalg_equal_bool(out1, temp2D6, LINALG_ROW_LEN * LINALG_COL_LEN);
+    lok(linalg_all_bool(out2, LINALG_ROW_LEN * LINALG_COL_LEN));
+    free(out1);
+    free(out2);
+
+    lok(linalg_trace_bool(tempsq, LINALG_SQUARE) == 34);
+    lok(linalg_trace_bool(tempsq, LINALG_SQUARE) == (tempssq[0] + tempssq[5] + tempssq[10] + tempssq[15]));
+    lok(linalg_dotProduct_bool(tempsq, tempsq, LINALG_SQUARE * LINALG_SQUARE) == dot_prod);
+    bool * tempvec3 = linalg_crossProduct_bool(tempvec1, tempvec2);
+    lok(tempvec3[0] == tempvec1[1] * tempvec2[2] - tempvec1[2] * tempvec2[1]);
+    lok(tempvec3[1] == tempvec1[2] * tempvec2[0] - tempvec1[0] * tempvec2[2]);
+    lok(tempvec3[2] == tempvec1[0] * tempvec2[1] - tempvec1[1] * tempvec2[0]);
+    out1 = linalg_and_bool(temp2D1, temp2D1, LINALG_ROW_LEN* LINALG_COL_LEN);
+    out2 = linalg_equal_bool(out1, temp2D1, LINALG_ROW_LEN* LINALG_COL_LEN);
+    lok(linalg_all_bool(out2, LINALG_ROW_LEN* LINALG_COL_LEN));
+    free(out1);
+    free(out2);
+    out1 = linalg_and_bool(temp2D1, temp2D2, LINALG_ROW_LEN* LINALG_COL_LEN);
+    out2 = linalg_equal_bool(out1, temp2D1, LINALG_ROW_LEN* LINALG_COL_LEN);
+    lok(linalg_all_bool(out2, LINALG_ROW_LEN* LINALG_COL_LEN));
+    free(out1);
+    free(out2);
+    out1 = linalg_and_bool(temp2D2, temp2D2, LINALG_ROW_LEN* LINALG_COL_LEN);
+    out2 = linalg_equal_bool(out1, temp2D1, LINALG_ROW_LEN* LINALG_COL_LEN);
+    lok(linalg_all_bool(out2, LINALG_ROW_LEN* LINALG_COL_LEN));
+    free(out1);
+    free(out2);
+    out1 = linalg_or_bool(temp2D2, temp2D2, LINALG_ROW_LEN* LINALG_COL_LEN);
+    out2 = linalg_equal_bool(out1, temp2D1, LINALG_ROW_LEN* LINALG_COL_LEN);
+    lok(linalg_all_bool(out2, LINALG_ROW_LEN* LINALG_COL_LEN));
+    free(out1);
+    free(out2);
+    out1 = linalg_or_bool(temp2D11, temp2D11, LINALG_ROW_LEN* LINALG_COL_LEN);
+    out2 = linalg_equal_bool(out1, temp2D4, LINALG_ROW_LEN* LINALG_COL_LEN);
+    lok(linalg_all_bool(out2, LINALG_ROW_LEN* LINALG_COL_LEN));
+    free(out1);
+    free(out2);
+    bool templist1[2 * 16] = {
+        0, 0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 1, 0, 1, 1,
+        1, 2, 1, 3, 2, 0, 2, 1, 2, 2, 3, 0, 3, 1, 4, 0
+    };
+    lok(linalg_any_bool(templist1, 2 *16));
+    lok(!linalg_any_bool(tempssq2, LINALG_SQUARE * LINALG_SQUARE));
+    lok(linalg_list_isIn_2D_bool(templist1, 2*16, 0, 1));
+    lok(!linalg_list_isIn_2D_bool(templist1, 2*16, 4, 1));
+    lok(linalg_list_isIn_1D_bool(templist1, 2*16, 4));
+    lok(!linalg_list_isIn_1D_bool(templist1, 2*16, 7));
+    lok(linalg_list_isIn_3D_bool(templist1, 2*16, 1, 0, 2));
+    lok(!linalg_list_isIn_3D_bool(templist1, 2*16, 4, 4, 4));
+    lok(linalg_isIn_bool(templist1, 4, 2*16));
+    lok(!linalg_isIn_bool(templist1, 8, 2*16));
+    out = linalg_where_bool(templist1, 4, 2*16);
+    lok(out[0] = 10);
+    lok(out[1] = 30);
+    DARR_FREE(out);
+    bool * matrixed2d = linalg_list2matrix_bool(templist1, LINALG_ROW_LEN, LINALG_COL_LEN, 16);
+    out = linalg_equal_bool(matrixed2d, temp2D11, LINALG_ROW_LEN* LINALG_COL_LEN);
+    lok(linalg_all_bool(out, LINALG_ROW_LEN* LINALG_COL_LEN));
+    free(out);
+    bool * listeded2d = linalg_matrix2list_bool(temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_equal_bool(listeded2d, listeded2d, 16 * 2);
+    lok(linalg_all_bool(out, 16 * 2));
+    free(out);
+    lok(DARR_NUM(listeded2d) == 16 * 2);
+    free(temp2D1);
+    free(temp2D2);
+    free(temp2D3);
+    free(temp2D4);
+    free(temp2D5);
+    free(temp2D6);
+    free(tempsq);
+    free(tempvec1);
+    free(tempvec2);
+    free(tempvec3);
+    free(matrixed2d);
+    DARR_FREE(listeded2d);
+}
+
 void test_float() {
     float tempssq1[LINALG_SQUARE * LINALG_SQUARE] = {
          1.0f,  2.0f,  3.0f,  4.0f,
@@ -1942,16 +2151,10 @@ void test_double() {
     free(out2);
 }
 
-void test_bool() {
-
-}
-
 int main() {
     globalf = fopen("linalg_test_results.txt", "w+");
     dupprintf(globalf, "\nHello, World! I am testing linalg.\n");
     lrun("log2", test_log2);
-    // lrun("test_uint64_t", test_uint64_t);
-    // lrun("test_int64_t", test_int64_t);
     lrun("test_double", test_double);
     lrun("test_float", test_float);
     #define REGISTER_ENUM(type) lrun(STRINGIFY(test_##type), test_##type);
