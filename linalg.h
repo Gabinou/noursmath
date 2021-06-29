@@ -60,8 +60,7 @@ darr[DARR_NUM(darr)++] = elem;\
 // DARR_FREE: free whole darr
 #define DARR_FREE(darr) do {free((((size_t* )darr) - DARR_LEN_INDEX));} while(0)
 
-
-/*****************************************LINALG*****************************/
+/************************* CONSTANTS *****************************/
 #define LINALG_TEMPLATE_TYPES_INT REGISTER_ENUM(int8_t) \
 REGISTER_ENUM(uint8_t) \
 REGISTER_ENUM(int16_t) \
@@ -85,22 +84,20 @@ REGISTER_ENUM(uint64_t) \
 REGISTER_ENUM(float) \
 REGISTER_ENUM(double)
 
-/**********************UTILITIES FOR MULTI_DIMENSIONAL ARRAYS******************/
-// col->x, row->y, depth->z
-#define arr2d_index(row, col, col_len) (row * col_len + col)
-#define arr3d_index(row, col, depth, row_len, col_len) (row * col_len * row_len + col * row_len + depth)
-enum Dimensions {
+enum LINALG_DIMENSIONS {
     ONE_D = 1,
     TWO_D = 2,
     THREE_D = 3,
 };
 
+/**********************UTILITIES N-D ARRAY*********************/
+// col->x, row->y, depth->z
+#define linalg_index_arr2D(row, col, col_len) (row * col_len + col)
+#define linalg_index_arr3D(row, col, depth, row_len, col_len) (row * col_len * row_len + col * row_len + depth)
+
 // to do:
-// -> trace of 2D matrix DONE
 // -> determinant of square matrix
 //         - Need LU decomposition for that
-// -> dot product DONE
-// -> cross product DONE
 // -> Diagonalization?
 // -> Eigenvalue/Eigenvectors?
 // -> Matrix multiplication

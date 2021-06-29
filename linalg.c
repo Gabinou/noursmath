@@ -3,7 +3,7 @@
 #define REGISTER_ENUM(type) type linalg_trace_##type(type * square_mat, size_t sq_len) {\
     type trace = 0;\
     for (size_t i = 0; i < sq_len; i++) {\
-        trace += square_mat[arr2d_index(i, i, sq_len)];\
+        trace += square_mat[linalg_index_arr2D(i, i, sq_len)];\
     }\
     return(trace);\
 }
@@ -205,7 +205,6 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-
 #define REGISTER_ENUM(type) type * linalg_matrix_mask_##type(type * matrix, type * mask, size_t row_len, size_t col_len) {\
     type * out = calloc(row_len * col_len, sizeof(type));\
     for (size_t row = 0; row < row_len; row++) {\
@@ -217,7 +216,6 @@ LINALG_TEMPLATE_TYPES
 }
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
-
 
 #define REGISTER_ENUM(type) type * linalg_matrix2list_##type(type * matrix, size_t row_len, size_t col_len) {\
     type * list = DARR_INIT(list, type, row_len*col_len*2);\
