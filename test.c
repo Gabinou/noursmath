@@ -311,8 +311,8 @@ void test_uint8_t() {
     lok(linalg_all_uint8_t(out, LINALG_ROW_LEN* LINALG_COL_LEN));
     free(out);
     uint8_t * listeded2d = linalg_matrix2list_uint8_t(temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN);
-    out = linalg_equal_uint8_t(listeded2d, listeded2d, LINALG_ROW_LEN * LINALG_COL_LEN);
-    lok(linalg_all_uint8_t(out, LINALG_ROW_LEN* LINALG_COL_LEN));
+    out = linalg_equal_uint8_t(listeded2d, listeded2d, 16 * 2);
+    lok(linalg_all_uint8_t(out, 16 * 2));
     free(out);
     lok(DARR_NUM(listeded2d) == 16 * 2);
     free(temp2D1);
