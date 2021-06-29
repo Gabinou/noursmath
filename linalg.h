@@ -95,14 +95,7 @@ enum LINALG_DIMENSIONS {
 #define linalg_index_arr2D(row, col, col_len) (row * col_len + col)
 #define linalg_index_arr3D(row, col, depth, row_len, col_len) (row * col_len * row_len + col * row_len + depth)
 
-// to do:
-// -> determinant of square matrix
-//         - Need LU decomposition for that
-// -> Diagonalization?
-// -> Eigenvalue/Eigenvectors?
-// -> Matrix multiplication
-//      less naive operations? no -> performance.
-// In general, wonkiness is to be expected with unsigned types.
+
 
 #define REGISTER_ENUM(type) extern type linalg_determinant_##type(type * square_mat, size_t sq_len);
 LINALG_TEMPLATE_TYPES
