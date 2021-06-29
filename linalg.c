@@ -85,8 +85,6 @@ LINALG_TEMPLATE_TYPES
 
 #define REGISTER_ENUM(type) size_t * linalg_array_where_##type(type * array, type to_find, size_t arr_len) {\
     size_t * found_list = DARR_INIT(found_list, size_t, arr_len);\
-    DARR_LEN(found_list) = arr_len;\
-    DARR_NUM(found_list) = 0;\
     for (size_t i = 0; i < arr_len; i++) {\
         if (array[i] == to_find) {\
             found_list[DARR_NUM(found_list)++]= i;\
@@ -102,7 +100,6 @@ LINALG_TEMPLATE_TYPES
 
 #define REGISTER_ENUM(type) size_t * linalg_matrix_where_##type(type * matrix, type to_find, size_t row_len, size_t col_len) {\
     size_t * found_list = DARR_INIT(found_list, size_t, row_len*col_len);\
-    DARR_LEN(found_list) = row_len*col_len;\
     DARR_NUM(found_list) = 0;\
     for (size_t row = 0; row < row_len; row++) {\
         for (size_t col = 0; col < col_len; col++) {\
@@ -219,8 +216,6 @@ LINALG_TEMPLATE_TYPES
 
 #define REGISTER_ENUM(type) type * linalg_matrix2list_##type(type * matrix, size_t row_len, size_t col_len) {\
     type * list = DARR_INIT(list, type, row_len*col_len*2);\
-    DARR_LEN(list) = row_len*col_len*2;\
-    DARR_NUM(list) = 0;\
     for (size_t col = 0; col < col_len; col++) {\
         for (size_t row = 0; row < row_len; row++) {\
             if (matrix[row * col_len + col] > 0) {\
@@ -230,7 +225,6 @@ LINALG_TEMPLATE_TYPES
         }\
     }\
     type * out = DARR_INIT(out, type, DARR_NUM(list));\
-    DARR_LEN(out) = DARR_NUM(list);\
     DARR_NUM(out) = DARR_NUM(list);\
     out = memcpy(out, list, DARR_NUM(list)*sizeof(type));\
     DARR_FREE(list);\

@@ -103,6 +103,9 @@ enum LINALG_DIMENSIONS {
 // -> Matrix multiplication
 //      less naive operations? no -> performance.
 
+
+// In general, wonkiness is to be expected with unsigned types.
+
 #define REGISTER_ENUM(type) extern type linalg_determinant_##type(type * square_mat, size_t sq_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
