@@ -100,7 +100,6 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-// size_t * found_list = (size_t* )malloc(sizeof(size_t)*(row_len*col_len + 1)) + 1;
 #define REGISTER_ENUM(type) size_t * linalg_matrix_where_##type(type * matrix, type to_find, size_t row_len, size_t col_len) {\
     size_t * found_list = DARR_INIT(found_list, size_t, row_len*col_len);\
     DARR_LEN(found_list) = row_len*col_len;\
