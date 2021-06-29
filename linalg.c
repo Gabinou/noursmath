@@ -92,7 +92,7 @@ LINALG_TEMPLATE_TYPES
         }\
     }\
     DARR_LEN(found_list) = DARR_NUM(found_list);\
-    found_list = DARR_REALLOC(found_list, DARR_NUM(found_list));\
+    found_list = DARR_REALLOC(found_list, (DARR_NUM(found_list) < LINALG_MINLEN? LINALG_MINLEN :DARR_NUM(found_list)));\
     return (found_list);\
 }
 LINALG_TEMPLATE_TYPES
@@ -215,7 +215,7 @@ LINALG_TEMPLATE_TYPES_INT
             }\
         }\
     }\
-    list = DARR_REALLOC(list, DARR_NUM(list));\
+    list = DARR_REALLOC(list, (DARR_NUM(list) < LINALG_MINLEN? LINALG_MINLEN :DARR_NUM(list)));\
     return (list);\
 }
 LINALG_TEMPLATE_TYPES_INT

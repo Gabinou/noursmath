@@ -89,13 +89,14 @@ enum LINALG_DIMENSIONS {
     TWO_D = 2,
     THREE_D = 3,
 };
+#define LINALG_MINLEN 12
 
-/**********************UTILITIES N-D ARRAY*********************/
+/**********************N-DIMENSIONAL UTILITIES*********************/
+
+// linalg uses unraveled arrays as n-dimensional matrices
 // col->x, row->y, depth->z
 #define linalg_index_arr2D(row, col, col_len) (row * col_len + col)
 #define linalg_index_arr3D(row, col, depth, row_len, col_len) (row * col_len * row_len + col * row_len + depth)
-
-
 
 #define REGISTER_ENUM(type) extern type linalg_determinant_##type(type * square_mat, size_t sq_len);
 LINALG_TEMPLATE_TYPES

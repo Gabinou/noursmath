@@ -93,7 +93,7 @@ TARGETS_LINALG := $(SOURCES_LINALG:.c=.o)
 EXEC_GCC := $(PREFIX)test_gcc$(EXTENSION)
 EXEC_TCC := $(PREFIX)test_tcc$(EXTENSION)
 EXEC_CLANG := $(PREFIX)test_clang$(EXTENSION)
-TARGETS_ALL := ${TARGETS_TNECS} ${EXEC_GCC} ${EXEC_TCC} ${EXEC_CLANG}
+TARGETS_ALL := ${TARGETS_LINALG} ${EXEC_GCC} ${EXEC_TCC} ${EXEC_CLANG}
 
 .PHONY: compile_test
 compile_test: ${ASTYLE} ${EXEC_TCC} ${EXEC_GCC} ${EXEC_CLANG} tcc gcc clang
@@ -121,8 +121,4 @@ $(EXEC_GCC): $(SOURCES_TEST) $(TARGETS_LINALG_GCC); gcc $< $(TARGETS_LINALG_GCC)
 $(EXEC_CLANG): $(SOURCES_TEST) $(TARGETS_LINALG_CLANG); clang $< $(TARGETS_LINALG_CLANG) -o $@ $(CFLAGS)
 
 .PHONY: clean
-clean: ; @echo "Cleaning linalg" & rm -frv $(TARGETS_ALL) $(EXEC_ALL) 
-.PHONY: cleancov
-cleancov: ; @echo "Cleaning linalg coverage tests" & rm -frv out *.gcda *.gcno *.gcov *.info *.bin *.exe
-.PHONY: cleanall
-cleanall: clean cleancov
+clean: ; @echo "Cleaning linalg" & rm -frv $(TARGETS_ALL) $(EXEC_ALL) *.gcda *.gcno *.gcov *.info *.bin *.exe *.o 
