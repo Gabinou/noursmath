@@ -21,8 +21,8 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) size_t linalg_dotProduct_##type(type * arr1, type * arr2, size_t arr_len) {\
-    size_t out = 0;\
+#define REGISTER_ENUM(type) type linalg_dotProduct_##type(type * arr1, type * arr2, size_t arr_len) {\
+    type out = 0;\
     for (size_t i = 0; i < arr_len; i++) {\
         out += arr1[i] * arr2[i];\
     }\
@@ -107,81 +107,74 @@ LINALG_TEMPLATE_TYPES
     }\
 }
 
-#define REGISTER_ENUM(type) bool linalg_equal_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len) {\
+#define REGISTER_ENUM(type) type * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+            out[i] = (matrix1[i] == matrix2[i]);\
+    }\
+return (out);\
+}
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) type * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len, type tolerance) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+        out[i] = (abs(matrix1[i] - matrix2[i]) < tolerance);\
+    }\
+return (out);\
+}
+LINALG_TEMPLATE_TYPES_FLOAT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) bool linalg_any_##type(type * arr, size_t arr_len) {\
     bool equal = true;\
-    for (size_t row = 0; row < row_len; row++) {\
-        for (size_t col = 0; col < col_len; col++) {\
-            if (matrix1[row * col_len + col] != matrix2[row * col_len + col]) {\
-                equal = false;\
-                goto OUT;\
-            }\
+    for (size_t i = 0; i < arr_len; i++) {\
+        if (!arr[i]) {\
+            equal = false;\
+            break;\
         }\
     }\
-OUT:;\
 return (equal);\
 }
 LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) bool linalg_any_##type(type * matrix1, size_t row_len, size_t col_len) {\
-    bool equal = true;\
-    for (size_t row = 0; row < row_len; row++) {\
-        for (size_t col = 0; col < col_len; col++) {\
-            if (!matrix1[row * col_len + col]) {\
-                equal = false;\
-                goto OUT;\
-            }\
-        }\
-    }\
-OUT:;\
-return (equal);\
-}
-LINALG_TEMPLATE_TYPES_INT
-#undef REGISTER_ENUM
 
-
-#define REGISTER_ENUM(type) type * linalg_and_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len) {\
-    type * out = calloc(row_len * col_len, sizeof(type));\
-    for (size_t row = 0; row < row_len; row++) {\
-        for (size_t col = 0; col < col_len; col++) {\
-            out[row * col_len + col] = (matrix1[row * col_len + col] && matrix2[row * col_len + col]);\
-        }\
+#define REGISTER_ENUM(type) type * linalg_and_##type(type * matrix1, type * matrix2, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+        out[i] = (matrix1[i] && matrix2[i]);\
     }\
     return (out);\
 }
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * linalg_or_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len) {\
-    type * out = calloc(row_len * col_len, sizeof(type));\
-    for (size_t row = 0; row < row_len; row++) {\
-        for (size_t col = 0; col < col_len; col++) {\
-            out[row * col_len + col] = matrix1[row * col_len + col] || matrix2[row * col_len + col];\
-        }\
+#define REGISTER_ENUM(type) type * linalg_or_##type(type * matrix1, type * matrix2, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+        out[i] = (matrix1[i] || matrix2[i]);\
     }\
     return (out);\
 }
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * linalg_plus_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len, int8_t sign) {\
-    type * out = calloc(row_len * col_len, sizeof(type));\
-    for (size_t row = 0; row < row_len; row++) {\
-        for (size_t col = 0; col < col_len; col++) {\
-            out[row * col_len + col] = matrix1[row * col_len + col] + sign * matrix2[row * col_len + col];\
-        }\
+#define REGISTER_ENUM(type) type * linalg_plus_##type(type * matrix1, type * matrix2, size_t arr_len, int8_t sign) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+            out[i] = matrix1[i] + sign * matrix2[i];\
     }\
     return (out);\
 }
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * linalg_mask_##type(type * matrix, type * mask, size_t row_len, size_t col_len) {\
-    type * out = calloc(row_len * col_len, sizeof(type));\
-    for (size_t row = 0; row < row_len; row++) {\
-        for (size_t col = 0; col < col_len; col++) {\
-            out[row * col_len + col] = matrix[row * col_len + col] * (mask[row * col_len + col] > 0);\
-        }\
+#define REGISTER_ENUM(type) type * linalg_mask_##type(type * matrix, type * mask, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+        out[i] = matrix[i] * (mask[i] > 0);\
     }\
     return (out);\
 }

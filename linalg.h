@@ -114,7 +114,7 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern size_t linalg_dotProduct_##type(type * arr1, type * arr2, size_t arr_len);
+#define REGISTER_ENUM(type) extern type linalg_dotProduct_##type(type * arr1, type * arr2, size_t arr_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
@@ -142,11 +142,11 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern void linalg_print_##type(type * array, size_t arr_len);
+#define REGISTER_ENUM(type) extern void linalg_matrix_print_##type(type * array, size_t row_len, size_t col_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern bool linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len);
+#define REGISTER_ENUM(type) extern type * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len);
 LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
@@ -154,7 +154,7 @@ LINALG_TEMPLATE_TYPES_INT
 LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern bool linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len, type tolerance);
+#define REGISTER_ENUM(type) extern type * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len, type tolerance);
 LINALG_TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
