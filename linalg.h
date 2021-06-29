@@ -102,7 +102,7 @@ enum LINALG_DIMENSIONS {
 // -> Eigenvalue/Eigenvectors?
 // -> Matrix multiplication
 //      less naive operations? no -> performance.
-
+// matrix_equal should be elementwise
 
 // In general, wonkiness is to be expected with unsigned types.
 
@@ -138,7 +138,7 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern size_t * linalg_array_where_##type(type * array, type to_find, size_t arr_len);
+#define REGISTER_ENUM(type) extern size_t * linalg_where_##type(type * array, type to_find, size_t arr_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
@@ -146,8 +146,16 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern bool linalg_matrix_equal_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len);
-LINALG_TEMPLATE_TYPES
+#define REGISTER_ENUM(type) extern bool linalg_equal_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern bool linalg_matrix_any_##type(type * matrix1, size_t row_len, size_t col_len);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern bool linalg_equal_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len, type tolerance);
+LINALG_TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_matrix_plus_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len, int8_t sign);
@@ -167,19 +175,11 @@ LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_matrix2list_##type(type * matrix, size_t row_len, size_t col_len);
-LINALG_TEMPLATE_TYPES
+LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_list2matrix_##type(type * list, size_t row_len, size_t col_len, size_t list_len);
-LINALG_TEMPLATE_TYPES
-#undef REGISTER_ENUM
-
-#define REGISTER_ENUM(type) extern bool linalg_matrix_isIn_##type(type * matrix, type to_find, size_t row_len, size_t col_len);
-LINALG_TEMPLATE_TYPES
-#undef REGISTER_ENUM
-
-#define REGISTER_ENUM(type) extern size_t * linalg_matrix_where_##type(type * matrix, type to_find, size_t row_len, size_t col_len);
-LINALG_TEMPLATE_TYPES
+LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #endif /* LINALG_H */
