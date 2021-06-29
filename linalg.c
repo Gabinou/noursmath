@@ -128,6 +128,20 @@ LINALG_TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) bool linalg_any_##type(type * arr, size_t arr_len) {\
+    bool equal = false;\
+    for (size_t i = 0; i < arr_len; i++) {\
+        if (arr[i]) {\
+            equal = true;\
+            break;\
+        }\
+    }\
+return (equal);\
+}
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+
+#define REGISTER_ENUM(type) bool linalg_all_##type(type * arr, size_t arr_len) {\
     bool equal = true;\
     for (size_t i = 0; i < arr_len; i++) {\
         if (!arr[i]) {\
