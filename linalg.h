@@ -102,8 +102,6 @@ enum LINALG_DIMENSIONS {
 // -> Eigenvalue/Eigenvectors?
 // -> Matrix multiplication
 //      less naive operations? no -> performance.
-// matrix_equal should be elementwise
-
 // In general, wonkiness is to be expected with unsigned types.
 
 #define REGISTER_ENUM(type) extern type linalg_determinant_##type(type * square_mat, size_t sq_len);
