@@ -98,16 +98,6 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * linalg_list2matrix_##type(type * list, size_t row_len, size_t col_len, size_t list_len) {\
-    type * out = calloc(row_len * col_len, sizeof(type));\
-    for (size_t elem = 0; elem < list_len; elem++) {\
-        out[list[2 * elem + 1] * col_len + list[2 * elem + 0]] = 1;\
-    }\
-    return (out);\
-}
-LINALG_TEMPLATE_TYPES_INT
-#undef REGISTER_ENUM
-
 #define REGISTER_ENUM(type) void matrix_print_##type(type * array, size_t row_len, size_t col_len) {\
     for (size_t row = 0; row < row_len; row++) {\
         for (size_t col = 0; col < col_len; col++) {\
@@ -133,7 +123,7 @@ return (equal);\
 LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) bool linalg_matrix_any_##type(type * matrix1, size_t row_len, size_t col_len) {\
+#define REGISTER_ENUM(type) bool linalg_any_##type(type * matrix1, size_t row_len, size_t col_len) {\
     bool equal = true;\
     for (size_t row = 0; row < row_len; row++) {\
         for (size_t col = 0; col < col_len; col++) {\
@@ -150,7 +140,7 @@ LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 
-#define REGISTER_ENUM(type) type * linalg_matrix_and_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len) {\
+#define REGISTER_ENUM(type) type * linalg_and_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len) {\
     type * out = calloc(row_len * col_len, sizeof(type));\
     for (size_t row = 0; row < row_len; row++) {\
         for (size_t col = 0; col < col_len; col++) {\
@@ -162,7 +152,7 @@ LINALG_TEMPLATE_TYPES_INT
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * linalg_matrix_or_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len) {\
+#define REGISTER_ENUM(type) type * linalg_or_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len) {\
     type * out = calloc(row_len * col_len, sizeof(type));\
     for (size_t row = 0; row < row_len; row++) {\
         for (size_t col = 0; col < col_len; col++) {\
@@ -174,7 +164,7 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * linalg_matrix_plus_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len, int8_t sign) {\
+#define REGISTER_ENUM(type) type * linalg_plus_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len, int8_t sign) {\
     type * out = calloc(row_len * col_len, sizeof(type));\
     for (size_t row = 0; row < row_len; row++) {\
         for (size_t col = 0; col < col_len; col++) {\
@@ -186,7 +176,7 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * linalg_matrix_mask_##type(type * matrix, type * mask, size_t row_len, size_t col_len) {\
+#define REGISTER_ENUM(type) type * linalg_mask_##type(type * matrix, type * mask, size_t row_len, size_t col_len) {\
     type * out = calloc(row_len * col_len, sizeof(type));\
     for (size_t row = 0; row < row_len; row++) {\
         for (size_t col = 0; col < col_len; col++) {\
@@ -196,6 +186,16 @@ LINALG_TEMPLATE_TYPES
     return (out);\
 }
 LINALG_TEMPLATE_TYPES
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) type * linalg_list2matrix_##type(type * list, size_t row_len, size_t col_len, size_t list_len) {\
+    type * out = calloc(row_len * col_len, sizeof(type));\
+    for (size_t elem = 0; elem < list_len; elem++) {\
+        out[list[2 * elem + 1] * col_len + list[2 * elem + 0]] = 1;\
+    }\
+    return (out);\
+}
+LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * linalg_matrix2list_##type(type * matrix, size_t row_len, size_t col_len) {\

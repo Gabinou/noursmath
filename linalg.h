@@ -142,35 +142,35 @@ LINALG_TEMPLATE_TYPES
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern void linalg_matrix_print_##type(type * array, size_t row_len, size_t col_len);
+#define REGISTER_ENUM(type) extern void linalg_print_##type(type * array, size_t arr_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern bool linalg_equal_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len);
+#define REGISTER_ENUM(type) extern bool linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len);
 LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern bool linalg_matrix_any_##type(type * matrix1, size_t row_len, size_t col_len);
+#define REGISTER_ENUM(type) extern bool linalg_any_##type(type * matrix1, size_t arr_len);
 LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern bool linalg_equal_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len, type tolerance);
+#define REGISTER_ENUM(type) extern bool linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len, type tolerance);
 LINALG_TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * linalg_matrix_plus_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len, int8_t sign);
+#define REGISTER_ENUM(type) extern type * linalg_plus_##type(type * matrix1, type * matrix2, size_t arr_len, int8_t sign);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * linalg_matrix_and_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len);
+#define REGISTER_ENUM(type) extern type * linalg_and_##type(type * matrix1, type * matrix2, size_t arr_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * linalg_matrix_or_##type(type * matrix1, type * matrix2, size_t row_len, size_t col_len);
+#define REGISTER_ENUM(type) extern type * linalg_or_##type(type * matrix1, type * matrix2, size_t arr_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * linalg_matrix_mask_##type(type * matrix, type * mask, size_t row_len, size_t col_len);
+#define REGISTER_ENUM(type) extern type * linalg_mask_##type(type * matrix, type * mask, size_t arr_len);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 

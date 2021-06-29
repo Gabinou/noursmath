@@ -127,7 +127,7 @@ void test_uint8_t() {
         }
     }
     uint8_t * out = NULL;
-    out = linalg_matrix_plus_uint8_t(temp2D3, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN, -1);
+    out = linalg_plus_uint8_t(temp2D3, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN, -1);
     lok(linalg_equal_uint8_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
     uint8_t tempssq[LINALG_SQUARE * LINALG_SQUARE] = {
@@ -178,19 +178,19 @@ void test_uint8_t() {
     // lok(tempvec3[0] == tempvec1[1] * tempvec2[2] - tempvec1[2] * tempvec2[1]);
     // lok(tempvec3[1] == tempvec1[2] * tempvec2[0] - tempvec1[0] * tempvec2[2]);
     // lok(tempvec3[2] == tempvec1[0] * tempvec2[1] - tempvec1[1] * tempvec2[0]);
-    out = linalg_matrix_and_uint8_t(temp2D1, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_uint8_t(temp2D1, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint8_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_and_uint8_t(temp2D1, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_uint8_t(temp2D1, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint8_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_and_uint8_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_uint8_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint8_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_or_uint8_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_or_uint8_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint8_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_or_uint8_t(temp2D11, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_or_uint8_t(temp2D11, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint8_t(out, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
     uint8_t templist1[2 * 16] = {
@@ -250,7 +250,7 @@ void test_int8_t() {
         }
     }
     int8_t * out = NULL;
-    out = linalg_matrix_plus_int8_t(temp2D3, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN, -1);
+    out = linalg_plus_int8_t(temp2D3, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN, -1);
     lok(linalg_equal_int8_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
     int8_t tempssq[LINALG_SQUARE * LINALG_SQUARE] = {
@@ -301,19 +301,19 @@ void test_int8_t() {
     lok(tempvec3[0] == tempvec1[1] * tempvec2[2] - tempvec1[2] * tempvec2[1]);
     lok(tempvec3[1] == tempvec1[2] * tempvec2[0] - tempvec1[0] * tempvec2[2]);
     lok(tempvec3[2] == tempvec1[0] * tempvec2[1] - tempvec1[1] * tempvec2[0]);
-    out = linalg_matrix_and_int8_t(temp2D1, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_int8_t(temp2D1, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int8_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_and_int8_t(temp2D1, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_int8_t(temp2D1, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int8_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_and_int8_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_int8_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int8_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_or_int8_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_or_int8_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int8_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_or_int8_t(temp2D11, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_or_int8_t(temp2D11, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int8_t(out, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
     int8_t templist1[2 * 16] = {
@@ -373,7 +373,7 @@ void test_uint16_t() {
         }
     }
     uint16_t * out = NULL;
-    out = linalg_matrix_plus_uint16_t(temp2D3, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN, -1);
+    out = linalg_plus_uint16_t(temp2D3, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN, -1);
     lok(linalg_equal_uint16_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
     uint16_t tempssq[LINALG_SQUARE * LINALG_SQUARE] = {
@@ -424,19 +424,19 @@ void test_uint16_t() {
     // lok(tempvec3[0] == tempvec1[1] * tempvec2[2] - tempvec1[2] * tempvec2[1]);
     // lok(tempvec3[1] == tempvec1[2] * tempvec2[0] - tempvec1[0] * tempvec2[2]);
     // lok(tempvec3[2] == tempvec1[0] * tempvec2[1] - tempvec1[1] * tempvec2[0]);
-    out = linalg_matrix_and_uint16_t(temp2D1, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_uint16_t(temp2D1, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint16_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_and_uint16_t(temp2D1, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_uint16_t(temp2D1, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint16_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_and_uint16_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_uint16_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint16_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_or_uint16_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_or_uint16_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint16_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_or_uint16_t(temp2D11, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_or_uint16_t(temp2D11, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint16_t(out, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
     uint16_t templist1[2 * 16] = {
@@ -495,7 +495,7 @@ void test_int16_t() {
         }
     }
     int16_t * out = NULL;
-    out = linalg_matrix_plus_int16_t(temp2D3, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN, -1);
+    out = linalg_plus_int16_t(temp2D3, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN, -1);
     lok(linalg_equal_int16_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
     int16_t tempssq[LINALG_SQUARE * LINALG_SQUARE] = {
@@ -546,19 +546,19 @@ void test_int16_t() {
     lok(tempvec3[0] == tempvec1[1] * tempvec2[2] - tempvec1[2] * tempvec2[1]);
     lok(tempvec3[1] == tempvec1[2] * tempvec2[0] - tempvec1[0] * tempvec2[2]);
     lok(tempvec3[2] == tempvec1[0] * tempvec2[1] - tempvec1[1] * tempvec2[0]);
-    out = linalg_matrix_and_int16_t(temp2D1, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_int16_t(temp2D1, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int16_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_and_int16_t(temp2D1, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_int16_t(temp2D1, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int16_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_and_int16_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_int16_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int16_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_or_int16_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_or_int16_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int16_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_or_int16_t(temp2D11, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_or_int16_t(temp2D11, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int16_t(out, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
     int16_t templist1[2 * 16] = {
@@ -617,7 +617,7 @@ void test_uint32_t() {
         }
     }
     uint32_t * out = NULL;
-    out = linalg_matrix_plus_uint32_t(temp2D3, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN, -1);
+    out = linalg_plus_uint32_t(temp2D3, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN, -1);
     lok(linalg_equal_uint32_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
     uint32_t tempssq[LINALG_SQUARE * LINALG_SQUARE] = {
@@ -668,19 +668,19 @@ void test_uint32_t() {
     // lok(tempvec3[0] == tempvec1[1] * tempvec2[2] - tempvec1[2] * tempvec2[1]);
     // lok(tempvec3[1] == tempvec1[2] * tempvec2[0] - tempvec1[0] * tempvec2[2]);
     // lok(tempvec3[2] == tempvec1[0] * tempvec2[1] - tempvec1[1] * tempvec2[0]);
-    out = linalg_matrix_and_uint32_t(temp2D1, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_uint32_t(temp2D1, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint32_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_and_uint32_t(temp2D1, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_uint32_t(temp2D1, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint32_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_and_uint32_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_uint32_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint32_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_or_uint32_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_or_uint32_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint32_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_or_uint32_t(temp2D11, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_or_uint32_t(temp2D11, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint32_t(out, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
     uint32_t templist1[2 * 16] = {
@@ -739,7 +739,7 @@ void test_int32_t() {
         }
     }
     int32_t * out = NULL;
-    out = linalg_matrix_plus_int32_t(temp2D3, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN, -1);
+    out = linalg_plus_int32_t(temp2D3, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN, -1);
     lok(linalg_equal_int32_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
     int32_t tempssq[LINALG_SQUARE * LINALG_SQUARE] = {
@@ -790,19 +790,19 @@ void test_int32_t() {
     lok(tempvec3[0] == tempvec1[1] * tempvec2[2] - tempvec1[2] * tempvec2[1]);
     lok(tempvec3[1] == tempvec1[2] * tempvec2[0] - tempvec1[0] * tempvec2[2]);
     lok(tempvec3[2] == tempvec1[0] * tempvec2[1] - tempvec1[1] * tempvec2[0]);
-    out = linalg_matrix_and_int32_t(temp2D1, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_int32_t(temp2D1, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int32_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_and_int32_t(temp2D1, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_int32_t(temp2D1, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int32_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_and_int32_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_int32_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int32_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_or_int32_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_or_int32_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int32_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_or_int32_t(temp2D11, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_or_int32_t(temp2D11, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int32_t(out, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
     int32_t templist1[2 * 16] = {
@@ -861,7 +861,7 @@ void test_uint64_t() {
         }
     }
     uint64_t * out = NULL;
-    out = linalg_matrix_plus_uint64_t(temp2D3, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN, -1);
+    out = linalg_plus_uint64_t(temp2D3, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN, -1);
     lok(linalg_equal_uint64_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
     uint64_t tempssq[LINALG_SQUARE * LINALG_SQUARE] = {
@@ -912,19 +912,19 @@ void test_uint64_t() {
     // lok(tempvec3[0] == tempvec1[1] * tempvec2[2] - tempvec1[2] * tempvec2[1]);
     // lok(tempvec3[1] == tempvec1[2] * tempvec2[0] - tempvec1[0] * tempvec2[2]);
     // lok(tempvec3[2] == tempvec1[0] * tempvec2[1] - tempvec1[1] * tempvec2[0]);
-    out = linalg_matrix_and_uint64_t(temp2D1, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_uint64_t(temp2D1, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint64_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_and_uint64_t(temp2D1, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_uint64_t(temp2D1, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint64_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_and_uint64_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_uint64_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint64_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_or_uint64_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_or_uint64_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint64_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_or_uint64_t(temp2D11, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_or_uint64_t(temp2D11, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_uint64_t(out, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
     uint64_t templist1[2 * 16] = {
@@ -984,7 +984,7 @@ void test_int64_t() {
         }
     }
     int64_t * out = NULL;
-    out = linalg_matrix_plus_int64_t(temp2D3, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN, -1);
+    out = linalg_plus_int64_t(temp2D3, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN, -1);
     lok(linalg_equal_int64_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
     int64_t tempssq[LINALG_SQUARE * LINALG_SQUARE] = {
@@ -1035,19 +1035,19 @@ void test_int64_t() {
     lok(tempvec3[0] == tempvec1[1] * tempvec2[2] - tempvec1[2] * tempvec2[1]);
     lok(tempvec3[1] == tempvec1[2] * tempvec2[0] - tempvec1[0] * tempvec2[2]);
     lok(tempvec3[2] == tempvec1[0] * tempvec2[1] - tempvec1[1] * tempvec2[0]);
-    out = linalg_matrix_and_int64_t(temp2D1, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_int64_t(temp2D1, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int64_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_and_int64_t(temp2D1, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_int64_t(temp2D1, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int64_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_and_int64_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_and_int64_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int64_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_or_int64_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_or_int64_t(temp2D2, temp2D2, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int64_t(out, temp2D1, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
-    out = linalg_matrix_or_int64_t(temp2D11, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN);
+    out = linalg_or_int64_t(temp2D11, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN);
     lok(linalg_equal_int64_t(out, temp2D11, LINALG_ROW_LEN, LINALG_COL_LEN));
     free(out);
     int64_t templist1[2 * 16] = {
