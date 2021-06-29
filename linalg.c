@@ -215,11 +215,8 @@ LINALG_TEMPLATE_TYPES_INT
             }\
         }\
     }\
-    type * out = DARR_INIT(out, type, DARR_NUM(list));\
-    DARR_NUM(out) = DARR_NUM(list);\
-    out = memcpy(out, list, DARR_NUM(list)*sizeof(type));\
-    DARR_FREE(list);\
-    return (out);\
+    list = DARR_REALLOC(list, DARR_NUM(list));\
+    return (list);\
 }
 LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
