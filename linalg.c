@@ -87,7 +87,7 @@ LINALG_TEMPLATE_TYPES
     size_t * found_list = DARR_INIT(found_list, size_t, arr_len);\
     for (size_t i = 0; i < arr_len; i++) {\
         if (array[i] == to_find) {\
-            found_list[DARR_NUM(found_list)++]= i;\
+            DARR_PUT(found_list, i);\
             break;\
         }\
     }\
@@ -223,8 +223,8 @@ LINALG_TEMPLATE_TYPES_INT
     for (size_t col = 0; col < col_len; col++) {\
         for (size_t row = 0; row < row_len; row++) {\
             if (matrix[row * col_len + col] > 0) {\
-                list[DARR_NUM(list)++] = col;\
-                list[DARR_NUM(list)++] = row;\
+                DARR_PUT(list, col);\
+                DARR_PUT(list, row);\
             }\
         }\
     }\
