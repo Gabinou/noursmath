@@ -149,7 +149,7 @@ LINALG_TEMPLATE_TYPES_INT
 LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern bool linalg_any_##type(type * matrix1, size_t arr_len);
+#define REGISTER_ENUM(type) extern bool linalg_all_##type(type * matrix1, size_t arr_len);
 LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
