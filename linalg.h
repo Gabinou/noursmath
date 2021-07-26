@@ -94,6 +94,41 @@ enum LINALG_DIMENSIONS {
 };
 #define LINALG_MINLEN 12
 
+/**********************STRUCTS DEFINITIONS*********************/
+
+#define REGISTER_ENUM(type) extern struct linalg_sq_neighbors_##type {\
+type right;\
+type top;\
+type left;\
+type bottom;\
+} linalg_sq_neighbors_##type##_default;
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern struct linalg_point_##type {\
+type x;\
+type y;\
+} linalg_point_##type##_default;
+LINALG_TEMPLATE_TYPES
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern struct linalg_point_3D_##type {\
+type x;\
+type y;\
+type z;\
+} linalg_point_3D_##type##_default;
+LINALG_TEMPLATE_TYPES
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern struct linalg_hexpoint_##type {\
+type x;\
+type y;\
+type z;\
+} linalg_hexpoint_##type##_default;
+LINALG_TEMPLATE_TYPES
+#undef REGISTER_ENUM
+
+
 /**********************N-DIMENSIONAL UTILITIES*********************/
 
 // linalg uses unraveled arrays as n-dimensional matrices
@@ -181,36 +216,16 @@ LINALG_TEMPLATE_TYPES_INT
 LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-/**********************PATHFINDING*********************/
-#define REGISTER_ENUM(type) extern struct linalg_sq_neighbors_##type {\
-type right;\
-type top;\
-type left;\
-type bottom;\
-} linalg_sq_neighbors_##type##_default;
+#define REGISTER_ENUM(type) extern type linalg_distance_manhattan_##type(struct linalg_point_##type start, struct linalg_point_##type end);
 LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern struct linalg_point_##type {\
-type x;\
-type y;\
-} linalg_point_##type##_default;
-LINALG_TEMPLATE_TYPES
+#define REGISTER_ENUM(type) extern type linalg_distance_euclidian_##type(struct linalg_point_##type start, struct linalg_point_##type end);
+LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern struct linalg_point_3D_##type {\
-type x;\
-type y;\
-type z;\
-} linalg_point_3D_##type##_default;
-LINALG_TEMPLATE_TYPES
-#undef REGISTER_ENUM
-
-#define REGISTER_ENUM(type) extern struct linalg_hexpoint_##type {\
-type x;\
-type y;\
-type z;\
-} linalg_hexpoint_##type##_default;
+/**********************PATHFINDING*********************/
+#define REGISTER_ENUM(type) extern type linalg_inbounds_##type(type pos, type boundmin, type boundmax);
 LINALG_TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
@@ -275,14 +290,6 @@ LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * Pathfinding_Path_position2step_##type(type * position_list, size_t list_len);
-LINALG_TEMPLATE_TYPES_INT
-#undef REGISTER_ENUM
-
-#define REGISTER_ENUM(type) extern type distance_manhattan_##type(struct linalg_point_##type start, struct linalg_point_##type end);
-LINALG_TEMPLATE_TYPES_INT
-#undef REGISTER_ENUM
-
-#define REGISTER_ENUM(type) extern type distance_euclidian_##type(struct linalg_point_##type start, struct linalg_point_##type end);
 LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
