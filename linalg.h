@@ -181,4 +181,110 @@ LINALG_TEMPLATE_TYPES_INT
 LINALG_TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
+/**********************PATHFINDING*********************/
+#define REGISTER_ENUM(type) extern struct linalg_sq_neighbors_##type {\
+type right;\
+type top;\
+type left;\
+type bottom;\
+} linalg_sq_neighbors_##type##_default;
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern struct linalg_point_##type {\
+type x;\
+type y;\
+} linalg_point_##type##_default;
+LINALG_TEMPLATE_TYPES
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern struct linalg_point_3D_##type {\
+type x;\
+type y;\
+type z;\
+} linalg_point_3D_##type##_default;
+LINALG_TEMPLATE_TYPES
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern struct linalg_hexpoint_##type {\
+type x;\
+type y;\
+type z;\
+} linalg_hexpoint_##type##_default;
+LINALG_TEMPLATE_TYPES
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern struct linalg_sq_neighbors_##type Pathfinding_Direction_Block_##type(type * costmap_pushpull, size_t row_len, size_t col_len, struct linalg_point_##type start);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern struct linalg_sq_neighbors_##type Pathfinding_Direction_Pushable_##type(type * assailablemap, size_t row_len, size_t col_len, type range[2], struct linalg_point_##type target);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern struct linalg_sq_neighbors_##type Pathfinding_Direction_Pullable_##type(type * assailablemap, size_t row_len, size_t col_len, type range[2], struct linalg_point_##type target);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * Pathfinding_Map_PushPullable_##type(struct linalg_sq_neighbors_##type direction_block, struct linalg_sq_neighbors_##type pushpullable, size_t row_len, size_t col_len, struct linalg_point_##type start, uint8_t mode_output);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * Pathfinding_Map_Move_##type(type * costmap, size_t row_len, size_t col_len, struct linalg_point_##type start, type move, uint8_t mode_output);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * Pathfinding_Map_Sight_##type(type * blockmap, size_t row_len, size_t col_len, struct linalg_point_##type start, type sight, uint8_t mode_output);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * Pathfinding_Map_Attack_##type(type * move_matrix, size_t row_len, size_t col_len, type move, type range[2], uint8_t mode_output, uint8_t mode_movetile);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * Pathfinding_Map_Move_Hex_##type(type * costmap, size_t row_len, size_t depth_len, struct linalg_hexpoint_##type  start, type move, uint8_t mode_output);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * Pathfinding_Map_Sight_Hex_##type(type * blockmap, size_t depth_len, size_t col_len, struct linalg_hexpoint_##type  start, type sight, uint8_t mode);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * Pathfinding_Map_Assailable_##type(type * in_movemap, size_t row_len, size_t col_len, struct linalg_point_##type in_target, type range[2], uint8_t mode_output);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * Pathfinding_Map_Pushable_##type(type * in_movemap, size_t row_len, size_t col_len, struct linalg_point_##type in_target, uint8_t mode_output);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * Pathfinding_Map_Pullable_##type(type * in_movemap, size_t row_len, size_t col_len, struct linalg_point_##type in_target, uint8_t mode_output);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * Pathfinding_Map_unitGradient_##type(type * in_costmap, size_t row_len, size_t col_len, struct linalg_point_##type * in_targets, size_t unit_num);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * Pathfinding_Map_Path_##type(type * move_matrix, size_t row_len, size_t col_len, struct linalg_point_##type start, struct linalg_point_##type end, uint8_t mode_path);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * Pathfinding_Path_step2position_##type(type * step_list, size_t list_len, struct linalg_point_##type start);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * Pathfinding_Path_position2step_##type(type * position_list, size_t list_len);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type distance_manhattan_##type(struct linalg_point_##type start, struct linalg_point_##type end);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type distance_euclidian_##type(struct linalg_point_##type start, struct linalg_point_##type end);
+LINALG_TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+
 #endif /* LINALG_H */
