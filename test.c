@@ -121,7 +121,7 @@ static int lfails = 0;
     const clock_t start = clock();\
     dupprintf(globalf,"\t%-14s", name);\
     test();\
-    dupprintf(globalf,"pass:%2d   fail:%2d   %4dms\n",\
+    dupprintf(globalf,"\t\tpass:%2d   fail:%2d   %4dms\n",\
             (ltests-ts)-(lfails-fs), lfails-fs,\
             (int)((clock() - start) * 1000 / CLOCKS_PER_SEC));\
 } while (0)
@@ -171,11 +171,11 @@ enum {
     LINALG_SQUARE = 4,
 };
 
-void test_linalg_bool() {
+void linalg_bool() {
 
 }
 
-void test_linalg_uint8_t() {
+void linalg_uint8_t() {
     uint8_t * temp2D1 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(uint8_t));
     uint8_t * temp2D2 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(uint8_t));
     uint8_t * temp2D3 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(uint8_t));
@@ -385,7 +385,7 @@ void test_linalg_uint8_t() {
     DARR_FREE(listeded2d);
 }
 
-void test_linalg_int8_t() {
+void linalg_int8_t() {
     int8_t * temp2D1 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(int8_t));
     int8_t * temp2D2 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(int8_t));
     int8_t * temp2D3 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(int8_t));
@@ -595,7 +595,7 @@ void test_linalg_int8_t() {
     DARR_FREE(listeded2d);
 }
 
-void test_linalg_uint16_t() {
+void linalg_uint16_t() {
     uint16_t * temp2D1 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(uint16_t));
     uint16_t * temp2D2 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(uint16_t));
     uint16_t * temp2D3 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(uint16_t));
@@ -805,7 +805,7 @@ void test_linalg_uint16_t() {
     DARR_FREE(listeded2d);
 }
 
-void test_linalg_int16_t() {
+void linalg_int16_t() {
     int16_t * temp2D1 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(int16_t));
     int16_t * temp2D2 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(int16_t));
     int16_t * temp2D3 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(int16_t));
@@ -1015,7 +1015,7 @@ void test_linalg_int16_t() {
     DARR_FREE(listeded2d);
 }
 
-void test_linalg_uint32_t() {
+void linalg_uint32_t() {
     uint32_t * temp2D1 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(uint32_t));
     uint32_t * temp2D2 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(uint32_t));
     uint32_t * temp2D3 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(uint32_t));
@@ -1225,7 +1225,7 @@ void test_linalg_uint32_t() {
     DARR_FREE(listeded2d);
 }
 
-void test_linalg_int32_t() {
+void linalg_int32_t() {
     int32_t * temp2D1 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(int32_t));
     int32_t * temp2D2 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(int32_t));
     int32_t * temp2D3 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(int32_t));
@@ -1435,7 +1435,7 @@ void test_linalg_int32_t() {
     DARR_FREE(listeded2d);
 }
 
-void test_linalg_uint64_t() {
+void linalg_uint64_t() {
     uint64_t * temp2D1 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(uint64_t));
     uint64_t * temp2D2 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(uint64_t));
     uint64_t * temp2D3 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(uint64_t));
@@ -1645,7 +1645,7 @@ void test_linalg_uint64_t() {
     DARR_FREE(listeded2d);
 }
 
-void test_linalg_int64_t() {
+void linalg_int64_t() {
     int64_t * temp2D1 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(int64_t));
     int64_t * temp2D2 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(int64_t));
     int64_t * temp2D3 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(int64_t));
@@ -2063,7 +2063,7 @@ void pathfinding_Map_Visiblebool() {
     DARR_FREE(listeded2d);
 }
 
-void test_linalg_float() {
+void linalg_float() {
     float tempssq1[LINALG_SQUARE * LINALG_SQUARE] = {
         1.0f,  2.0f,  3.0f,  4.0f,
         5.0f,  6.0f,  7.0f,  8.0f,
@@ -2142,7 +2142,7 @@ void test_linalg_float() {
     free(out2);
 }
 
-void test_linalg_double() {
+void linalg_double() {
     double tempssq1[LINALG_SQUARE * LINALG_SQUARE] = {
         1.0f,  2.0f,  3.0f,  4.0f,
         5.0f,  6.0f,  7.0f,  8.0f,
@@ -4119,9 +4119,9 @@ int main() {
     lrun("log2", test_log2);
     // lrun("test_pathfinding", test_pathfinding);
     // lrun("test_q_math", test_q_math);
-    lrun("test_double", test_linalg_double);
-    lrun("test_float", test_linalg_float);
-#define REGISTER_ENUM(type) lrun(STRINGIFY(test_linalg_##type), test_linalg_##type);
+    lrun("test_double", linalg_double);
+    lrun("test_float", linalg_float);
+#define REGISTER_ENUM(type) lrun(STRINGIFY(linalg_##type), linalg_##type);
     TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
     lresults();
