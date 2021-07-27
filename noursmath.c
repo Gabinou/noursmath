@@ -238,7 +238,7 @@ TEMPLATE_TYPES_INT
 
 // /**********************Pathfinding*********************/
 
-// #define REGISTER_ENUM(type) type linalg_inbounds_##type(type pos, type boundmin, type boundmax) {\
+// #define REGISTER_ENUM(type) type nmath_inbounds_##type(type pos, type boundmin, type boundmax) {\
 //     type out = 0;\
 //     out = pos < boundmin ? boundmin : pos;\
 //     out = out > boundmax ? boundmax : out;\
@@ -247,7 +247,7 @@ TEMPLATE_TYPES_INT
 // TEMPLATE_TYPES_INT
 // #undef REGISTER_ENUM
 
-// extern type * Pathfinding_Map_PushPullable(struct linalg_sq_neighbors_##type  direction_block, struct linalg_sq_neighbors_##type  pushpullable, size_t row_len, size_t col_len, struct Point start, uint8_t mode_output) {
+// extern type * Pathfinding_Map_PushPullable(struct nmath_nmath_point__neighbors_##type  direction_block, struct nmath_nmath_point__neighbors_##type  pushpullable, size_t row_len, size_t col_len, struct Point start, uint8_t mode_output) {
 //     SDL_Log("Pathfinding_Map_PushPullable");
 //     type  * pushpullablemap = NULL;
 //     type  temp_distance;
@@ -353,9 +353,9 @@ TEMPLATE_TYPES_INT
 //     return (unitgradientmap);
 // }
 
-// struct linalg_sq_neighbors_##type  Pathfinding_Direction_Pushable(type  * assailablemap, size_t row_len, size_t col_len, type  range[2], struct Point target) {
+// struct nmath_nmath_point__neighbors_##type  Pathfinding_Direction_Pushable(type  * assailablemap, size_t row_len, size_t col_len, type  range[2], struct Point target) {
 //     SDL_Log("Pathfinding_Direction_Pushable");
-//     struct linalg_sq_neighbors_##type  pushable = {0, 0, 0, 0};
+//     struct nmath_nmath_point__neighbors_##type  pushable = {0, 0, 0, 0};
 //     struct Point neighbor;
 //     for (type  distance = range[0]; distance <= range[1]; distance++) {
 //         for (type  i = 0; i < SQUARE_NEIGHBOURS; i++) {
@@ -377,9 +377,9 @@ TEMPLATE_TYPES_INT
 //     return (pushable);
 // }
 
-// struct linalg_sq_neighbors_##type  Pathfinding_Direction_Pullable(type  * assailablemap, size_t row_len, size_t col_len, type  range[2], struct Point target) {
+// struct nmath_nmath_point__neighbors_##type  Pathfinding_Direction_Pullable(type  * assailablemap, size_t row_len, size_t col_len, type  range[2], struct Point target) {
 //     SDL_Log("Pathfinding_Direction_Pullable");
-//     struct linalg_sq_neighbors_##type  pullable = {0, 0, 0, 0};
+//     struct nmath_nmath_point__neighbors_##type  pullable = {0, 0, 0, 0};
 //     struct Point neighbor;
 //     int_point_t * pullable_ptr = (int_point_t *)&pullable;
 //     SDL_assert(range[0] < range[1]);
@@ -396,9 +396,9 @@ TEMPLATE_TYPES_INT
 //     return (pullable);
 // }
 
-// struct linalg_sq_neighbors_##type  Pathfinding_Direction_Block(type  * costmap_pushpull, size_t row_len, size_t col_len, struct Point start) {
+// struct nmath_nmath_point__neighbors_##type  Pathfinding_Direction_Block(type  * costmap_pushpull, size_t row_len, size_t col_len, struct Point start) {
 //     SDL_Log("Pathfinding_Direction_Block");
-//     struct linalg_sq_neighbors_##type  distance_block = {0, 0, 0, 0};
+//     struct nmath_nmath_point__neighbors_##type  distance_block = {0, 0, 0, 0};
 //     int_point_t * distance_ptr = (int_point_t *)&distance_block;
 //     struct Point neighbor = {0, 0};
 //     type  distance = 0;

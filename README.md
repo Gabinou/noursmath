@@ -32,7 +32,14 @@ Enemies and terrain can block movement, terrain can block sight, etc.
 For pathfinding, <= 0 is NULL/impassable/blocked, and any positive value evaluates to true/passable/unblocked. 
 
 For convenience sake, this module also defines some useful structures: n-dim nmath_point_*type*, nmath_sq_neighbors_*type* (each square on a square 2D grid has 4 neighbors), nmath_hex_neighbors_*type* (each hexagon on a hexagonal 2D grid has 6 neighbors).
-The functions are name intuitively: units can move to moveable tiles, units can attack enemies that are on assailable tiles, units can be pushed/pulled on pusheable/pulleable tiles, etc.
+
+Definitions:
+- Units can move to moveable tiles,
+- Units can attack enemies that are on attackable tiles,
+- Units can attack enemies from assailable tiles,
+- Units can see enemies that are on visible tiles,
+- Units can be push/pulled on push/pulleable tiles,
+- Units can be only be push/pulled in push/pulleable directions.
 
 Some other useful function include the computation of a "unit gradient" that computes the distance to the closest unit on every tile, computing a path on a matrix using a list of points, etc.
 Some functions that are applicable to points on a hexagonal grid are also implemented.

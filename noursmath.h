@@ -122,38 +122,43 @@ enum DIMENSIONS {
 
 /**********************STRUCTS DEFINITIONS*********************/
 
-#define REGISTER_ENUM(type) extern struct linalg_sq_neighbors_##type {\
+#define REGISTER_ENUM(type) extern struct nmath_sq_neighbors_##type {\
 type right;\
 type top;\
 type left;\
 type bottom;\
-} linalg_sq_neighbors_##type##_default;
+} nmath_sq_neighbors_##type##_default;
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern struct linalg_point_##type {\
+#define REGISTER_ENUM(type) extern struct nmath_point_##type {\
 type x;\
 type y;\
-} linalg_point_##type##_default;
+} nmath_point_##type##_default;
 TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern struct linalg_point_3D_##type {\
-type x;\
-type y;\
-type z;\
-} linalg_point_3D_##type##_default;
-TEMPLATE_TYPES
-#undef REGISTER_ENUM
-
-#define REGISTER_ENUM(type) extern struct linalg_hexpoint_##type {\
+#define REGISTER_ENUM(type) extern struct nmath_point_3D_##type {\
 type x;\
 type y;\
 type z;\
-} linalg_hexpoint_##type##_default;
+} nmath_point_3D_##type##_default;
 TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern struct nmath_hexpoint_##type {\
+type x;\
+type y;\
+type z;\
+} nmath_hexpoint_##type##_default;
+TEMPLATE_TYPES
+#undef REGISTER_ENUM
+
+/********************** UTILITIES *********************/
+
+#define REGISTER_ENUM(type) extern type nmath_inbounds_##type(type pos, type boundmin, type boundmax);
+TEMPLATE_TYPES
+#undef REGISTER_ENUM
 
 /********************** LINALG *********************/
 
@@ -242,40 +247,37 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type linalg_distance_manhattan_##type(struct linalg_point_##type start, struct linalg_point_##type end);
+#define REGISTER_ENUM(type) extern type linalg_distance_manhattan_##type(struct nmath_point_##type start, struct nmath_point_##type end);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type linalg_distance_euclidian_##type(struct linalg_point_##type start, struct linalg_point_##type end);
+#define REGISTER_ENUM(type) extern type linalg_distance_euclidian_##type(struct nmath_point_##type start, struct nmath_point_##type end);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-/**********************PATHFINDING*********************/
-#define REGISTER_ENUM(type) extern type linalg_inbounds_##type(type pos, type boundmin, type boundmax);
-TEMPLATE_TYPES
-#undef REGISTER_ENUM
+/********************** PATHFINDING *********************/
 
-#define REGISTER_ENUM(type) extern struct linalg_sq_neighbors_##type pathfinding_Direction_Block_##type(type * costmap_pushpull, size_t row_len, size_t col_len, struct linalg_point_##type start);
+#define REGISTER_ENUM(type) extern struct nmath_sq_neighbors_##type pathfinding_Direction_Block_##type(type * costmap_pushpull, size_t row_len, size_t col_len, struct nmath_point_##type start);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern struct linalg_sq_neighbors_##type pathfinding_Direction_Pushable_##type(type * assailablemap, size_t row_len, size_t col_len, type range[2], struct linalg_point_##type target);
+#define REGISTER_ENUM(type) extern struct nmath_sq_neighbors_##type pathfinding_Direction_Pushable_##type(type * assailablemap, size_t row_len, size_t col_len, type range[2], struct nmath_point_##type target);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern struct linalg_sq_neighbors_##type pathfinding_Direction_Pullable_##type(type * assailablemap, size_t row_len, size_t col_len, type range[2], struct linalg_point_##type target);
+#define REGISTER_ENUM(type) extern struct nmath_sq_neighbors_##type pathfinding_Direction_Pullable_##type(type * assailablemap, size_t row_len, size_t col_len, type range[2], struct nmath_point_##type target);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_PushPullable_##type(struct linalg_sq_neighbors_##type direction_block, struct linalg_sq_neighbors_##type pushpullable, size_t row_len, size_t col_len, struct linalg_point_##type start, uint8_t mode_output);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_PushPullable_##type(struct nmath_sq_neighbors_##type direction_block, struct nmath_sq_neighbors_##type pushpullable, size_t row_len, size_t col_len, struct nmath_point_##type start, uint8_t mode_output);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Move_##type(type * costmap, size_t row_len, size_t col_len, struct linalg_point_##type start, type move, uint8_t mode_output);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Moveable_##type(type * costmap, size_t row_len, size_t col_len, struct nmath_point_##type start, type move, uint8_t mode_output);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Sight_##type(type * blockmap, size_t row_len, size_t col_len, struct linalg_point_##type start, type sight, uint8_t mode_output);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Visible_##type(type * blockmap, size_t row_len, size_t col_len, struct nmath_point_##type start, type sight, uint8_t mode_output);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
@@ -283,35 +285,35 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Move_Hex_##type(type * costmap, size_t row_len, size_t depth_len, struct linalg_hexpoint_##type  start, type move, uint8_t mode_output);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Moveable_Hex_##type(type * costmap, size_t row_len, size_t depth_len, struct nmath_hexpoint_##type  start, type move, uint8_t mode_output);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Sight_Hex_##type(type * blockmap, size_t depth_len, size_t col_len, struct linalg_hexpoint_##type  start, type sight, uint8_t mode);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Visible_Hex_##type(type * blockmap, size_t depth_len, size_t col_len, struct nmath_hexpoint_##type  start, type sight, uint8_t mode);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Assailable_##type(type * in_movemap, size_t row_len, size_t col_len, struct linalg_point_##type in_target, type range[2], uint8_t mode_output);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Assailable_##type(type * in_movemap, size_t row_len, size_t col_len, struct nmath_point_##type in_target, type range[2], uint8_t mode_output);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Pushable_##type(type * in_movemap, size_t row_len, size_t col_len, struct linalg_point_##type in_target, uint8_t mode_output);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Pushable_##type(type * in_movemap, size_t row_len, size_t col_len, struct nmath_point_##type in_target, uint8_t mode_output);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Pullable_##type(type * in_movemap, size_t row_len, size_t col_len, struct linalg_point_##type in_target, uint8_t mode_output);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Pullable_##type(type * in_movemap, size_t row_len, size_t col_len, struct nmath_point_##type in_target, uint8_t mode_output);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_unitGradient_##type(type * in_costmap, size_t row_len, size_t col_len, struct linalg_point_##type * in_targets, size_t unit_num);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_unitGradient_##type(type * in_costmap, size_t row_len, size_t col_len, struct nmath_point_##type * in_targets, size_t unit_num);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Path_##type(type * move_matrix, size_t row_len, size_t col_len, struct linalg_point_##type start, struct linalg_point_##type end, uint8_t mode_path);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Path_##type(type * move_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, struct nmath_point_##type end, uint8_t mode_path);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Path_step2position_##type(type * step_list, size_t list_len, struct linalg_point_##type start);
+#define REGISTER_ENUM(type) extern type * pathfinding_Path_step2position_##type(type * step_list, size_t list_len, struct nmath_point_##type start);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
