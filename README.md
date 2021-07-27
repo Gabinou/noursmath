@@ -34,12 +34,16 @@ For pathfinding, <= 0 is NULL/impassable/blocked, and any positive value evaluat
 For convenience sake, this module also defines some useful structures: n-dim nmath_point_*type*, nmath_sq_neighbors_*type* (each square on a square 2D grid has 4 neighbors), nmath_hex_neighbors_*type* (each hexagon on a hexagonal 2D grid has 6 neighbors).
 
 Definitions:
-- Units can move to moveable tiles,
+- Units can move to reachable tiles (move_matrix/movemap),
 - Units can attack enemies that are on attackable tiles,
 - Units can attack enemies from assailable tiles,
 - Units can see enemies that are on visible tiles,
-- Units can be push/pulled on push/pulleable tiles,
-- Units can be only be push/pulled in push/pulleable directions.
+- Units can be push/pulled on push/pullable tiles,
+- Units can be only be push/pulled in push/pullable directions.
+- costmap is tile traversal cost for the character/class. 0 means untraversable.
+<!-- a traversable tile is traversable WHETHER IT IS IN OUR MOVEMENT RANGE OR NOT. a MOVABLE tile is DIFFERENT than a TRAVERSIBLE tile. -->
+<!-- although... movable implies that THE TILE MOVES. not the player! -> reachable tiles -->
+- blockmap indicates if tile blocks tiles behind it for vision.
 
 Some other useful function include the computation of a "unit gradient" that computes the distance to the closest unit on every tile, computing a path on a matrix using a list of points, etc.
 Some functions that are applicable to points on a hexagonal grid are also implemented.
