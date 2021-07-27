@@ -31,7 +31,7 @@ Enemies and terrain can block movement, terrain can block sight, etc.
 
 For pathfinding, <= 0 is NULL/impassable/blocked, and any positive value evaluates to true/passable/unblocked. 
 
-For convenience sake, this module also defines some useful structures: n-dim noursmath_point_*type*, noursmath_sq_neighbors_*type* (each square on a square 2D grid has 4 neighbors), noursmath_hex_neighbors_*type* (each hexagon on a hexagonal 2D grid has 6 neighbors).
+For convenience sake, this module also defines some useful structures: n-dim nmath_point_*type*, nmath_sq_neighbors_*type* (each square on a square 2D grid has 4 neighbors), nmath_hex_neighbors_*type* (each hexagon on a hexagonal 2D grid has 6 neighbors).
 The functions are name intuitively: units can move to moveable tiles, units can attack enemies that are on assailable tiles, units can be pushed/pulled on pusheable/pulleable tiles, etc.
 
 Some other useful function include the computation of a "unit gradient" that computes the distance to the closest unit on every tile, computing a path on a matrix using a list of points, etc.
@@ -60,8 +60,6 @@ Add ```noursmath.c``` and ```noursmath.h``` to your source code.
 - Operations are naive, no overflow protection
 - Performance is questionable (no vectorization)
 - Unsigned types are wonky.
-
-
 
 # Credits
 Copyright (c) 2021 Average Bear Games, Made by Gabriel Taillon
