@@ -24,7 +24,7 @@ Common linear algebra operations like dot product and cross product are implemen
 
 ## pathfinding
 
-These functions are designed for a strategy game that takes place on a map (square or hexagonal 2D grid) made to compute movement and sight. 
+These functions are designed for a turn-based strategy game that takes place on a map (square or hexagonal 2D grid) made to compute movement and sight. 
 No diagonal movement is possible, but there are no such restriction on sight.
 Each map tile has a movement cost; each unit has a maximal movement and sight value and minimal to maximal attack range.
 Enemies and terrain can block movement, terrain can block sight, etc.
@@ -40,10 +40,10 @@ Definitions:
 - Units can see enemies that are on visible tiles,
 - Units can be push/pulled on push/pullable tiles,
 - Units can be only be push/pulled in push/pullable directions.
-- costmap is tile traversal cost for the character/class. 0 means untraversable.
+- costmap is tile traversal cost for the character/class. <= 0 means untraversable.
 <!-- a traversable tile is traversable WHETHER IT IS IN OUR MOVEMENT RANGE OR NOT. a MOVABLE tile is DIFFERENT than a TRAVERSIBLE tile. -->
 <!-- although... movable implies that THE TILE MOVES. not the player! -> reachable tiles -->
-- blockmap indicates if tile blocks tiles behind it for vision.
+- blockmap indicates if tile blocks tiles behind it for vision. <= 0  means blocked.
 
 Some other useful function include the computation of a "unit gradient" that computes the distance to the closest unit on every tile, computing a path on a matrix using a list of points, etc.
 Some functions that are applicable to points on a hexagonal grid are also implemented.
