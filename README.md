@@ -41,9 +41,9 @@ Definitions:
 - Units can be push/pulled on push/pullable tiles,
 - Units can be only be push/pulled in push/pullable directions.
 - costmap is tile traversal cost for the character/class. <= 0 means untraversable.
+- blockmap indicates if tile blocks tiles behind it for vision. <= 0  means blocked.
 <!-- a traversable tile is traversable WHETHER IT IS IN OUR MOVEMENT RANGE OR NOT. a MOVABLE tile is DIFFERENT than a TRAVERSIBLE tile. -->
 <!-- although... movable implies that THE TILE MOVES. not the player! -> reachable tiles -->
-- blockmap indicates if tile blocks tiles behind it for vision. <= 0  means blocked.
 
 Some other useful function include the computation of a "unit gradient" that computes the distance to the closest unit on every tile, computing a path on a matrix using a list of points, etc.
 Some functions that are applicable to points on a hexagonal grid are also implemented.
