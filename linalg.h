@@ -13,7 +13,7 @@
 * INCLUDES DARR
 * 3 Main modules:
 *     q_math, quick math module
-*     linalg, linear algebra utilities for n-dimensional matrices (like numpy) 
+*     linalg, linear algebra utilities for n-dimensional matrices (like numpy)
 *     pathfinding, utilities for games set on 2D a grid/matrix
 *
 */
@@ -72,7 +72,8 @@ darr[DARR_NUM(darr)++] = elem;\
 #define DARR_FREE(darr) do {free((((size_t* )darr) - DARR_LEN_INDEX));} while(0)
 
 /************************* CONSTANTS *****************************/
-#define LINALG_TEMPLATE_TYPES_INT REGISTER_ENUM(int8_t) \
+#ifndef TEMPLATE_TYPES_INT
+#define TEMPLATE_TYPES_INT REGISTER_ENUM(int8_t) \
 REGISTER_ENUM(uint8_t) \
 REGISTER_ENUM(int16_t) \
 REGISTER_ENUM(uint16_t) \
@@ -81,11 +82,15 @@ REGISTER_ENUM(uint32_t) \
 REGISTER_ENUM(int64_t) \
 REGISTER_ENUM(uint64_t)\
 REGISTER_ENUM(bool)
+#endif  /* TEMPLATE_TYPES_INT */
 
-#define LINALG_TEMPLATE_TYPES_FLOAT REGISTER_ENUM(float) \
+#ifndef TEMPLATE_TYPES_FLOAT
+#define TEMPLATE_TYPES_FLOAT REGISTER_ENUM(float) \
 REGISTER_ENUM(double)
+#endif  /* TEMPLATE_TYPES_FLOAT */
 
-#define LINALG_TEMPLATE_TYPES REGISTER_ENUM(int8_t) \
+#ifndef TEMPLATE_TYPES
+#define TEMPLATE_TYPES REGISTER_ENUM(int8_t) \
 REGISTER_ENUM(uint8_t) \
 REGISTER_ENUM(int16_t) \
 REGISTER_ENUM(uint16_t) \
@@ -96,6 +101,7 @@ REGISTER_ENUM(uint64_t) \
 REGISTER_ENUM(bool) \
 REGISTER_ENUM(float) \
 REGISTER_ENUM(double)
+#endif  /* TEMPLATE_TYPES */
 
 enum LINALG_DIMENSIONS {
     ONE_D = 1,
@@ -112,14 +118,14 @@ type top;\
 type left;\
 type bottom;\
 } linalg_sq_neighbors_##type##_default;
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern struct linalg_point_##type {\
 type x;\
 type y;\
 } linalg_point_##type##_default;
-LINALG_TEMPLATE_TYPES
+TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern struct linalg_point_3D_##type {\
@@ -127,7 +133,7 @@ type x;\
 type y;\
 type z;\
 } linalg_point_3D_##type##_default;
-LINALG_TEMPLATE_TYPES
+TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern struct linalg_hexpoint_##type {\
@@ -135,7 +141,7 @@ type x;\
 type y;\
 type z;\
 } linalg_hexpoint_##type##_default;
-LINALG_TEMPLATE_TYPES
+TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 
@@ -147,160 +153,160 @@ LINALG_TEMPLATE_TYPES
 #define linalg_index_arr3D(row, col, depth, row_len, col_len) (row * col_len * row_len + col * row_len + depth)
 
 #define REGISTER_ENUM(type) extern type linalg_determinant_##type(type * square_mat, size_t sq_len);
-LINALG_TEMPLATE_TYPES
+TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type linalg_trace_##type(type * square_mat, size_t sq_len);
-LINALG_TEMPLATE_TYPES
+TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type linalg_dotProduct_##type(type * arr1, type * arr2, size_t arr_len);
-LINALG_TEMPLATE_TYPES
+TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_crossProduct_##type(type * vec3D1, type * vec3D2);
-LINALG_TEMPLATE_TYPES
+TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern bool linalg_isIn_##type(type * array, type to_find, size_t arr_len);
-LINALG_TEMPLATE_TYPES
+TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern bool linalg_list_isIn_1D_##type(type * list_1D, size_t list_len, type x);
-LINALG_TEMPLATE_TYPES
+TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern bool linalg_list_isIn_2D_##type(type * list_1D, size_t list_len, type x, type y);
-LINALG_TEMPLATE_TYPES
+TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern bool linalg_list_isIn_3D_##type(type * list_1D, size_t list_len, type x, type y, type z);
-LINALG_TEMPLATE_TYPES
+TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern size_t * linalg_where_##type(type * array, type to_find, size_t arr_len);
-LINALG_TEMPLATE_TYPES
+TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern void linalg_matrix_print_##type(type * array, size_t row_len, size_t col_len);
-LINALG_TEMPLATE_TYPES
+TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern bool linalg_any_##type(type * matrix1, size_t arr_len);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern bool linalg_all_##type(type * matrix1, size_t arr_len);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern bool * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len, type tolerance);
-LINALG_TEMPLATE_TYPES_FLOAT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_plus_##type(type * matrix1, type * matrix2, size_t arr_len, int8_t sign);
-LINALG_TEMPLATE_TYPES
+TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_and_##type(type * matrix1, type * matrix2, size_t arr_len);
-LINALG_TEMPLATE_TYPES
+TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_or_##type(type * matrix1, type * matrix2, size_t arr_len);
-LINALG_TEMPLATE_TYPES
+TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_mask_##type(type * matrix, type * mask, size_t arr_len);
-LINALG_TEMPLATE_TYPES
+TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_matrix2list_##type(type * matrix, size_t row_len, size_t col_len);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_list2matrix_##type(type * list, size_t row_len, size_t col_len, size_t list_len);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type linalg_distance_manhattan_##type(struct linalg_point_##type start, struct linalg_point_##type end);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type linalg_distance_euclidian_##type(struct linalg_point_##type start, struct linalg_point_##type end);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 /**********************PATHFINDING*********************/
 #define REGISTER_ENUM(type) extern type linalg_inbounds_##type(type pos, type boundmin, type boundmax);
-LINALG_TEMPLATE_TYPES
+TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern struct linalg_sq_neighbors_##type Pathfinding_Direction_Block_##type(type * costmap_pushpull, size_t row_len, size_t col_len, struct linalg_point_##type start);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern struct linalg_sq_neighbors_##type Pathfinding_Direction_Pushable_##type(type * assailablemap, size_t row_len, size_t col_len, type range[2], struct linalg_point_##type target);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern struct linalg_sq_neighbors_##type Pathfinding_Direction_Pullable_##type(type * assailablemap, size_t row_len, size_t col_len, type range[2], struct linalg_point_##type target);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * Pathfinding_Map_PushPullable_##type(struct linalg_sq_neighbors_##type direction_block, struct linalg_sq_neighbors_##type pushpullable, size_t row_len, size_t col_len, struct linalg_point_##type start, uint8_t mode_output);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * Pathfinding_Map_Move_##type(type * costmap, size_t row_len, size_t col_len, struct linalg_point_##type start, type move, uint8_t mode_output);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * Pathfinding_Map_Sight_##type(type * blockmap, size_t row_len, size_t col_len, struct linalg_point_##type start, type sight, uint8_t mode_output);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * Pathfinding_Map_Attack_##type(type * move_matrix, size_t row_len, size_t col_len, type move, type range[2], uint8_t mode_output, uint8_t mode_movetile);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * Pathfinding_Map_Move_Hex_##type(type * costmap, size_t row_len, size_t depth_len, struct linalg_hexpoint_##type  start, type move, uint8_t mode_output);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * Pathfinding_Map_Sight_Hex_##type(type * blockmap, size_t depth_len, size_t col_len, struct linalg_hexpoint_##type  start, type sight, uint8_t mode);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * Pathfinding_Map_Assailable_##type(type * in_movemap, size_t row_len, size_t col_len, struct linalg_point_##type in_target, type range[2], uint8_t mode_output);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * Pathfinding_Map_Pushable_##type(type * in_movemap, size_t row_len, size_t col_len, struct linalg_point_##type in_target, uint8_t mode_output);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * Pathfinding_Map_Pullable_##type(type * in_movemap, size_t row_len, size_t col_len, struct linalg_point_##type in_target, uint8_t mode_output);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * Pathfinding_Map_unitGradient_##type(type * in_costmap, size_t row_len, size_t col_len, struct linalg_point_##type * in_targets, size_t unit_num);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * Pathfinding_Map_Path_##type(type * move_matrix, size_t row_len, size_t col_len, struct linalg_point_##type start, struct linalg_point_##type end, uint8_t mode_path);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * Pathfinding_Path_step2position_##type(type * step_list, size_t list_len, struct linalg_point_##type start);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * Pathfinding_Path_position2step_##type(type * position_list, size_t list_len);
-LINALG_TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 

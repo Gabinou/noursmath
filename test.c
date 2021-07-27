@@ -66,7 +66,7 @@ uint64_t get_ns() {
 }
 #ifdef MICROSECOND_CLOCK
 double get_us() {
-    return (tnecs_get_ns() / 1e3);
+    return (get_ns() / 1e3);
 }
 #else
 #  define FAILSAFE_CLOCK
@@ -2225,7 +2225,7 @@ int main() {
     lrun("test_double", test_double);
     lrun("test_float", test_float);
 #define REGISTER_ENUM(type) lrun(STRINGIFY(test_##type), test_##type);
-    LINALG_TEMPLATE_TYPES_INT
+    TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
     lresults();
 
