@@ -69,8 +69,6 @@ static int lfails = 0;
     }\
 } while (0)
 
-#endif /*__MINCTEST_H__*/
-
 void dupprintf(FILE * f, char const * fmt, ...) { // duplicate printf
     va_list ap;
     va_start(ap, fmt);
@@ -80,6 +78,8 @@ void dupprintf(FILE * f, char const * fmt, ...) { // duplicate printf
     vfprintf(f, fmt, ap);
     va_end(ap);
 }
+
+#endif /*__MINCTEST_H__*/
 
 /*****************************TEST CONSTANTS***************************/
 #define ITERATIONS 10000
