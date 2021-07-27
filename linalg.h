@@ -8,6 +8,16 @@
 #include <string.h>
 #include <math.h>
 
+/********************** NOURS_MATH ******************/
+/* Math library I made during the development of my game, Codename:Firesaga
+* INCLUDES DARR
+* 3 Main modules:
+*     q_math, quick math module
+*     linalg, linear algebra utilities for n-dimensional matrices (like numpy) 
+*     pathfinding, utilities for games set on 2D a grid/matrix
+*
+*/
+
 /**********************DARR: DYNAMIC ARRAYS v1.0******************/
 
 // DARR: Dynamic arrays for C99.

@@ -296,8 +296,8 @@ type  * Pathfinding_Map_unitGradient(type  * in_costmap, size_t row_len, size_t 
     SDL_Log("Pathfinding_Map_unitGradient");
     type  * unitgradientmap = calloc(row_len * col_len, sizeof(type ));
 
-    for (type  row = 0; row < row_len; row++) {
-        for (type  col = 0; col < col_len; col++) {
+    for (type  col = 0; col < col_len; col++) {
+        for (type  row = 0; row < row_len; row++) {
             if (in_costmap[row * col_len + col] < PUSHPULLMAP_BLOCKED) {
                 unitgradientmap[row * col_len + col] = GRADIENTMAP_BLOCKED;
             } else {
