@@ -6,7 +6,7 @@
 #include <time.h>
 #include <string.h>
 
-#include "linalg.h"
+#include "noursmath.h"
 
 /********************** 0.1 MICROSECOND RESOLUTION CLOCK **********************/
 //  Modified from: https://gist.github.com/ForeverZer0/0a4f80fc02b96e19380ebb7a3debbee5
@@ -76,7 +76,7 @@ double get_us() {
 
 
 /* MINCTEST - Minimal C Test Library - 0.2.0
-*  ---------> MODIFIED FOR linalg <----------
+*  ---------> MODIFIED FOR NOURSMATH <----------
 * Copyright (c) 2014-2017 Lewis Van Winkle
 *
 * http://CodePlea.com
@@ -2220,7 +2220,7 @@ void test_double() {
 
 int main() {
     globalf = fopen("linalg_test_results.txt", "w+");
-    dupprintf(globalf, "\nHello, World! I am testing linalg.\n");
+    dupprintf(globalf, "\nHello, World! I am testing noursmath.\n");
     lrun("log2", test_log2);
     lrun("test_double", test_double);
     lrun("test_float", test_float);
@@ -2229,7 +2229,7 @@ int main() {
 #undef REGISTER_ENUM
     lresults();
 
-    dupprintf(globalf, "linalg Test End \n \n");
+    dupprintf(globalf, "noursmath Test End \n \n");
     fclose(globalf);
     return (0);
 }

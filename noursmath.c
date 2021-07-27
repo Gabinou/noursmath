@@ -1,4 +1,4 @@
-#include "linalg.h"
+#include "noursmath.h"
 
 /**********************N-DIMENSIONAL UTILITIES*********************/
 
@@ -94,7 +94,7 @@ TEMPLATE_TYPES
         }\
     }\
     DARR_LEN(found_list) = DARR_NUM(found_list);\
-    found_list = DARR_REALLOC(found_list, (DARR_NUM(found_list) < LINALG_MINLEN? LINALG_MINLEN :DARR_NUM(found_list)));\
+    found_list = DARR_REALLOC(found_list, (DARR_NUM(found_list) < NMATH_MINLEN? NMATH_MINLEN :DARR_NUM(found_list)));\
     return (found_list);\
 }
 TEMPLATE_TYPES
@@ -230,7 +230,7 @@ TEMPLATE_TYPES_INT
             }\
         }\
     }\
-    list = DARR_REALLOC(list, (DARR_NUM(list) < LINALG_MINLEN? LINALG_MINLEN :DARR_NUM(list)));\
+    list = DARR_REALLOC(list, (DARR_NUM(list) < NMATH_MINLEN? NMATH_MINLEN :DARR_NUM(list)));\
     return (list);\
 }
 TEMPLATE_TYPES_INT

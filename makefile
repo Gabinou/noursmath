@@ -86,23 +86,23 @@ EXEC_ALL := ${EXEC} ${EXEC_TCC} ${EXEC_GCC} ${EXEC_CLANG}
 .PHONY: all 
 all: ${ASTYLE} $(EXEC) run 
 SOURCES_TEST := test.c
-SOURCES_LINALG := linalg.c
+SOURCES_NOURSMATH := noursmath.c
 HEADERS := $(wildcard *.h)
 SOURCES_ALL := $(SOURCES_TEST)
-TARGETS_LINALG := $(SOURCES_LINALG:.c=.o)
-TARGETS_LINALG_TCC := $(SOURCES_LINALG:.c=_tcc.o)
-TARGETS_LINALG_GCC := $(SOURCES_LINALG:.c=_gcc.o)
-TARGETS_LINALG_CLANG := $(SOURCES_LINALG:.c=_clang.o)
+TARGETS_NOURSMATH := $(SOURCES_NOURSMATH:.c=.o)
+TARGETS_NOURSMATH_TCC := $(SOURCES_NOURSMATH:.c=_tcc.o)
+TARGETS_NOURSMATH_GCC := $(SOURCES_NOURSMATH:.c=_gcc.o)
+TARGETS_NOURSMATH_CLANG := $(SOURCES_NOURSMATH:.c=_clang.o)
 EXEC_GCC := $(PREFIX)test_gcc$(EXTENSION)
 EXEC_TCC := $(PREFIX)test_tcc$(EXTENSION)
 EXEC_CLANG := $(PREFIX)test_clang$(EXTENSION)
-TARGETS_ALL := ${TARGETS_LINALG} ${EXEC_GCC} ${EXEC_TCC} ${EXEC_CLANG}
+TARGETS_ALL := ${TARGETS_NOURSMATH} ${EXEC_GCC} ${EXEC_TCC} ${EXEC_CLANG}
 
 .PHONY: compile_test
 compile_test: ${ASTYLE} ${EXEC_TCC} ${EXEC_GCC} ${EXEC_CLANG} tcc gcc clang
 
 .PHONY : cov
-cov:  $(TARGETS_LINALG) $(EXEC) run ; lcov -c --no-external -d . -o main_coverage.info ; genhtml main_coverage.info -o out
+cov:  $(TARGETS_NOURSMATH) $(EXEC) run ; lcov -c --no-external -d . -o main_coverage.info ; genhtml main_coverage.info -o out
 
 .PHONY : run
 run: $(EXEC); $(EXEC)
@@ -115,16 +115,16 @@ clang: $(EXEC_CLANG) ; $(EXEC_CLANG)
 .PHONY : astyle
 astyle: $(HEADERS) $(SOURCES_ALL); astyle --style=java --indent=spaces=4 --indent-switches --pad-oper --pad-comma --pad-header --unpad-paren  --align-pointer=middle --align-reference=middle --add-braces --add-one-line-braces --attach-return-type --convert-tabs --suffix=none *.h *.c
 
-$(EXEC): $(SOURCES_TEST) $(TARGETS_LINALG); ${COMPILER} $< $(TARGETS_LINALG) -o $@ $(CFLAGS) $(FLAGS_COV)
+$(EXEC): $(SOURCES_TEST) $(TARGETS_NOURSMATH); ${COMPILER} $< $(TARGETS_NOURSMATH) -o $@ $(CFLAGS) $(FLAGS_COV)
 
-$(TARGETS_LINALG) : $(SOURCES_LINALG) ; $(COMPILER) $< -c -o $@ $(FLAGS_COV)
-$(TARGETS_LINALG_TCC) : $(SOURCES_LINALG) ; tcc $< -c -o $@ 
-$(TARGETS_LINALG_GCC) : $(SOURCES_LINALG) ; gcc $< -c -o $@ 
-$(TARGETS_LINALG_CLANG) : $(SOURCES_LINALG) ; clang $< -c -o $@ 
+$(TARGETS_NOURSMATH) : $(SOURCES_NOURSMATH) ; $(COMPILER) $< -c -o $@ $(FLAGS_COV)
+$(TARGETS_NOURSMATH_TCC) : $(SOURCES_NOURSMATH) ; tcc $< -c -o $@ 
+$(TARGETS_NOURSMATH_GCC) : $(SOURCES_NOURSMATH) ; gcc $< -c -o $@ 
+$(TARGETS_NOURSMATH_CLANG) : $(SOURCES_NOURSMATH) ; clang $< -c -o $@ 
 
-$(EXEC_TCC): $(SOURCES_TEST) $(TARGETS_LINALG_TCC); tcc $< $(TARGETS_LINALG_TCC) -o $@ $(CFLAGS)
-$(EXEC_GCC): $(SOURCES_TEST) $(TARGETS_LINALG_GCC); gcc $< $(TARGETS_LINALG_GCC) -o $@ $(CFLAGS)
-$(EXEC_CLANG): $(SOURCES_TEST) $(TARGETS_LINALG_CLANG); clang $< $(TARGETS_LINALG_CLANG) -o $@ $(CFLAGS)
+$(EXEC_TCC): $(SOURCES_TEST) $(TARGETS_NOURSMATH_TCC); tcc $< $(TARGETS_NOURSMATH_TCC) -o $@ $(CFLAGS)
+$(EXEC_GCC): $(SOURCES_TEST) $(TARGETS_NOURSMATH_GCC); gcc $< $(TARGETS_NOURSMATH_GCC) -o $@ $(CFLAGS)
+$(EXEC_CLANG): $(SOURCES_TEST) $(TARGETS_NOURSMATH_CLANG); clang $< $(TARGETS_NOURSMATH_CLANG) -o $@ $(CFLAGS)
 
 .PHONY: clean
-clean: ; @echo "Cleaning linalg" & rm -frv $(TARGETS_ALL) $(EXEC_ALL) *.gcda *.gcno *.gcov *.info *.bin *.exe *.o 
+clean: ; @echo "Cleaning noursmath" & rm -frv $(TARGETS_ALL) $(EXEC_ALL) *.gcda *.gcno *.gcov *.info *.bin *.exe *.o 
