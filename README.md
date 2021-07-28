@@ -36,14 +36,14 @@ For pathfinding, <= 0 is NULL/impassable/blocked, and any positive value evaluat
 For convenience sake, this module also defines some useful structures: n-dim nmath_point_*type*, nmath_sq_neighbors_*type* (each square on a square 2D grid has 4 neighbors), nmath_hex_neighbors_*type* (each hexagon on a hexagonal 2D grid has 6 neighbors).
 
 Definitions:
-- Units can move to *reachable* tiles (move_matrix/movemap),
+- A *costmap* is a 2D matrix with tile traversal costs for a certain character/class.
+- A *movemap* is a 2D matrix with tiles a certain unit can move to.
+- A *blockmap* is a 2D matrix with tiles blocked for vision.
+- A *sightmap* is a 2D matrix with tiles visible by a certain unit.
 - Units can attack enemies that are on *attackable* tiles,
 - Units can attack enemies from *assailable* tiles,
-- Units can see enemies/objects that are on *visible* tiles,
 - Units can be push/pulled on *push/pullable* tiles,
 - Units can be only be push/pulled in *push/pullable* directions.
-- a *costmap* is a 2D matrix with tile traversal costs for a certain character/class. <= 0 means untraversable.
-- a *blockmap* is a 2D matrix with tile blocked/unblocked value for vision. <= 0  means blocked.
 <!-- a traversable tile is traversable WHETHER IT IS IN OUR MOVEMENT RANGE OR NOT. a MOVABLE tile is DIFFERENT than a TRAVERSIBLE tile. -->
 <!-- although... movable implies that THE TILE MOVES. not the player! -> reachable tiles -->
 

@@ -77,6 +77,73 @@ darr[DARR_NUM(darr)++] = elem;\
 
 /******************************** CONSTANTS *********************************/
 
+enum NMATH_2DGRID_NEIGHBORS {
+    NMATH_SQUARE_NEIGHBOURS = 4,
+    NMATH_HEXAGON_NEIGHBOURS = 6,
+};
+
+enum NMATH_SIGHTMAP {
+    NMATH_SIGHTMAP_BLOCKED = 0,
+    NMATH_SIGHTMAP_VISIBLE = 1,
+    NMATH_SIGHTMAP_OBSERVER = 2,
+    NMATH_SIGHTMAP_WALL = 3,
+    NMATH_SIGHTMAP_ENEMY = 4,
+    NMATH_SIGHTMAP_FRIENDLY = 5,
+};
+
+enum MODE_MOVETILE {
+    NMATH_MOVETILE_EXCLUDE = 0,
+    NMATH_MOVETILE_INCLUDE = 1,
+};
+
+enum ATTACKMAP {
+    NMATH_ATTACKMAP_BLOCKED = 0,
+    NMATH_ATTACKMAP_MOVEABLEMIN = 1,
+};
+
+enum ASSAILABLEMAP {
+    NMATH_ASSAILABLE_BLOCKED = 0,
+    NMATH_ASSAILABLE_MOVEABLEMIN = 1,
+};
+
+enum PUSHPULLMAP {
+    NMATH_PUSHPULLMAP_UNIT = 0,
+    NMATH_PUSHPULLMAP_BLOCKED = -1,
+    NMATH_PUSHPULLMAP_MINDIST = 1, // minimal moveable distance
+
+};
+
+enum COSTMAP {
+    NMATH_COSTMAP_BLOCKED = 0,
+    NMATH_COSTMAP_MOVEABLEMIN = 1,
+};
+
+enum MOVEMAP {
+    NMATH_MOVEMAP_BLOCKED = 0,
+    NMATH_MOVEMAP_MOVEABLEMIN = 1,
+};
+
+enum BLOCKMAP {
+    NMATH_BLOCKMAP_BLOCKED = 0,
+    NMATH_BLOCKMAP_MIN = 1, 
+};
+
+enum GRADIENTMAP {
+    NMATH_GRADIENTMAP_UNIT = 0,
+    NMATH_GRADIENTMAP_BLOCKED = -1,
+    NMATH_GRADIENTMAP_MINDIST = 1, // minimal moveable distance
+};
+
+enum MODE_PATHS {
+    NMATH_PATH_MODE_STEP = 0, // i.e. relative path
+    NMATH_PATH_MODE_POSITION = 1,  // i.e. absolute path
+};
+
+enum NMATH_POINTS_MODE {
+    NMATH_POINTS_MODE_MATRIX = 0,
+    NMATH_POINTS_MODE_LIST = 1,
+};
+
 #ifndef TEMPLATE_TYPES_INT
 #define TEMPLATE_TYPES_INT REGISTER_ENUM(int8_t) \
 REGISTER_ENUM(uint8_t) \
@@ -192,6 +259,93 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
+/************************* QUICK MATH *****************************/
+#ifndef Q_MATH_H
+#define Q_MATH_H
+
+#include <stdint.h>
+#include <stdbool.h>
+#include <math.h>
+
+#ifndef log2// because tcc SUCKS, does NOT DEFINE log2
+#define log2(x) (log(x)/log(2.0f))
+#endif
+
+/************************* PERIODIC CYCLES *****************************/
+// m:-1, p:1, z:0
+#define q_cycle2_zp(i) (i % 2)
+#define q_cycle2_pz(i) ((i + 1) % 2)
+#define q_cycle2_mz(i) ((i % 2) - 1)
+#define q_cycle2_zm(i) (((i + 1) % 2) - 1)
+#define q_cycle2_mp(i) (q_cycle2_mz(i) + q_cycle2_zp(i))
+#define q_cycle2_pm(i) (q_cycle2_pz(i) + q_cycle2_zm(i))
+
+#define q_cycle3_mzp(i) ((i % 3) - 1)
+#define q_cycle3_zpm(i) (((i + 1) % 3) - 1)
+#define q_cycle3_pmz(i) (((i + 2) % 3) - 1)
+#define q_cycle3_pzm(i) (1 - (i % 3))
+#define q_cycle3_zmp(i) (1 - ((i + 1) % 3))
+#define q_cycle3_mpz(i) (1 - ((i + 2) % 3))
+
+#define q_cycle4_mzp2(i) ((i % 4) - 1)
+#define q_cycle4_zp2m(i) (((i + 1) % 4) - 1)
+#define q_cycle4_p2mz(i) (((i + 2) % 4) - 1)
+#define q_cycle4_2mzp(i) (((i + 3) % 4) - 1)
+#define q_cycle4_mzpz(i) (q_cycle2_pz(i) * q_cycle4_mzp2(i))
+#define q_cycle4_pzmz(i) (q_cycle2_mz(i) * q_cycle4_mzp2(i))
+#define q_cycle4_zmzp(i) (q_cycle2_zp(i) * q_cycle4_2mzp(i))
+#define q_cycle4_zpzm(i) (q_cycle2_zp(i) * q_cycle4_zp2m(i))
+
+#define q_cycle4_mmpp(i) (q_cycle4_mzpz(i) + q_cycle4_zmzp(i))
+#define q_cycle4_pmmp(i) (q_cycle4_pzmz(i) + q_cycle4_zmzp(i))
+#define q_cycle4_mppm(i) (q_cycle4_mzpz(i) + q_cycle4_zpzm(i))
+#define q_cycle4_ppmm(i) (q_cycle4_pzmz(i) + q_cycle4_zpzm(i))
+
+#define q_cycle6_mzpzzz(i) (q_cycle3_mzp(i) * q_cycle2_pz(i))
+#define q_cycle6_zzzmzp(i) (q_cycle3_mzp(i) * q_cycle2_zp(i))
+#define q_cycle6_zzmzpz(i) (q_cycle3_zpm(i) * q_cycle2_pz(i))
+#define q_cycle6_zpzzzm(i) (q_cycle3_zpm(i) * q_cycle2_zp(i))
+#define q_cycle6_pzzzmz(i) (q_cycle3_pmz(i) * q_cycle2_pz(i))
+#define q_cycle6_zmzpzz(i) (q_cycle3_pmz(i) * q_cycle2_zp(i))
+
+#define q_cycle6_mzzzpz(i) (q_cycle3_mpz(i) * q_cycle2_pz(i))
+#define q_cycle6_zpzmzz(i) (q_cycle3_mpz(i) * q_cycle2_zp(i))
+#define q_cycle6_pzmzzz(i) (q_cycle3_pzm(i) * q_cycle2_pz(i))
+#define q_cycle6_zzzpzm(i) (q_cycle3_pzm(i) * q_cycle2_zp(i))
+#define q_cycle6_zzpzmz(i) (q_cycle3_zmp(i) * q_cycle2_pz(i))
+#define q_cycle6_zmzzzp(i) (q_cycle3_zmp(i) * q_cycle2_zp(i))
+
+#define q_cycle6_mppmzz(i) (q_cycle6_mzpzzz(i) + q_cycle6_zpzmzz(i))
+#define q_cycle6_zzmppm(i) (q_cycle6_zzzpzm(i) + q_cycle6_zzmzpz(i))
+#define q_cycle6_pmzzmp(i) (q_cycle6_zmzzzp(i) + q_cycle6_pzzzmz(i))
+
+#define REGISTER_ENUM(type) extern type q_sequence_geometric_##type(type start, type destination, type geo_factor);
+TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type q_sequence_pingpong_##type(type current, type upper, type lower);
+TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern float q_sqrt_##type(type in_int);
+TEMPLATE_TYPES
+#undef REGISTER_ENUM
+
+#define  carmack_sqrt_int8_t q_sqrt_int8_t
+#define  carmack_sqrt_uint8_t q_sqrt_uint8_t
+#define  carmack_sqrt_int16_t q_sqrt_int16_t
+#define  carmack_sqrt_uint16_t q_sqrt_uint16_t
+#define  carmack_sqrt_int32_t q_sqrt_int32_t
+#define  carmack_sqrt_uint32_t q_sqrt_uint32_t
+#define  carmack_sqrt_int64_t q_sqrt_int64_t
+#define  carmack_sqrt_uint64_t q_sqrt_uint64_t
+#define  carmack_sqrt_float q_sqrt_float
+#define  carmack_sqrt_double q_sqrt_double
+
+#endif /* Q_MATH_H */
+
+
+
 /********************************* LINALG ************************************/
 
 // linalg uses unraveled arrays as n-dimensional matrices
@@ -305,7 +459,7 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Moveable_##type(type * costmap, size_t row_len, size_t col_len, struct nmath_point_##type start, type move, uint8_t mode_output);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Movable_##type(type * costmap, size_t row_len, size_t col_len, struct nmath_point_##type start, type move, uint8_t mode_output);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
@@ -317,7 +471,7 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Moveable_Hex_##type(type * costmap, size_t row_len, size_t depth_len, struct nmath_hexpoint_##type  start, type move, uint8_t mode_output);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Movable_Hex_##type(type * costmap, size_t row_len, size_t depth_len, struct nmath_hexpoint_##type  start, type move, uint8_t mode_output);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
