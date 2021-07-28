@@ -3,7 +3,9 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 #include <stdbool.h>
+#include <assert.h>
 
 /***************************** NOURS_MATH *************************/
 /* Math library I made during the development of my game, Codename:Firesaga
@@ -144,6 +146,11 @@ enum NMATH_POINTS_MODE {
     NMATH_POINTS_MODE_LIST = 1,
 };
 
+enum NMATH_MODE_PATHS {
+    NMATH_PATH_STEP = 0, // i.e. relative path
+    NMATH_PATH_POSITION = 1,  // i.e. absolute path
+};
+
 #ifndef TEMPLATE_TYPES_INT
 #define TEMPLATE_TYPES_INT REGISTER_ENUM(int8_t) \
 REGISTER_ENUM(uint8_t) \
@@ -152,14 +159,17 @@ REGISTER_ENUM(uint16_t) \
 REGISTER_ENUM(int32_t) \
 REGISTER_ENUM(uint32_t) \
 REGISTER_ENUM(int64_t) \
-REGISTER_ENUM(uint64_t)\
-REGISTER_ENUM(bool)
+REGISTER_ENUM(uint64_t)
 #endif  /* TEMPLATE_TYPES_INT */
 
 #ifndef TEMPLATE_TYPES_FLOAT
 #define TEMPLATE_TYPES_FLOAT REGISTER_ENUM(float) \
 REGISTER_ENUM(double)
 #endif  /* TEMPLATE_TYPES_FLOAT */
+
+#ifndef TEMPLATE_TYPES_BOOL
+#define TEMPLATE_TYPES_BOOL REGISTER_ENUM(bool)
+#endif  /* TEMPLATE_TYPES_BOOL */
 
 #ifndef TEMPLATE_TYPES
 #define TEMPLATE_TYPES REGISTER_ENUM(int8_t) \
@@ -170,7 +180,6 @@ REGISTER_ENUM(int32_t) \
 REGISTER_ENUM(uint32_t) \
 REGISTER_ENUM(int64_t) \
 REGISTER_ENUM(uint64_t) \
-REGISTER_ENUM(bool) \
 REGISTER_ENUM(float) \
 REGISTER_ENUM(double)
 #endif  /* TEMPLATE_TYPES */
