@@ -144,11 +144,11 @@ type y;\
 TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern struct nmath_point_3D_##type {\
+#define REGISTER_ENUM(type) extern struct nmath_point3D_##type {\
 type x;\
 type y;\
 type z;\
-} nmath_point_3D_##type##_default;
+} nmath_point3D_##type##_default;
 TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
@@ -158,6 +158,32 @@ type y;\
 type z;\
 } nmath_hexpoint_##type##_default;
 TEMPLATE_TYPES
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern struct nmath_node_##type {\
+type x;\
+type y;\
+type distance;\
+} nmath_node_##type##_default;
+TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern struct nmath_node3D_##type {\
+type x;\
+type y;\
+type z;\
+type distance;\
+} nmath_node3D_##type##_default;
+TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern struct nmath_hexnode_##type {\
+type x;\
+type y;\
+type z;\
+type distance;\
+} nmath_nodehex_##type##_default;
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 /******************************** UTILITIES **********************************/
@@ -261,7 +287,7 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-/********************** PATHFINDING *********************/
+/******************************* PATHFINDING ***********************************/
 
 #define REGISTER_ENUM(type) extern struct nmath_sq_neighbors_##type pathfinding_Direction_Block_##type(type * costmap_pushpull, size_t row_len, size_t col_len, struct nmath_point_##type start);
 TEMPLATE_TYPES_INT

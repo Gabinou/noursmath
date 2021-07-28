@@ -29,7 +29,7 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) struct nmath_point_3D_##type nmath_point_3D_##type##_default = {\
+#define REGISTER_ENUM(type) struct nmath_point3D_##type nmath_point3D_##type##_default = {\
 .x = 0,\
 .y = 0,\
 .z = 0\
@@ -37,24 +37,51 @@ TEMPLATE_TYPES
 TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) struct nmath_hexpoint_##type nmath_hexpoint_##type##_default ={\
+#define REGISTER_ENUM(type) struct nmath_hexpoint_##type nmath_hexpoint_##type##_default = {\
 .x = 0,\
 .y = 0,\
 .z = 0\
 };
 TEMPLATE_TYPES
 #undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) struct nmath_node_##type  nmath_node_##type##_default = {\
+    .x = 0,\
+    .y = 0,\
+    .distance = 0\
+};
+TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) struct nmath_node3D_##type nmath_node3D_##type##_default = {\
+    .x = 0,\
+    .y = 0,\
+    .z = 0,\
+    .distance = 0\
+};
+TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) struct nmath_hexnode_##type nmath_hexnode_##type##_default = {\
+    .x = 0,\
+    .y = 0,\
+    .z = 0,\
+    .distance = 0\
+};
+TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
 
 /******************************** UTILITIES **********************************/
 
-// #define REGISTER_ENUM(type) type nmath_inbounds_##type(type pos, type boundmin, type boundmax) {\
-//     type out = 0;\
-//     out = pos < boundmin ? boundmin : pos;\
-//     out = out > boundmax ? boundmax : out;\
-//     return (out);\
-// }
-// TEMPLATE_TYPES_INT
-// #undef REGISTER_ENUM
+#define REGISTER_ENUM(type) type nmath_inbounds_##type(type pos, type boundmin, type boundmax) {\
+    type out = 0;\
+    out = pos < boundmin ? boundmin : pos;\
+    out = out > boundmax ? boundmax : out;\
+    return (out);\
+}
+TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
 
 /********************************* LINALG ************************************/
 
@@ -292,7 +319,7 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-// /**********************Pathfinding*********************/
+/******************************* PATHFINDING ***********************************/
 
 // extern type * Pathfinding_Map_PushPullable(struct nmath_nmath_point__neighbors_##type  direction_block, struct nmath_nmath_point__neighbors_##type  pushpullable, size_t row_len, size_t col_len, struct Point start, uint8_t mode_output) {
 //     SDL_Log("Pathfinding_Map_PushPullable");
@@ -674,17 +701,18 @@ TEMPLATE_TYPES_INT
 //     return (move_matrix);
 // }
 
-// type  * Pathfinding_Map_Move(type  * cost_matrix, size_t row_len, size_t col_len, struct Point start, type  move, uint8_t mode_output) {
+
+// #define REGISTER_ENUM(type) type  * Pathfinding_Map_Move(type * cost_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, type move, uint8_t mode_output) {
 //     SDL_Log("Pathfinding_Map_Move");
-//     type  * move_matrix = NULL, * temp_row = NULL;
+//     type * move_matrix = NULL, * temp_row = NULL;
 //     switch (mode_output) {
 //         case (POINTS_LIST):
 //             move_matrix = DARR_INIT(move_matrix, type, row_len * col_len * TWO_D);
 //             break;
 //         case (POINTS_MATRIX):
-//             move_matrix = calloc(row_len * col_len, sizeof(type));
-//             for (uint8_t row = 0; row < row_len; row++) {
-//                 for (uint8_t col = 0; col < col_len; col++) {
+//             move_matrix = calloc(row_len * col_len, sizeof(*move_matrix));
+//             for (size_t row = 0; row < row_len; row++) {
+//                 for (size_t col = 0; col < col_len; col++) {
 //                     move_matrix[(row * col_len + col)] = MOVEMAP_BLOCKED;
 //                 }
 //             }
@@ -743,6 +771,8 @@ TEMPLATE_TYPES_INT
 //     }
 //     return (move_matrix);
 // }
+// TEMPLATE_TYPES_INT
+// #undef REGISTER_ENUM
 
 // type  * Pathfinding_Map_Sight(type  * block_matrix, size_t row_len, size_t col_len, struct Point start, type  sight, uint8_t mode_output) {
 //     SDL_Log("Pathfinding_Map_Sight");
