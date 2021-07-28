@@ -3968,7 +3968,7 @@ void test_pathfinding() {
         6, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
     };
 
-    struct nmath_point_int32_t * units = NULL;
+    struct nmath_point_int16_t * units = NULL;
     units = calloc(sizeof(*units), 5);
     units[0].x = 1;
     units[0].y = 1;
@@ -3985,10 +3985,10 @@ void test_pathfinding() {
     out = linalg_equal_int16_t(computed_gradientmap1, temp_gradientmap1, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);
     lok(linalg_all_int16_t(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));
     free(out);
-    dupprintf(globalf, "\n\n");
-    linalg_matrix_print_int16_t(computed_gradientmap1, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
-    dupprintf(globalf, "\n\n");
-    linalg_matrix_print_int16_t(temp_gradientmap1, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
+    // dupprintf(globalf, "\n\n");
+    // linalg_matrix_print_int16_t(computed_gradientmap1, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
+    // dupprintf(globalf, "\n\n");
+    // linalg_matrix_print_int16_t(temp_gradientmap1, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
 
     int16_t temp_pushpullable1[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
@@ -4119,7 +4119,7 @@ int main() {
     globalf = fopen("linalg_test_results.txt", "w+");
     dupprintf(globalf, "\nHello, World! I am testing noursmath.\n");
     lrun("log2", test_log2);
-    lrun("test_pathfinding", test_pathfinding);
+    lrun("pathfinding", test_pathfinding);
     lrun("test_q_math", test_q_math);
     lrun("test_double", linalg_double);
     lrun("test_float", linalg_float);

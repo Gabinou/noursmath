@@ -474,8 +474,8 @@ TEMPLATE_TYPES_BOOL
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * pathfinding_Map_unitGradient_##type(type  * in_costmap, size_t row_len, size_t col_len, struct nmath_point_##type * in_targets, size_t unit_num) {\
-    type  * unitgradientmap = calloc(row_len * col_len, sizeof(type));\
+#define REGISTER_ENUM(type) type * pathfinding_Map_unitGradient_##type(type * in_costmap, size_t row_len, size_t col_len, struct nmath_point_##type * in_targets, size_t unit_num) {\
+    type * unitgradientmap = calloc(row_len * col_len, sizeof(type));\
     for (type  col = 0; col < col_len; col++) {\
         for (type  row = 0; row < row_len; row++) {\
             if (in_costmap[row * col_len + col] < NMATH_PUSHPULLMAP_BLOCKED) {\
