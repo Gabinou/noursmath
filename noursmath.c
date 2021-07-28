@@ -1,6 +1,62 @@
 #include "noursmath.h"
 
-/**********************N-DIMENSIONAL UTILITIES*********************/
+/********************************* STRUCTS ***********************************/
+
+#define REGISTER_ENUM(type) struct nmath_sq_neighbors_##type nmath_sq_neighbors_##type##_default = {\
+.right = 0,\
+.top = 0,\
+.left = 0,\
+.bottom = 0\
+};
+TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) struct nmath_hex_neighbors_##type nmath_hex_neighbors_##type##_default = {\
+.right = 0,\
+.top = 0,\
+.left = 0,\
+.bottom = 0,\
+.front = 0,\
+.behind = 0\
+};
+TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) struct nmath_point_##type nmath_point_##type##_default = {\
+.x = 0,\
+.y = 0\
+};
+TEMPLATE_TYPES
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) struct nmath_point_3D_##type nmath_point_3D_##type##_default = {\
+.x = 0,\
+.y = 0,\
+.z = 0\
+};
+TEMPLATE_TYPES
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) struct nmath_hexpoint_##type nmath_hexpoint_##type##_default ={\
+.x = 0,\
+.y = 0,\
+.z = 0\
+};
+TEMPLATE_TYPES
+#undef REGISTER_ENUM
+
+/******************************** UTILITIES **********************************/
+
+// #define REGISTER_ENUM(type) type nmath_inbounds_##type(type pos, type boundmin, type boundmax) {\
+//     type out = 0;\
+//     out = pos < boundmin ? boundmin : pos;\
+//     out = out > boundmax ? boundmax : out;\
+//     return (out);\
+// }
+// TEMPLATE_TYPES_INT
+// #undef REGISTER_ENUM
+
+/********************************* LINALG ************************************/
 
 #define REGISTER_ENUM(type) type linalg_trace_##type(type * square_mat, size_t sq_len) {\
     type trace = 0;\
@@ -237,15 +293,6 @@ TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 // /**********************Pathfinding*********************/
-
-// #define REGISTER_ENUM(type) type nmath_inbounds_##type(type pos, type boundmin, type boundmax) {\
-//     type out = 0;\
-//     out = pos < boundmin ? boundmin : pos;\
-//     out = out > boundmax ? boundmax : out;\
-//     return (out);\
-// }
-// TEMPLATE_TYPES_INT
-// #undef REGISTER_ENUM
 
 // extern type * Pathfinding_Map_PushPullable(struct nmath_nmath_point__neighbors_##type  direction_block, struct nmath_nmath_point__neighbors_##type  pushpullable, size_t row_len, size_t col_len, struct Point start, uint8_t mode_output) {
 //     SDL_Log("Pathfinding_Map_PushPullable");

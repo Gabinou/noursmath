@@ -2,22 +2,17 @@
 #define NOURSMATH_H
 
 #include <stdint.h>
-#include <stdlib.h>
-#include <stdbool.h>
 #include <stdio.h>
-#include <string.h>
-#include <math.h>
+#include <stdbool.h>
 
-/********************** NOURS_MATH ******************/
+/***************************** NOURS_MATH *************************/
 /* Math library I made during the development of my game, Codename:Firesaga
-* INCLUDES DARR
 * 3 Main modules:
 *     q_math, quick math module
 *     linalg, linear algebra utilities for n-dimensional matrices (like numpy)
 *     pathfinding, utilities for games set on 2D a grid/matrix
-*
+* + Utility module DARR for dynamic arrays
 */
-
 
 #ifndef DARR
 #define DARR
@@ -26,9 +21,9 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-/**********************DARR: DYNAMIC ARRAYS v1.0******************/
-// DARR: Dynamic arrays for C99.
-// A darr is a simple array with two additional elements: allocated length and number of active element, saved at positions -2 and -1 respectively.
+/********************** DARR: DYNAMIC ARRAYS FOR C99 v1.0 ******************/
+// A DARR is an array with two additional elements: 
+//   -> allocated length (len) at [-2] and number of active element (num) at [-1]
 
 #define DARR_GROWTH_FACTOR 2
 #define DARR_LEN_INDEX 2
@@ -37,7 +32,7 @@
 #define DARR_LEN(darr) (*((size_t *)darr - DARR_LEN_INDEX)) // allocated length
 #define DARR_NUM(darr) (*((size_t *)darr - DARR_NUM_INDEX)) // number of active elements
 
-// DARR_INIT: a darr is an array with two size_t at indices -1 and -2, respectively num and len.
+// DARR_INIT: a DARR is an array with  size_t num at -1 and size_t len at -2,
 #define DARR_INIT(darr, type, len)(type*)(((size_t* )malloc(sizeof(size_t)*DARR_LEN_INDEX + sizeof(type)*(len))) + DARR_LEN_INDEX);\
     DARR_LEN(darr) = len;\
     DARR_NUM(darr) = 0;\
@@ -45,7 +40,7 @@
 // DARR_REALLOC: DARR internal. Not to be called directly by users.
 #define DARR_REALLOC(darr, len) (void *)((size_t* )realloc(((size_t* )darr - DARR_LEN_INDEX), (sizeof(size_t)*DARR_LEN_INDEX + (sizeof(*darr))*(len))) + DARR_LEN_INDEX)
 
-// DARR_GROW: double length of array (depending on DARR_GROWTH_FACTOR)
+// DARR_GROW: increase array length by multiplying DARR_GROWTH_FACTOR
 #define DARR_GROW(darr) do {\
     DARR_LEN(darr)*=DARR_GROWTH_FACTOR;\
     darr = DARR_REALLOC(darr, DARR_LEN(darr));\
@@ -80,8 +75,8 @@ darr[DARR_NUM(darr)++] = elem;\
 
 #endif /* DARR */
 
+/******************************** CONSTANTS *********************************/
 
-/************************* CONSTANTS *****************************/
 #ifndef TEMPLATE_TYPES_INT
 #define TEMPLATE_TYPES_INT REGISTER_ENUM(int8_t) \
 REGISTER_ENUM(uint8_t) \
@@ -120,7 +115,7 @@ enum DIMENSIONS {
 };
 #define NMATH_MINLEN 12
 
-/**********************STRUCTS DEFINITIONS*********************/
+/******************************** STRUCTS ****************************/
 
 #define REGISTER_ENUM(type) extern struct nmath_sq_neighbors_##type {\
 type right;\
@@ -128,6 +123,17 @@ type top;\
 type left;\
 type bottom;\
 } nmath_sq_neighbors_##type##_default;
+TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern struct nmath_hex_neighbors_##type {\
+type right;\
+type top;\
+type left;\
+type bottom;\
+type front;\
+type behind;\
+} nmath_hex_neighbors_##type##_default;
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
@@ -154,13 +160,13 @@ type z;\
 TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-/********************** UTILITIES *********************/
+/******************************** UTILITIES **********************************/
 
 #define REGISTER_ENUM(type) extern type nmath_inbounds_##type(type pos, type boundmin, type boundmax);
 TEMPLATE_TYPES
 #undef REGISTER_ENUM
 
-/********************** LINALG *********************/
+/********************************* LINALG ************************************/
 
 // linalg uses unraveled arrays as n-dimensional matrices
 // col->x, row->y, depth->z
@@ -320,6 +326,5 @@ TEMPLATE_TYPES_INT
 #define REGISTER_ENUM(type) extern type * pathfinding_Path_position2step_##type(type * position_list, size_t list_len);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
-
 
 #endif /* NOURSMATH_H */
