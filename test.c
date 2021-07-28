@@ -2586,7 +2586,7 @@ void test_q_math() {
 }
 
 void test_pathfinding() {
-    dupprintf(globalf,"test_pathfinding");
+    // dupprintf(globalf,"\ntest_pathfinding\n");
     uint32_t move;
     struct nmath_point_int16_t start = {10, 6};
     struct nmath_point_int16_t end = {15, 1};
@@ -2789,7 +2789,7 @@ void test_pathfinding() {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     };
 
-    dupprintf(globalf,"more init matrices");
+    // dupprintf(globalf,"more init matrices");
 
     int16_t * attackmappp = NULL;
     int16_t * hexattackmappp = NULL;
@@ -2976,7 +2976,7 @@ void test_pathfinding() {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     };
-    dupprintf(globalf,"more init matrices AGAIN ");
+    // dupprintf(globalf,"more init matrices AGAIN ");
 
     int16_t * attackmappp2 = NULL;
     int16_t * hexattackmappp2 = NULL;
@@ -2989,7 +2989,7 @@ void test_pathfinding() {
     hexattackmappp2 = calloc(sizeof(*hexattackmappp2), COL_LEN_TEST_PATHFINDING * ROW_LEN_TEST_PATHFINDING);
     hexmovemappp2 = calloc(sizeof(*hexmovemappp2), COL_LEN_TEST_PATHFINDING * ROW_LEN_TEST_PATHFINDING);
 
-    dupprintf(globalf,"init loop ");
+    // dupprintf(globalf,"init loop ");
     for (uint16_t row = 0; row < ROW_LEN_TEST_PATHFINDING; row++) {
         for (uint16_t col = 0; col < COL_LEN_TEST_PATHFINDING; col++) {
             attackmappp2[row * COL_LEN_TEST_PATHFINDING + col] = temp_attackmapp2[row * COL_LEN_TEST_PATHFINDING + col];
@@ -2999,7 +2999,7 @@ void test_pathfinding() {
             hexattackmappp2[row * COL_LEN_TEST_PATHFINDING + col] = temp_hexattackmapp2[row * COL_LEN_TEST_PATHFINDING + col];
         }
     }
-    dupprintf(globalf,"pathfinding_Map_Move test AGAIN ");
+    //dupprintf(globalf,"pathfinding_Map_Move test AGAIN ");
 
     int16_t * computed_movemapp2 = pathfinding_Map_Movable_int16_t(costmappp2, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_MATRIX);
     int16_t * computed_movemapp_list2 = pathfinding_Map_Movable_int16_t(costmappp2, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_LIST);
@@ -3007,7 +3007,7 @@ void test_pathfinding() {
         temp_col = computed_movemapp_list2[i * TWO_D + 0];
         temp_row = computed_movemapp_list2[i * TWO_D + 1];
         current = computed_movemapp2[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];
-        dupprintf(globalf,"%d %d %d", temp_row, temp_col, current);
+        //dupprintf(globalf,"%d %d %d", temp_row, temp_col, current);
         lok(current > 0);
     }
     int16_t * computed_attackmapp2 = pathfinding_Map_Attack_int16_t(movemappp2, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_EXCLUDE);
@@ -3017,7 +3017,7 @@ void test_pathfinding() {
         temp_col = computed_attackmapp_list2[i * TWO_D + 0];
         temp_row = computed_attackmapp_list2[i * TWO_D + 1];
         current = computed_attackmapp2[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];
-        dupprintf(globalf,"%d %d %d", temp_row, temp_col, current);
+        //dupprintf(globalf,"%d %d %d", temp_row, temp_col, current);
         lok(current == 1);
     }
 
@@ -3029,7 +3029,7 @@ void test_pathfinding() {
     free(out);
 
     int16_t * computed_sightmapp = pathfinding_Map_Visible_int16_t(blockmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, 6, NMATH_POINTS_MODE_MATRIX);
-    dupprintf(globalf,"pathfinding_Map_Visible_int16_t OUT");
+    //dupprintf(globalf,"pathfinding_Map_Visible_int16_t OUT");
 
     out = linalg_equal_int16_t(computed_sightmapp, sightmappp, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);
     lok(linalg_all_int16_t(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));
@@ -3038,10 +3038,10 @@ void test_pathfinding() {
     // linalg_matrix_print_int16_t(computed_sightmapp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
     // linalg_matrix_print_int16_t(sightmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
 
-    dupprintf(globalf,"pathfinding_Map_Movable_Hex_int16_t IN");
+    //dupprintf(globalf,"pathfinding_Map_Movable_Hex_int16_t IN");
     int16_t * computed_hexmovemapp = pathfinding_Map_Movable_Hex_int16_t(costmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, hexstart, move, NMATH_POINTS_MODE_MATRIX);
     int16_t * computed_hexmovemapp_list = pathfinding_Map_Movable_Hex_int16_t(costmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, hexstart, move, NMATH_POINTS_MODE_LIST);
-    dupprintf(globalf,"pathfinding_Map_Movable_Hex_int16_t out");
+    //dupprintf(globalf,"pathfinding_Map_Movable_Hex_int16_t out");
     out = linalg_equal_int16_t(computed_hexmovemapp, hexmovemappp, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);
     lok(linalg_all_int16_t(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));
     free(out);
@@ -3069,7 +3069,7 @@ void test_pathfinding() {
     int16_t * computed_hexattackmapp_list = pathfinding_Map_Attack_int16_t(hexmovemappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_EXCLUDE);
     lok(linalg_equal_int16_t(computed_hexattackmapp, hexattackmappp, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));
     for (uint16_t i = 0; i < DARR_NUM(computed_hexattackmapp_list) / 2; i++) {
-        // dupprintf(globalf,"i:%d %d %d %d", i, temp_row, temp_col, current);
+        // //dupprintf(globalf,"i:%d %d %d %d", i, temp_row, temp_col, current);
         temp_col = computed_hexattackmapp_list[i * TWO_D + 0];
         temp_row = computed_hexattackmapp_list[i * TWO_D + 1];
         current = computed_hexattackmapp[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];
@@ -3184,7 +3184,7 @@ void test_pathfinding() {
     int16_t * attackmapp3_exclude = NULL;
     int16_t * attackmapp3_include = NULL;
 
-    dupprintf(globalf,"more init matrices AGAIN V2 ");
+    //dupprintf(globalf,"more init matrices AGAIN V2 ");
 
     attackmapp3_include = calloc(sizeof(*attackmapp3_include), COL_LEN_TEST_PATHFINDING * ROW_LEN_TEST_PATHFINDING);
     attackmapp3_exclude = calloc(sizeof(*attackmapp3_exclude), COL_LEN_TEST_PATHFINDING * ROW_LEN_TEST_PATHFINDING);
@@ -3203,7 +3203,7 @@ void test_pathfinding() {
         temp_col = computed_movemapp3_list[i * TWO_D + 0];
         temp_row = computed_movemapp3_list[i * TWO_D + 1];
         current = computed_movemapp3[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];
-        dupprintf(globalf,"%d %d %d", temp_row, temp_col, current);
+        //dupprintf(globalf,"%d %d %d", temp_row, temp_col, current);
         lok(current > 0);
     }
 
@@ -3289,7 +3289,7 @@ void test_pathfinding() {
 
     int16_t * attackmapp4_exclude = NULL;
     int16_t * attackmapp4_include = NULL;
-    dupprintf(globalf,"more init matrices AGAIN V3 ");
+    //dupprintf(globalf,"more init matrices AGAIN V3 ");
     attackmapp4_include = calloc(sizeof(*attackmapp4_include), COL_LEN_TEST_PATHFINDING * ROW_LEN_TEST_PATHFINDING);
     attackmapp4_exclude = calloc(sizeof(*attackmapp4_exclude), COL_LEN_TEST_PATHFINDING * ROW_LEN_TEST_PATHFINDING);
     for (uint16_t row = 0; row < ROW_LEN_TEST_PATHFINDING; row++) {
@@ -3318,7 +3318,7 @@ void test_pathfinding() {
     lok(linalg_all_int16_t(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));
     free(out);
     int16_t * attackmapp4_include_list = pathfinding_Map_Attack_int16_t(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_INCLUDE);
-    dupprintf(globalf,"pathfinding_Map_Attack_int16_t( V3 OUt ");
+    //dupprintf(globalf,"pathfinding_Map_Attack_int16_t( V3 OUt ");
 
     for (uint16_t i = 0; i < DARR_NUM(attackmapp4_include_list) / 2; i++) {
         temp_col = attackmapp4_include_list[i * TWO_D + 0];
@@ -3378,7 +3378,7 @@ void test_pathfinding() {
 
     int16_t * costmapp5 = NULL;
     int16_t * movemapp5 = NULL;
-    dupprintf(globalf,"more init matrices AGAIN V4 ");
+    //dupprintf(globalf,"more init matrices AGAIN V4 ");
     costmapp5 = calloc(sizeof(*costmapp5), COL_LEN_TEST_PATHFINDING * ROW_LEN_TEST_PATHFINDING);
     movemapp5 = calloc(sizeof(*movemapp5), COL_LEN_TEST_PATHFINDING * ROW_LEN_TEST_PATHFINDING);
     for (uint16_t row = 0; row < ROW_LEN_TEST_PATHFINDING; row++) {
@@ -3390,12 +3390,12 @@ void test_pathfinding() {
 
     int16_t * computed_movemapp5 = pathfinding_Map_Movable_int16_t(costmapp5, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_MATRIX);
     int16_t * computed_movemapp5_list = pathfinding_Map_Movable_int16_t(costmapp5, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_LIST);
-    dupprintf(globalf,"pathfinding_Map_Move AGAIN V4  OUT");
+    //dupprintf(globalf,"pathfinding_Map_Move AGAIN V4  OUT");
     for (uint16_t i = 0; i < DARR_NUM(computed_movemapp5_list) / 2; i++) {
         temp_col = computed_movemapp5_list[i * TWO_D + 0];
         temp_row = computed_movemapp5_list[i * TWO_D + 1];
         current = computed_movemapp5[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];
-        // dupprintf(globalf,"%d %d %d", temp_row, temp_col, current);
+        // //dupprintf(globalf,"%d %d %d", temp_row, temp_col, current);
         lok(current > 0);
     }
     // linalg_matrix_print_int16_t(computed_movemapp5, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);
@@ -3477,7 +3477,7 @@ void test_pathfinding() {
 
     int16_t * costmapp6 = NULL;
     int16_t * movemapp6 = NULL;
-    dupprintf(globalf,"more init matrices AGAIN V5 ");
+    //dupprintf(globalf,"more init matrices AGAIN V5 ");
     costmapp6 = calloc(sizeof(*costmapp6), COL_LEN_TEST_PATHFINDING * ROW_LEN_TEST_PATHFINDING);
     movemapp6 = calloc(sizeof(*movemapp6), COL_LEN_TEST_PATHFINDING * ROW_LEN_TEST_PATHFINDING);
     for (uint16_t row = 0; row < ROW_LEN_TEST_PATHFINDING; row++) {
@@ -3493,7 +3493,7 @@ void test_pathfinding() {
         temp_col = computed_movemapp6_list[i * TWO_D + 0];
         temp_row = computed_movemapp6_list[i * TWO_D + 1];
         current = computed_movemapp6[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];
-        // dupprintf(globalf,"%d %d %d", temp_row, temp_col, current);
+        // //dupprintf(globalf,"%d %d %d", temp_row, temp_col, current);
         lok(current > 0);
     }
     // linalg_matrix_print_int16_t(computed_movemapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
@@ -3575,7 +3575,7 @@ void test_pathfinding() {
 
     int16_t * costmapp7 = NULL;
     int16_t * movemapp7 = NULL;
-    dupprintf(globalf,"more init matrices AGAIN V8 ");
+    //dupprintf(globalf,"more init matrices AGAIN V8 ");
     costmapp7 = calloc(sizeof(*costmapp7), COL_LEN_TEST_PATHFINDING * ROW_LEN_TEST_PATHFINDING);
     movemapp7 = calloc(sizeof(*movemapp7), COL_LEN_TEST_PATHFINDING * ROW_LEN_TEST_PATHFINDING);
     for (uint16_t row = 0; row < ROW_LEN_TEST_PATHFINDING; row++) {
@@ -3917,7 +3917,7 @@ void test_pathfinding() {
     lok(neighbors_pullable.bottom == false);
     lok(neighbors_pullable.right == true);
     lok(neighbors_pullable.left == true);
-    dupprintf(globalf,"pathfinding_Direction_Pullable_int16_t OUT");
+    //dupprintf(globalf,"pathfinding_Direction_Pullable_int16_t OUT");
 
 
     int16_t temp_costmap30[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {
@@ -3981,15 +3981,17 @@ void test_pathfinding() {
     units[4].x = 1;
     units[4].y = 15;
     int16_t * computed_gradientmap1 = pathfinding_Map_unitGradient_int16_t(temp_costmap30, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, units, 5);
-    dupprintf(globalf,"pathfinding_Map_unitGradient_int16_t OUT");
+    //dupprintf(globalf,"pathfinding_Map_unitGradient_int16_t OUT");
     out = linalg_equal_int16_t(computed_gradientmap1, temp_gradientmap1, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);
     lok(linalg_all_int16_t(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));
     free(out);
-    // linalg_matrix_print_int16_t(computed_gradientmap1, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
-    // linalg_matrix_print_int16_t(temp_gradientmap1, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
+    dupprintf(globalf, "\n\n");
+    linalg_matrix_print_int16_t(computed_gradientmap1, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
+    dupprintf(globalf, "\n\n");
+    linalg_matrix_print_int16_t(temp_gradientmap1, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
 
     int16_t temp_pushpullable1[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {
-        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+            -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
@@ -4117,7 +4119,7 @@ int main() {
     globalf = fopen("linalg_test_results.txt", "w+");
     dupprintf(globalf, "\nHello, World! I am testing noursmath.\n");
     lrun("log2", test_log2);
-    // lrun("test_pathfinding", test_pathfinding);
+    lrun("test_pathfinding", test_pathfinding);
     lrun("test_q_math", test_q_math);
     lrun("test_double", linalg_double);
     lrun("test_float", linalg_float);

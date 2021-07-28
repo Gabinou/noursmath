@@ -243,7 +243,7 @@ TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) void matrix_print_##type(type * array, size_t row_len, size_t col_len) {\
+#define REGISTER_ENUM(type) void linalg_matrix_print_##type(type * array, size_t row_len, size_t col_len) {\
     for (size_t row = 0; row < row_len; row++) {\
         for (size_t col = 0; col < col_len; col++) {\
             printf("%02d ", array[row * col_len + col]);\
@@ -255,7 +255,7 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) void matrix_print_##type(type * array, size_t row_len, size_t col_len) {\
+#define REGISTER_ENUM(type) void linalg_matrix_print_##type(type * array, size_t row_len, size_t col_len) {\
     for (size_t row = 0; row < row_len; row++) {\
         for (size_t col = 0; col < col_len; col++) {\
             printf("%2.4f ", array[row * col_len + col]);\
