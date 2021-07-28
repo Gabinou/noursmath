@@ -445,7 +445,7 @@ TEMPLATE_TYPES_BOOL
             pushpullablemap = calloc(row_len * col_len, sizeof(*pushpullablemap));\
             for (size_t row = 0; row < row_len; row++) {\
                 for (size_t col = 0; col < col_len; col++) {\
-                    pushpullablemap[(row * col_len + col)] = PUSHPULLMAP_BLOCKED;\
+                    pushpullablemap[(row * col_len + col)] = NMATH_PUSHPULLMAP_BLOCKED;\
                 }\
             }\
             break;\
@@ -453,7 +453,7 @@ TEMPLATE_TYPES_BOOL
     pushpullablemap[start.y * col_len + start.x] = 0;\
     for (type  sq_neighbor = 0; sq_neighbor < NMATH_SQUARE_NEIGHBOURS; sq_neighbor++) {\
         temp_distance = *(block_ptr + sq_neighbor);\
-        if (*(pushpullable_ptr + sq_neighbor) >= PUSHPULLMAP_MINDIST) {\
+        if (*(pushpullable_ptr + sq_neighbor) >= NMATH_PUSHPULLMAP_MINDIST) {\
             for (type  distance = 1; distance < temp_distance; distance++) {\
                 pushpullable_tile.x = nmath_inbounds_##type((distance * q_cycle4_pzmz(sq_neighbor)) + start.x, 0, col_len - 1);\
                 pushpullable_tile.y = nmath_inbounds_##type((distance * q_cycle4_zmzp(sq_neighbor)) + start.y, 0, row_len - 1);\
@@ -470,7 +470,7 @@ TEMPLATE_TYPES_BOOL
         }\
     }\
     return (pushpullablemap);\
-}\
+}
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
