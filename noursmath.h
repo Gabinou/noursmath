@@ -3,9 +3,11 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 #include <assert.h>
+#include <math.h>
 
 /***************************** NOURS_MATH *************************/
 /* Math library I made during the development of my game, Codename:Firesaga
@@ -171,19 +173,6 @@ REGISTER_ENUM(double)
 #define TEMPLATE_TYPES_BOOL REGISTER_ENUM(bool)
 #endif  /* TEMPLATE_TYPES_BOOL */
 
-#ifndef TEMPLATE_TYPES
-#define TEMPLATE_TYPES REGISTER_ENUM(int8_t) \
-REGISTER_ENUM(uint8_t) \
-REGISTER_ENUM(int16_t) \
-REGISTER_ENUM(uint16_t) \
-REGISTER_ENUM(int32_t) \
-REGISTER_ENUM(uint32_t) \
-REGISTER_ENUM(int64_t) \
-REGISTER_ENUM(uint64_t) \
-REGISTER_ENUM(float) \
-REGISTER_ENUM(double)
-#endif  /* TEMPLATE_TYPES */
-
 enum DIMENSIONS {
     ONE_D = 1,
     TWO_D = 2,
@@ -217,7 +206,8 @@ TEMPLATE_TYPES_INT
 type x;\
 type y;\
 } nmath_point_##type##_default;
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern struct nmath_point3D_##type {\
@@ -225,7 +215,8 @@ type x;\
 type y;\
 type z;\
 } nmath_point3D_##type##_default;
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern struct nmath_hexpoint_##type {\
@@ -233,7 +224,8 @@ type x;\
 type y;\
 type z;\
 } nmath_hexpoint_##type##_default;
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern struct nmath_node_##type {\
@@ -265,7 +257,8 @@ TEMPLATE_TYPES_INT
 /******************************** UTILITIES **********************************/
 
 #define REGISTER_ENUM(type) extern type nmath_inbounds_##type(type pos, type boundmin, type boundmax);
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 /************************* QUICK MATH *****************************/
@@ -337,7 +330,8 @@ TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern float q_sqrt_##type(type in_int);
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define  carmack_sqrt_int8_t q_sqrt_int8_t
@@ -363,75 +357,93 @@ TEMPLATE_TYPES
 #define linalg_index_arr3D(row, col, depth, row_len, col_len) (row * col_len * depth_len + col * depth_len + depth)
 
 #define REGISTER_ENUM(type) extern type linalg_determinant_##type(type * square_mat, size_t sq_len);
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type linalg_trace_##type(type * square_mat, size_t sq_len);
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type linalg_dotProduct_##type(type * arr1, type * arr2, size_t arr_len);
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_crossProduct_##type(type * vec3D1, type * vec3D2);
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern bool linalg_isIn_##type(type * array, type to_find, size_t arr_len);
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern bool linalg_list_isIn_1D_##type(type * list_1D, size_t list_len, type x);
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern bool linalg_list_isIn_2D_##type(type * list_1D, size_t list_len, type x, type y);
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern bool linalg_list_isIn_3D_##type(type * list_1D, size_t list_len, type x, type y, type z);
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern size_t * linalg_where_##type(type * array, type to_find, size_t arr_len);
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern void linalg_matrix_print_##type(type * array, size_t row_len, size_t col_len);
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len);
+#define REGISTER_ENUM(type) extern bool * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len);
 TEMPLATE_TYPES_INT
-#undef REGISTER_ENUM
-
-#define REGISTER_ENUM(type) extern bool linalg_any_##type(type * matrix1, size_t arr_len);
-TEMPLATE_TYPES_INT
-#undef REGISTER_ENUM
-
-#define REGISTER_ENUM(type) extern bool linalg_all_##type(type * matrix1, size_t arr_len);
-TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern bool * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len, type tolerance);
 TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern bool linalg_any_##type(type * matrix1, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern bool linalg_all_##type(type * matrix1, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+
 #define REGISTER_ENUM(type) extern type * linalg_plus_##type(type * matrix1, type * matrix2, size_t arr_len, int8_t sign);
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_and_##type(type * matrix1, type * matrix2, size_t arr_len);
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_or_##type(type * matrix1, type * matrix2, size_t arr_len);
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_mask_##type(type * matrix, type * mask, size_t arr_len);
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_matrix2list_##type(type * matrix, size_t row_len, size_t col_len);

@@ -26,7 +26,8 @@ TEMPLATE_TYPES_INT
 .x = 0,\
 .y = 0\
 };
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) struct nmath_point3D_##type nmath_point_##type3D_##type##_default = {\
@@ -34,7 +35,8 @@ TEMPLATE_TYPES
 .y = 0,\
 .z = 0\
 };
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) struct nmath_hexpoint_##type nmath_hexpoint_##type##_default = {\
@@ -42,7 +44,8 @@ TEMPLATE_TYPES
 .y = 0,\
 .z = 0\
 };
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) struct nmath_node_##type  nmath_node_##type##_default = {\
@@ -121,7 +124,8 @@ TEMPLATE_TYPES_INT
     conv.f  *= (threehalfs - (x2 * conv.f * conv.f));\
     return conv.f;\
 }
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 /********************************* LINALG ************************************/
@@ -134,7 +138,8 @@ TEMPLATE_TYPES
     return(trace);\
 }
 
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * linalg_crossProduct_##type(type * vec3D1, type * vec3D2) {\
@@ -144,7 +149,8 @@ TEMPLATE_TYPES
     product[2] = vec3D1[0] * vec3D2[1] - vec3D1[1] * vec3D2[0];\
     return(product);\
 }
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
@@ -155,7 +161,8 @@ TEMPLATE_TYPES_BOOL
     }\
     return (out);\
 }
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
@@ -169,7 +176,8 @@ TEMPLATE_TYPES_BOOL
     }\
     return (found);\
 }
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
@@ -183,7 +191,8 @@ TEMPLATE_TYPES_BOOL
     }\
     return (found);\
 }
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
@@ -197,7 +206,8 @@ TEMPLATE_TYPES_BOOL
     }\
     return (found);\
 }
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
@@ -211,7 +221,8 @@ TEMPLATE_TYPES_BOOL
     }\
     return (found);\
 }
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
@@ -227,7 +238,8 @@ TEMPLATE_TYPES_BOOL
     found_list = DARR_REALLOC(found_list, (DARR_NUM(found_list) < NMATH_MINLEN? NMATH_MINLEN :DARR_NUM(found_list)));\
     return (found_list);\
 }
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
@@ -240,6 +252,7 @@ TEMPLATE_TYPES_BOOL
     }\
 }
 TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) void matrix_print_##type(type * array, size_t row_len, size_t col_len) {\
@@ -253,8 +266,8 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len) {\
-    type * out = calloc(arr_len, sizeof(type));\
+#define REGISTER_ENUM(type) bool * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len) {\
+    bool * out = calloc(arr_len, sizeof(bool));\
     for (size_t i = 0; i < arr_len; i++) {\
             out[i] = (matrix1[i] == matrix2[i]);\
     }\
@@ -265,7 +278,7 @@ TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) bool * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len, type tolerance) {\
-    bool * out = calloc(arr_len, sizeof(type));\
+    bool * out = calloc(arr_len, sizeof(bool));\
     for (size_t i = 0; i < arr_len; i++) {\
         out[i] = (fabs(matrix1[i] - matrix2[i]) < tolerance);\
     }\
@@ -285,6 +298,7 @@ TEMPLATE_TYPES_FLOAT
 return (equal);\
 }
 TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
@@ -299,7 +313,8 @@ TEMPLATE_TYPES_BOOL
     }\
 return (equal);\
 }
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
@@ -311,7 +326,8 @@ TEMPLATE_TYPES_BOOL
     }\
     return (out);\
 }
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
@@ -322,7 +338,8 @@ TEMPLATE_TYPES_BOOL
     }\
     return (out);\
 }
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
@@ -333,7 +350,8 @@ TEMPLATE_TYPES_BOOL
     }\
     return (out);\
 }
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
@@ -344,7 +362,8 @@ TEMPLATE_TYPES_BOOL
     }\
     return (out);\
 }
-TEMPLATE_TYPES
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
