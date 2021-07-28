@@ -172,10 +172,6 @@ enum {
     LINALG_SQUARE = 4,
 };
 
-void linalg_bool() {
-
-}
-
 void linalg_uint8_t() {
     uint8_t * temp2D1 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(uint8_t));
     uint8_t * temp2D2 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(uint8_t));
@@ -200,7 +196,7 @@ void linalg_uint8_t() {
         }
     }
     uint8_t * out1 = NULL, * out2 = NULL, *out = NULL;
-    out1 = linalg_plus_uint8_t(temp2D3, temp2D2, LINALG_ROW_LEN * LINALG_COL_LEN, -1);
+    out1 = linalg_minus_uint8_t(temp2D3, temp2D2, LINALG_ROW_LEN * LINALG_COL_LEN);
     out2 = linalg_equal_uint8_t(out1, temp2D1, LINALG_ROW_LEN * LINALG_COL_LEN);
     lok(linalg_all_uint8_t(out2, LINALG_ROW_LEN * LINALG_COL_LEN));
     free(out1);
@@ -410,7 +406,7 @@ void linalg_int8_t() {
         }
     }
     int8_t * out1 = NULL, * out2 = NULL, *out = NULL;
-    out1 = linalg_plus_int8_t(temp2D3, temp2D2, LINALG_ROW_LEN * LINALG_COL_LEN, -1);
+    out1 = linalg_minus_int8_t(temp2D3, temp2D2, LINALG_ROW_LEN * LINALG_COL_LEN);
     out2 = linalg_equal_int8_t(out1, temp2D1, LINALG_ROW_LEN * LINALG_COL_LEN);
     lok(linalg_all_int8_t(out2, LINALG_ROW_LEN * LINALG_COL_LEN));
     free(out1);
@@ -620,7 +616,7 @@ void linalg_uint16_t() {
         }
     }
     uint16_t * out1 = NULL, * out2 = NULL, *out = NULL;
-    out1 = linalg_plus_uint16_t(temp2D3, temp2D2, LINALG_ROW_LEN * LINALG_COL_LEN, -1);
+    out1 = linalg_minus_uint16_t(temp2D3, temp2D2, LINALG_ROW_LEN * LINALG_COL_LEN);
     out2 = linalg_equal_uint16_t(out1, temp2D1, LINALG_ROW_LEN * LINALG_COL_LEN);
     lok(linalg_all_uint16_t(out2, LINALG_ROW_LEN * LINALG_COL_LEN));
     free(out1);
@@ -830,7 +826,7 @@ void linalg_int16_t() {
         }
     }
     int16_t * out1 = NULL, * out2 = NULL, *out = NULL;
-    out1 = linalg_plus_int16_t(temp2D3, temp2D2, LINALG_ROW_LEN * LINALG_COL_LEN, -1);
+    out1 = linalg_minus_int16_t(temp2D3, temp2D2, LINALG_ROW_LEN * LINALG_COL_LEN);
     out2 = linalg_equal_int16_t(out1, temp2D1, LINALG_ROW_LEN * LINALG_COL_LEN);
     lok(linalg_all_int16_t(out2, LINALG_ROW_LEN * LINALG_COL_LEN));
     free(out1);
@@ -1040,7 +1036,7 @@ void linalg_uint32_t() {
         }
     }
     uint32_t * out1 = NULL, * out2 = NULL, *out = NULL;
-    out1 = linalg_plus_uint32_t(temp2D3, temp2D2, LINALG_ROW_LEN * LINALG_COL_LEN, -1);
+    out1 = linalg_minus_uint32_t(temp2D3, temp2D2, LINALG_ROW_LEN * LINALG_COL_LEN);
     out2 = linalg_equal_uint32_t(out1, temp2D1, LINALG_ROW_LEN * LINALG_COL_LEN);
     lok(linalg_all_uint32_t(out2, LINALG_ROW_LEN * LINALG_COL_LEN));
     free(out1);
@@ -1250,7 +1246,7 @@ void linalg_int32_t() {
         }
     }
     int32_t * out1 = NULL, * out2 = NULL, *out = NULL;
-    out1 = linalg_plus_int32_t(temp2D3, temp2D2, LINALG_ROW_LEN * LINALG_COL_LEN, -1);
+    out1 = linalg_minus_int32_t(temp2D3, temp2D2, LINALG_ROW_LEN * LINALG_COL_LEN);
     out2 = linalg_equal_int32_t(out1, temp2D1, LINALG_ROW_LEN * LINALG_COL_LEN);
     lok(linalg_all_int32_t(out2, LINALG_ROW_LEN * LINALG_COL_LEN));
     free(out1);
@@ -1460,7 +1456,7 @@ void linalg_uint64_t() {
         }
     }
     uint64_t * out1 = NULL, * out2 = NULL, *out = NULL;
-    out1 = linalg_plus_uint64_t(temp2D3, temp2D2, LINALG_ROW_LEN * LINALG_COL_LEN, -1);
+    out1 = linalg_minus_uint64_t(temp2D3, temp2D2, LINALG_ROW_LEN * LINALG_COL_LEN);
     out2 = linalg_equal_uint64_t(out1, temp2D1, LINALG_ROW_LEN * LINALG_COL_LEN);
     lok(linalg_all_uint64_t(out2, LINALG_ROW_LEN * LINALG_COL_LEN));
     free(out1);
@@ -1670,7 +1666,7 @@ void linalg_int64_t() {
         }
     }
     int64_t * out1 = NULL, * out2 = NULL, *out = NULL;
-    out1 = linalg_plus_int64_t(temp2D3, temp2D2, LINALG_ROW_LEN * LINALG_COL_LEN, -1);
+    out1 = linalg_minus_int64_t(temp2D3, temp2D2, LINALG_ROW_LEN * LINALG_COL_LEN);
     out2 = linalg_equal_int64_t(out1, temp2D1, LINALG_ROW_LEN * LINALG_COL_LEN);
     lok(linalg_all_int64_t(out2, LINALG_ROW_LEN * LINALG_COL_LEN));
     free(out1);
@@ -1879,7 +1875,7 @@ void pathfinding_Map_Visiblebool() {
         }
     }
     bool * out1 = NULL, * out2 = NULL, *out = NULL;
-    out1 = linalg_plus_bool(temp2D3, temp2D2, LINALG_ROW_LEN * LINALG_COL_LEN, -1);
+    out1 = linalg_minus_bool(temp2D3, temp2D2, LINALG_ROW_LEN * LINALG_COL_LEN);
     out2 = linalg_equal_bool(out1, temp2D1, LINALG_ROW_LEN * LINALG_COL_LEN);
     // lok(linalg_all_bool(out2, LINALG_ROW_LEN * LINALG_COL_LEN));
     free(out1);
@@ -2065,7 +2061,7 @@ void pathfinding_Map_Visiblebool() {
 }
 
 void linalg_float() {
-    dupprintf(globalf, "\nlinalg_float\n");
+    // dupprintf(globalf, "\nlinalg_float\n");
     float tempssq1[LINALG_SQUARE * LINALG_SQUARE] = {
         1.0f,  2.0f,  3.0f,  4.0f,
         5.0f,  6.0f,  7.0f,  8.0f,
@@ -2145,7 +2141,7 @@ void linalg_float() {
 }
 
 void linalg_double() {
-    dupprintf(globalf, "\nlinalg_double\n");
+    // dupprintf(globalf, "\nlinalg_double\n");
     double tempssq1[LINALG_SQUARE * LINALG_SQUARE] = {
         1.0f,  2.0f,  3.0f,  4.0f,
         5.0f,  6.0f,  7.0f,  8.0f,
@@ -4124,10 +4120,10 @@ int main() {
     // lrun("test_pathfinding", test_pathfinding);
     // lrun("test_q_math", test_q_math);
     lrun("test_double", linalg_double);
-    // lrun("test_float", linalg_float);
-// #define REGISTER_ENUM(type) lrun(STRINGIFY(linalg_##type), linalg_##type);
-//     TEMPLATE_TYPES_INT
-// #undef REGISTER_ENUM
+    lrun("test_float", linalg_float);
+#define REGISTER_ENUM(type) lrun(STRINGIFY(linalg_##type), linalg_##type);
+    TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
     lresults();
 
     dupprintf(globalf, "noursmath Test End \n \n");

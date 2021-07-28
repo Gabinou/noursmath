@@ -266,8 +266,8 @@ TEMPLATE_TYPES_BOOL
 TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) bool * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len) {\
-    bool * out = calloc(arr_len, sizeof(bool));\
+#define REGISTER_ENUM(type) type * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
     for (size_t i = 0; i < arr_len; i++) {\
             out[i] = (matrix1[i] == matrix2[i]);\
     }\
@@ -278,7 +278,7 @@ TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) bool * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len, type tolerance) {\
-    bool * out = calloc(arr_len, sizeof(bool));\
+    bool * out = calloc(arr_len, sizeof(type));\
     for (size_t i = 0; i < arr_len; i++) {\
         out[i] = (fabs(matrix1[i] - matrix2[i]) < tolerance);\
     }\
@@ -343,16 +343,50 @@ TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * linalg_plus_##type(type * matrix1, type * matrix2, size_t arr_len, int8_t sign) {\
+#define REGISTER_ENUM(type) type * linalg_plus_##type(type * matrix1, type * matrix2, size_t arr_len) {\
     type * out = calloc(arr_len, sizeof(type));\
     for (size_t i = 0; i < arr_len; i++) {\
-            out[i] = matrix1[i] + sign * matrix2[i];\
+            out[i] = matrix1[i] + matrix2[i];\
     }\
     return (out);\
 }
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) type * linalg_minus_##type(type * matrix1, type * matrix2, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+            out[i] = (matrix1[i] - matrix2[i]);\
+    }\
+    return (out);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) type * linalg_mult_scalar_##type(type * matrix1, type mult, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+            out[i] = matrix1[i] * mult;\
+    }\
+    return (out);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) type * linalg_mult_##type(type * matrix1, type * matrix2, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+            out[i] = matrix1[i] * matrix2[i];\
+    }\
+    return (out);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * linalg_mask_##type(type * matrix, type * mask, size_t arr_len) {\
