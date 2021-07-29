@@ -28,7 +28,7 @@ More complicated linear algebra, like diagonalization and LU decomposition are n
 
 These functions are designed for a turn-based strategy game that takes place on a map (square or hexagonal 2D grid) made to compute movement and sight. 
 No diagonal movement is possible, but there are no such restriction on sight.
-Each map tile has a movement cost; each unit has a maximal movement and sight value and minimal to maximal attack range.
+Each map tile has a movement cost; each unit has a maximal movement and sight value, and minimal to maximal attack range.
 Enemies and terrain can block movement, terrain can block sight, etc.
 
 For pathfinding, <= 0 is NULL/impassable/blocked, and any positive value evaluates to true/passable/unblocked. 
