@@ -14,7 +14,7 @@ Add ```nmath.c``` and ```nmath.h``` to your source code.
 
 # Features
 - Very simple, very fast.
-- Naive Operations, no overflow protection, wonky unsigned types.
+- Naive operations, no overflow protection, wonky unsigned types.
 - Includes [DARR](https://gitlab.com/Gabinou/darr).
 - Performance is questionable (no vectorization)
 
