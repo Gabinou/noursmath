@@ -1,4 +1,4 @@
-#include "nmath.h"
+#include "noursmath.h"
 
 /********************************* STRUCTS ***********************************/
 
@@ -471,7 +471,7 @@ TEMPLATE_TYPES_BOOL
     }\
     return (pushpullablemap);\
 }
-TEMPLATE_TYPES_SINT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * pathfinding_Map_unitGradient_##type(type * in_costmap, size_t row_len, size_t col_len, struct nmath_point_##type * in_targets, size_t unit_num) {\
@@ -527,7 +527,7 @@ TEMPLATE_TYPES_SINT
     }\
     return (unitgradientmap);\
 }
-TEMPLATE_TYPES_SINT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) struct nmath_sq_neighbors_##type  pathfinding_Direction_Pushable_##type(type  * assailablemap, size_t row_len, size_t col_len, type  range[2], struct nmath_point_##type target) {\
@@ -552,7 +552,7 @@ TEMPLATE_TYPES_SINT
     }\
     return (pushable);\
 }
-TEMPLATE_TYPES_SINT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) struct nmath_sq_neighbors_##type  pathfinding_Direction_Pullable_##type(type  * assailablemap, size_t row_len, size_t col_len, type  range[2], struct nmath_point_##type target) {\
@@ -571,7 +571,7 @@ TEMPLATE_TYPES_SINT
     }\
     return (pullable);\
 }
-TEMPLATE_TYPES_SINT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) struct nmath_sq_neighbors_##type  pathfinding_Direction_Block_##type(type  * costmap_pushpull, size_t row_len, size_t col_len, struct nmath_point_##type start) {\
@@ -600,24 +600,24 @@ TEMPLATE_TYPES_SINT
     }\
     return (distance_block);\
 }
-TEMPLATE_TYPES_SINT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type linalg_distance_manhattan_##type(struct nmath_point_##type start, struct nmath_point_##type end) {\
-    type  distance = abs(start.x - end.x) + abs(start.y - end.y);\
-    return (distance);\
-}
-TEMPLATE_TYPES_SINT
-#undef REGISTER_ENUM
+// extern type  distance_manhattan(struct nmath_point_##type start, struct nmath_point_##type end) {
+//     type  distance = abs(start.x - end.x) + abs(start.y - end.y);
+//     return (distance);
+// }
+// TEMPLATE_TYPES_INT
+// #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type distance_euclidian_##type(struct nmath_point_##type start, struct nmath_point_##type end) {\
-    type term_x = (start.x - end.x) > type##_MAX / (start.x - end.x) ? type##_MAX : (start.x - end.x) * (start.x - end.x);\
-    type term_y = (start.y - end.y) > type##_MAX / (start.y - end.y) ? type##_MAX : (start.y - end.y) * (start.y - end.y);\
-    type distance = (type)carmack_sqrt_int32_t(term_x) + (type)carmack_sqrt_int32_t(term_y);\
-    return (distance);\
-}
-TEMPLATE_TYPES_SINT
-#undef REGISTER_ENUM
+// extern type  distance_euclidian(struct nmath_point_##type start, struct nmath_point_##type end) {
+//     type  term_x = (start.x - end.x) > INT32_MAX / (start.x - end.x) ? INT32_MAX : (start.x - end.x) * (start.x - end.x);
+//     type  term_y = (start.y - end.y) > INT32_MAX / (start.y - end.y) ? INT32_MAX : (start.y - end.y) * (start.y - end.y);
+
+//     type  distance = (type)carmack_sqrt_int32_t(term_x) + (type)carmack_sqrt_int32_t(term_y) ;
+// }
+// TEMPLATE_TYPES_INT
+// #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) bool pathfinding_isReachable_##type(struct nmath_point_##type in_nmath_point_##type, type  * in_movemap, size_t ROW_LEN, size_t COL_LEN) {\
     bool out;\
@@ -626,7 +626,7 @@ TEMPLATE_TYPES_SINT
     }\
     return (out);\
 }
-TEMPLATE_TYPES_SINT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type  * pathfinding_Map_Assailable_##type(type  * in_movemap, size_t row_len, size_t col_len, struct nmath_point_##type in_target, type  range[2], uint8_t mode_output) {\
@@ -668,7 +668,7 @@ TEMPLATE_TYPES_SINT
     }\
     return (assailablemap);\
 }
-TEMPLATE_TYPES_SINT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * pathfinding_Map_Attack_##type(type * move_matrix, size_t row_len, size_t col_len, type  move, type  range[2], uint8_t mode_output, uint8_t mode_movetile) {\
@@ -731,7 +731,7 @@ TEMPLATE_TYPES_SINT
     }\
     return (attackmap);\
 }
-TEMPLATE_TYPES_SINT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type  * pathfinding_Map_Movable_Hex_##type(type  * cost_matrix, size_t depth_len, size_t col_len, struct nmath_hexpoint_##type start, type  move, uint8_t mode_output) {\
@@ -799,7 +799,7 @@ TEMPLATE_TYPES_SINT
     }\
     return (move_matrix);\
 }
-TEMPLATE_TYPES_SINT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * pathfinding_Map_Movable_##type(type * cost_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, type move, uint8_t mode_output) {\
@@ -865,7 +865,7 @@ TEMPLATE_TYPES_SINT
     }\
     return (move_matrix);\
 }
-TEMPLATE_TYPES_SINT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * pathfinding_Map_Visible_##type(type  * block_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, type  sight, uint8_t mode_output) {\
@@ -921,7 +921,7 @@ TEMPLATE_TYPES_SINT
     }\
     return (sightmap);\
 }
-TEMPLATE_TYPES_SINT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * pathfinding_Map_Visible_Hex_##type(type  * block_matrix, size_t depth_len, size_t col_len, struct nmath_hexpoint_##type start, type sight, uint8_t mode_output) {\
@@ -973,7 +973,7 @@ TEMPLATE_TYPES_SINT
     }\
     return (sightmap);\
 }
-TEMPLATE_TYPES_SINT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * pathfinding_Map_Path_##type(type * move_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, struct nmath_point_##type end, uint8_t mode_path) {\
@@ -985,7 +985,7 @@ TEMPLATE_TYPES_SINT
         while ((current.x != start.x) || (current.y != start.y)) {\
             DARR_PUT(path_position, current.x);\
             DARR_PUT(path_position, current.y);\
-            current_cost = type##_MAX;\
+            current_cost = INT16_MAX;\
             for (type  sq_neighbor = 0; sq_neighbor < NMATH_SQUARE_NEIGHBOURS; sq_neighbor++) {\
                 neighbor.x = nmath_inbounds_##type(q_cycle4_mzpz(sq_neighbor) + current.x, 0, col_len - 1);\
                 neighbor.y = nmath_inbounds_##type(q_cycle4_zmzp(sq_neighbor) + current.y, 0, row_len - 1);\
@@ -1016,7 +1016,7 @@ TEMPLATE_TYPES_SINT
     }\
     return (out);\
 }
-TEMPLATE_TYPES_SINT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * pathfinding_Path_step2position_##type(type  * step_list, size_t list_len, struct nmath_point_##type start) {\
@@ -1029,5 +1029,5 @@ TEMPLATE_TYPES_SINT
     }\
     return (path_position);\
 }
-TEMPLATE_TYPES_SINT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
