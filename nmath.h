@@ -26,7 +26,7 @@
 #include <stdlib.h>
 
 /********************** DARR: DYNAMIC ARRAYS FOR C99 v1.0 ******************/
-// A DARR is an array with two additional elements: 
+// A DARR is an array with two additional elements:
 //   -> allocated length (len) at [-2] and number of active element (num) at [-1]
 
 #define DARR_GROWTH_FACTOR 2
@@ -129,7 +129,7 @@ enum MOVEMAP {
 
 enum BLOCKMAP {
     NMATH_BLOCKMAP_BLOCKED = 0,
-    NMATH_BLOCKMAP_MIN = 1, 
+    NMATH_BLOCKMAP_MIN = 1,
 };
 
 enum GRADIENTMAP {
@@ -152,6 +152,15 @@ enum NMATH_MODE_PATHS {
     NMATH_PATH_STEP = 0, // i.e. relative path
     NMATH_PATH_POSITION = 1,  // i.e. absolute path
 };
+
+#define uint64_t_MAX UINT64_MAX
+#define uint32_t_MAX UINT32_MAX
+#define uint16_t_MAX UINT16_MAX
+#define uint8_t_MAX UINT8_MAX
+#define int64_t_MAX INT64_MAX
+#define int32_t_MAX INT32_MAX
+#define int16_t_MAX INT16_MAX
+#define int8_t_MAX INT8_MAX
 
 #ifndef TEMPLATE_TYPES_INT
 #define TEMPLATE_TYPES_INT REGISTER_ENUM(int8_t) \

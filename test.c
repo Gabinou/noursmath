@@ -6,7 +6,7 @@
 #include <time.h>
 #include <assert.h>
 #include <string.h>
-#include "noursmath.h"
+#include "nmath.h"
 
 /********************** 0.1 MICROSECOND RESOLUTION CLOCK **********************/
 //  Modified from: https://gist.github.com/ForeverZer0/0a4f80fc02b96e19380ebb7a3debbee5
@@ -3991,7 +3991,7 @@ void test_pathfinding() {
     // linalg_matrix_print_int16_t(temp_gradientmap1, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
 
     int16_t temp_pushpullable1[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {
-            -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+        -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
@@ -4116,7 +4116,7 @@ void test_pathfinding() {
 
 
 int main() {
-    globalf = fopen("linalg_test_results.txt", "w+");
+    globalf = fopen("nmath_test_results.txt", "w+");
     dupprintf(globalf, "\nHello, World! I am testing noursmath.\n");
     lrun("log2", test_log2);
     lrun("pathfinding", test_pathfinding);

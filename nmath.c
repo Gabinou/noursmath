@@ -1,4 +1,4 @@
-#include "noursmath.h"
+#include "nmath.h"
 
 /********************************* STRUCTS ***********************************/
 
@@ -985,7 +985,7 @@ TEMPLATE_TYPES_INT
         while ((current.x != start.x) || (current.y != start.y)) {\
             DARR_PUT(path_position, current.x);\
             DARR_PUT(path_position, current.y);\
-            current_cost = INT16_MAX;\
+            current_cost = type##_MAX;\
             for (type  sq_neighbor = 0; sq_neighbor < NMATH_SQUARE_NEIGHBOURS; sq_neighbor++) {\
                 neighbor.x = nmath_inbounds_##type(q_cycle4_mzpz(sq_neighbor) + current.x, 0, col_len - 1);\
                 neighbor.y = nmath_inbounds_##type(q_cycle4_zmzp(sq_neighbor) + current.y, 0, row_len - 1);\

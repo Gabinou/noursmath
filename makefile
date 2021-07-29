@@ -86,7 +86,7 @@ EXEC_ALL := ${EXEC} ${EXEC_TCC} ${EXEC_GCC} ${EXEC_CLANG}
 .PHONY: all 
 all: ${ASTYLE} $(EXEC) run 
 SOURCES_TEST := test.c
-SOURCES_NOURSMATH := noursmath.c
+SOURCES_NOURSMATH := nmath.c
 HEADERS := $(wildcard *.h)
 SOURCES_ALL := $(SOURCES_TEST)
 TARGETS_NOURSMATH := $(SOURCES_NOURSMATH:.c=.o)
