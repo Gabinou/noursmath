@@ -31,11 +31,11 @@ Add ```nmath.c``` and ```nmath.h``` to your source code.
     
 For now, only q_sqrt (otherwise known as the carmack sqrt) is truly a "quick" function.
 Otherwise this module contains macros and functions that produce useful sequences of integers.
-For example, the macro ```q_cycle4_mppm(i)``` creates the periodic cycle -1, +1, +1, -1... for ```i++```, starting from ```i = 0```.
+For example, the macro ```q_cycle4_mppm(i)``` creates the periodic cycle ```-1, +1, +1, -1...``` for ```i++```, starting from ```i = 0```.
 
-Similarly, the macro ```q_cycle3_zpm(i)``` outputs 0, +1, -1...
+Similarly, the macro ```q_cycle3_zpm(i)``` outputs ```0, +1, -1...```
 
-Also, ```q_sequence_pingpong(i, 2, 0)``` outputs 0,1,2,1,0,1,2...
+Also, ```q_sequence_pingpong(i, 2, 0)``` outputs ```0, 1, 2, 1, 0, 1, 2...```
 
 Further, ```q_sequence_geometric(32,1,2)``` -> 16, ```q_sequence_geometric(16,1,2)``` -> 8, until ```q_sequence_geometric(2,1,2)``` -> 1.
 
