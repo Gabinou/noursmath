@@ -603,21 +603,21 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-// extern type  distance_manhattan(struct nmath_point_##type start, struct nmath_point_##type end) {
-//     type  distance = abs(start.x - end.x) + abs(start.y - end.y);
-//     return (distance);
-// }
-// TEMPLATE_TYPES_INT
-// #undef REGISTER_ENUM
+#define REGISTER_ENUM(type) type linalg_distance_manhattan_##type(struct nmath_point_##type start, struct nmath_point_##type end) {\
+    type  distance = abs(start.x - end.x) + abs(start.y - end.y);\
+    return (distance);\
+}
+TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
 
-// extern type  distance_euclidian(struct nmath_point_##type start, struct nmath_point_##type end) {
-//     type  term_x = (start.x - end.x) > INT32_MAX / (start.x - end.x) ? INT32_MAX : (start.x - end.x) * (start.x - end.x);
-//     type  term_y = (start.y - end.y) > INT32_MAX / (start.y - end.y) ? INT32_MAX : (start.y - end.y) * (start.y - end.y);
-
-//     type  distance = (type)carmack_sqrt_int32_t(term_x) + (type)carmack_sqrt_int32_t(term_y) ;
-// }
-// TEMPLATE_TYPES_INT
-// #undef REGISTER_ENUM
+#define REGISTER_ENUM(type) type linalg_distance_euclidian_##type(struct nmath_point_##type start, struct nmath_point_##type end) {\
+    type term_x = (start.x - end.x) > type##_MAX / (start.x - end.x) ? type##_MAX : (start.x - end.x) * (start.x - end.x);\
+    type term_y = (start.y - end.y) > type##_MAX / (start.y - end.y) ? type##_MAX : (start.y - end.y) * (start.y - end.y);\
+    type distance = (type)carmack_sqrt_int32_t(term_x) + (type)carmack_sqrt_int32_t(term_y);\
+    return (distance);\
+}
+TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) bool pathfinding_isReachable_##type(struct nmath_point_##type in_nmath_point_##type, type  * in_movemap, size_t ROW_LEN, size_t COL_LEN) {\
     bool out;\
