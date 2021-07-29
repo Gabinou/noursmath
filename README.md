@@ -3,7 +3,10 @@
 Collection of various Math and Linear Algebra utilities, mainly for use on matrices e.g. 1-dim arrays mapped to 2D by indexing. 
 Originally created for use in a game I am developping using C99: [Codename Firesaga](https://gitlab.com/Gabinou/firesagamaker). Title pending. 
 
-The library ```noursmath.h``` makes use of [DARR](https://gitlab.com/Gabinou/darr), and contains 3 main modules: q_math (quick math), linalg (linear algebra) and pathfinding.
+The library ```nmath.h``` makes use of [DARR](https://gitlab.com/Gabinou/darr), and contains 3 main modules: q_math (quick math), linalg (linear algebra) and pathfinding.
+
+All "matrices" in noursmath as well as DARRs are simple arrays (not array of arrays, not multidimensional arrays).
+Higher-dimensions are mapped unto simple arrays by indexing, for example in 2D to access element at [row, col] you write array[row \* col_len + col].
 
 ## q_math
     
@@ -22,7 +25,9 @@ Further, ```q_sequence_geometric(32,1,2)``` -> 16, ```q_sequence_geometric(16,1,
 This module contains various linear algebra functions, mainly element-wise addition, multiplication and boolean operation for arrays (including n-dim matrices).
 Common linear algebra operations like dot product and cross product are implemented for 2D matrices.
 
-More complicated linear algebra, like diagonalization and LU decomposition are not implemented yet.
+### Todo:
+-Diagonalization?
+-LU decomposition?
 
 ## pathfinding
 
@@ -50,14 +55,14 @@ Definitions:
 Some other useful function include the computation of a "unit gradient" that computes the distance to the closest unit on every tile, computing a path on a matrix using a list of points, etc.
 Some functions that are applicable to points on a hexagonal grid are also implemented.
 
-Also, some functions can output arrays as a list of points, or as a 2D matrix of same size to the input matrix.
+Also, some functions can output arrays a list of points, or as a 2D matrix of same size to the input matrix.
 The list of points have unknown length below the matrix total length, so are created using DARR to have an accessible len value.
 
 # Motivation
 Make a very simple math/linear algebra library, with fast operations. For arrays interpreted as vectors, 2D and 3D matrices by indexing. 
 
 # Installation
-Add ```noursmath.c``` and ```noursmath.h``` to your source code.
+Add ```nmath.c``` and ```nmath.h``` to your source code.
 
 # To Do
 - Vectorization (```gcc``` only?)
@@ -69,7 +74,7 @@ Add ```noursmath.c``` and ```noursmath.h``` to your source code.
 
 # Features
 - Very simple, very fast.
-- ```noursmath.h``` contains [DARR](https://gitlab.com/Gabinou/darr).
+- ```nmath.h``` contains [DARR](https://gitlab.com/Gabinou/darr).
 - Operations are naive, no overflow protection
 - Performance is questionable (no vectorization)
 - Unsigned types are wonky.
