@@ -363,8 +363,6 @@ TEMPLATE_TYPES_FLOAT
 
 #endif /* Q_MATH_H */
 
-
-
 /********************************* LINALG ************************************/
 
 // linalg uses unraveled arrays as n-dimensional matrices

@@ -46,7 +46,10 @@ Common linear algebra operations like dot product and cross product are implemen
 
 ## pathfinding
 
-These functions are designed for a turn-based strategy game that takes place on a map (square or hexagonal 2D grid) made to compute movement and sight. 
+These functions are designed for a turn-based strategy game that takes place on a 2D map with square tiles, made to compute movement and sight.
+Some variants are implemented for a 2D map with hexagonal tiles.
+Some
+
 No diagonal movement is possible, but there are no such restriction on sight.
 Each map tile has a movement cost; each unit has a maximal movement and sight value, and minimal to maximal attack range.
 Enemies and terrain can block movement, terrain can block sight, etc.
