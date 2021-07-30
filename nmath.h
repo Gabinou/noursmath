@@ -137,11 +137,6 @@ enum NMATH_GRADIENTMAP {
     NMATH_GRADIENTMAP_MINDIST = 1, // minimal moveable distance
 };
 
-enum NMATH_MODE_PATHS {
-    NMATH_PATH_MODE_STEP = 0, // i.e. relative path
-    NMATH_PATH_MODE_POSITION = 1,  // i.e. absolute path
-};
-
 enum NMATH_POINTS_MODE {
     NMATH_POINTS_MODE_MATRIX = 0,
     NMATH_POINTS_MODE_LIST = 1,
