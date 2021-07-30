@@ -1,13 +1,12 @@
 # noursmath
 
-Collection of various Math and Linear Algebra utilities, mainly for use on matrices e.g. 1-dim arrays mapped to 2D by indexing. 
+Collection of various Math and Linear Algebra utilities, mainly for use on matrices.
+All "matrices" in noursmath as well as DARRs are simple arrays, not array of arrays, not multidimensional arrays.
+Higher-dimensions are mapped unto simple arrays by indexing, for example in 2D to access element at ```(row, col)``` you write ```array[row * col_len + col]```.
 
 Originally created for use in a game I am developping using C99: [Codename Firesaga](https://gitlab.com/Gabinou/firesagamaker). Title pending. 
 
-The library consists one header and one source file, which include [DARR](https://gitlab.com/Gabinou/darr), and contain 3 main modules: q_math (quick math), linalg (linear algebra) and pathfinding.
-
-All "matrices" in noursmath as well as DARRs are simple arrays, not array of arrays, not multidimensional arrays.
-Higher-dimensions are mapped unto simple arrays by indexing, for example in 2D to access element at ```(row, col)``` you write ```array[row * col_len + col]```.
+The library consists only of one header and one source file, with contain 3 main modules: q_math (quick math), linalg (linear algebra) and pathfinding.
 
 # Installation
 Add ```nmath.c``` and ```nmath.h``` to your source code.

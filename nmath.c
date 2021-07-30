@@ -98,6 +98,7 @@ TEMPLATE_TYPES_INT
     return (out);\
 }
 TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 // sequence_pingpong: oscillating integer sequence. upper is excluded.
