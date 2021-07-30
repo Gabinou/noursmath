@@ -91,8 +91,8 @@ TEMPLATE_TYPES_INT
 // distance/geo_factor -> distance/geo_factor**2 -> distance/geo_factor**3
 // Ex: q_sequence_geometric(32,1,2) = 16->8->4 ...
 // sign*distance more elegant than std_abs()
-#define REGISTER_ENUM(type) type q_sequence_geometric_##type(type start, type destination, type geo_factor) {\
-    type distance = start - destination;\
+#define REGISTER_ENUM(type) type q_sequence_geometric_##type(type current, type destination, type geo_factor) {\
+    type distance = current - destination;\
     type sign = (type)copysign(1, distance);\
     type out = (sign * (distance / geo_factor) < 1) ? sign : (distance / geo_factor);\
     return (out);\

@@ -4,9 +4,9 @@ Collection of various Math and Linear Algebra utilities, mainly for use on matri
 
 Originally created for use in a game I am developping using C99: [Codename Firesaga](https://gitlab.com/Gabinou/firesagamaker). Title pending. 
 
-The library consists of two files, which include [DARR](https://gitlab.com/Gabinou/darr), and contain 3 main modules: q_math (quick math), linalg (linear algebra) and pathfinding.
+The library consists one header and one source file, which include [DARR](https://gitlab.com/Gabinou/darr), and contain 3 main modules: q_math (quick math), linalg (linear algebra) and pathfinding.
 
-All "matrices" in noursmath as well as DARRs are simple arrays (not array of arrays, not multidimensional arrays).
+All "matrices" in noursmath as well as DARRs are simple arrays, not array of arrays, not multidimensional arrays.
 Higher-dimensions are mapped unto simple arrays by indexing, for example in 2D to access element at ```(row, col)``` you write ```array[row * col_len + col]```.
 
 # Installation
@@ -29,15 +29,15 @@ Add ```nmath.c``` and ```nmath.h``` to your source code.
 
 ## q_math
     
-For now, only q_sqrt (otherwise known as the carmack sqrt) is truly a "quick" function.
+For now, only ```q_sqrt``` (otherwise known as the carmack sqrt) is truly a "quick" function.
 Otherwise this module contains macros and functions that produce useful sequences of integers.
 For example, the macro ```q_cycle4_mppm(i)``` creates the periodic cycle ```-1, +1, +1, -1...``` for ```i++```, starting from ```i = 0```.
 
 Similarly, the macro ```q_cycle3_zpm(i)``` outputs ```0, +1, -1...```
 
-Also, ```q_sequence_pingpong(i, 2, 0)``` outputs ```0, 1, 2, 1, 0, 1, 2...```
+Also, ```q_sequence_pingpong(i, 0, 3)``` outputs ```0, 1, 2, 1, 0, 1, 2...``` for ```i++``` starting from ```i = 0```.
 
-Further, ```q_sequence_geometric(32,1,2)``` -> 16, ```q_sequence_geometric(16,1,2)``` -> 8, until ```q_sequence_geometric(2,1,2)``` -> 1.
+Further, ```i = q_sequence_geometric(i, 1, 2)``` outputs ```32, 16, 8, 4, 2, 1, 1....``` starting from ```i = 32```.
 
 ## linalg
 
