@@ -12,20 +12,16 @@ Noursmath contains 3 modules: q_math (quick math), linalg (linear algebra) and p
 # Installation
 Add ```nmath.c``` and ```nmath.h``` to your source code.
 
+# Motivation
+Make a very simple math/linear algebra library, with fast operations. 
+Use simple arrays everywhere, map higher dimensions by indexing.  
+Compileable with ```tcc```.
+
 # Features
 - Very simple, very fast.
 - Naive operations, no overflow protection, wonky unsigned types.
 - Includes [DARR](https://gitlab.com/Gabinou/darr).
 - Performance is questionable (no vectorization)
-
-# To Do
-- Vectorization (```gcc``` only?)
-- Benchmarks
-- Determinant (requires LU decomposition) ?
-- Diagonalization ?
-- Eigenvalue/Eigenvector ?
-- Matrix Multiplication
-- Make operations less naive
 
 ## q_math
     
@@ -76,10 +72,14 @@ Some functions that are applicable to points on a hexagonal grid are also implem
 Also, some functions can output arrays a list of points, or as a 2D matrix of same size to the input matrix.
 The list of points have unknown length below the matrix total length, so are created using DARR to have an accessible len value.
 
-# Motivation
-Make a very simple math/linear algebra library, with fast operations. 
-Use simple arrays everywhere, map higher dimensions by indexing.  
-Compileable with ```tcc```.
+# To Do
+- Vectorization (```gcc``` only?)
+- Benchmarks
+- Determinant (requires LU decomposition) ?
+- Diagonalization ?
+- Eigenvalue/Eigenvector ?
+- Matrix Multiplication
+- Make operations less naive
 
 # Credits
 Copyright (c) 2021 Average Bear Games, Made by Gabriel Taillon
