@@ -273,12 +273,6 @@ TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 /************************* QUICK MATH *****************************/
-#ifndef Q_MATH_H
-#define Q_MATH_H
-
-#include <stdint.h>
-#include <stdbool.h>
-#include <math.h>
 
 #ifndef log2// because tcc SUCKS, does NOT DEFINE log2
 #define log2(x) (log(x)/log(2.0f))
@@ -355,8 +349,6 @@ TEMPLATE_TYPES_FLOAT
 #define  carmack_sqrt_uint64_t q_sqrt_uint64_t
 #define  carmack_sqrt_float q_sqrt_float
 #define  carmack_sqrt_double q_sqrt_double
-
-#endif /* Q_MATH_H */
 
 /********************************* LINALG ************************************/
 
