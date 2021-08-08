@@ -2593,10 +2593,10 @@ void test_q_math() {
     lok(out == 5);
     current = 6;
     out = q_sequence_pingpong_int32_t(current, upper, lower);
-    lok(out == 4);    
+    lok(out == 4);
     current = 7;
     out = q_sequence_pingpong_int32_t(current, upper, lower);
-    lok(out == 3);    
+    lok(out == 3);
     current = 8;
     out = q_sequence_pingpong_int32_t(current, upper, lower);
     lok(out == 2);
