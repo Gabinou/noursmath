@@ -18,10 +18,10 @@ Use simple arrays everywhere, map higher dimensions by indexing.
 Compileable with ```tcc```.
 
 # Features
-- Very simple, very fast.
+- Very simple.
 - Naive operations, no overflow protection, wonky unsigned types.
-- Includes [DARR](https://gitlab.com/Gabinou/darr).
-- Performance is questionable (no vectorization)
+- Includes [DARR](https://gitlab.com/Gabinou/darr) and [DTAB](https://gitlab.com/Gabinou/dtab).
+- Fast? Questionable (no vectorization)
 
 ## q_math
     
