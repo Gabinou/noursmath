@@ -37,9 +37,11 @@
 #define DARR_NUM(darr) (*((size_t *)darr - DARR_NUM_INDEX)) // number of active elements
 
 // DARR_INIT: a DARR is an array with  size_t num at -1 and size_t len at -2,
-#define DARR_INIT(darr, type, len)(type*)(((size_t* )malloc(sizeof(size_t)*DARR_LEN_INDEX + sizeof(type)*(len))) + DARR_LEN_INDEX);\
+#define DARR_INIT(darr, type, len) do {\
+darr = (type*)(((size_t* )malloc(sizeof(size_t)*DARR_LEN_INDEX + sizeof(type)*(len))) + DARR_LEN_INDEX);\
     DARR_LEN(darr) = len;\
     DARR_NUM(darr) = 0;\
+} while(0)
 
 // DARR_REALLOC: DARR internal. Not to be called directly by users.
 #define DARR_REALLOC(darr, len) (void *)((size_t* )realloc(((size_t* )darr - DARR_LEN_INDEX), (sizeof(size_t)*DARR_LEN_INDEX + (sizeof(*darr))*(len))) + DARR_LEN_INDEX)
