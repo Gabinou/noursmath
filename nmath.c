@@ -353,12 +353,8 @@ TEMPLATE_TYPES_BOOL
     size_t row_max = (origin_y + radius + 1) > row_len ? row_len : (origin_y + radius + 1);\
     size_t col_min = (origin_x - radius - 1) < 0 ? 0 : (origin_x - radius - 1);\
     size_t col_max = (origin_x + radius + 1) > col_len ? col_len : (origin_x + radius + 1);\
-    printf("col_min col_max %d %d\n", col_min, col_max);\
-    printf("row_min row_max %d %d\n", row_min, row_max);\
     for (int64_t row = row_min; row < row_max; row++) {\
         for (int64_t col = col_min; col < col_max; col++) {\
-            printf(" %d\n", ((row-origin_y) * (row-origin_y) + (col-origin_x) * (col-origin_x)));\
-            printf(" %d\n", (((row-origin_y) * (row-origin_y) + (col-origin_x) * (col-origin_x)) < (radius * radius)));\
             if (\
                 (((row-origin_y) * (row-origin_y) + (col-origin_x) * (col-origin_x)) < (radius * radius))  && \
                 (((row - origin_y) + (col - origin_x)) <= radius) && /* bottom left corner*/ \
