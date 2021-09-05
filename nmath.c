@@ -347,22 +347,16 @@ TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * linalg_draw_circ_##type(type origin_x, type origin_y, size_t radius, size_t row_len, size_t col_len){\
+#define REGISTER_ENUM(type) extern type * linalg_draw_circ_##type(type origin_x, type origin_y, size_t diameter, size_t row_len, size_t col_len){\
     type * out_mat = calloc(row_len*col_len, sizeof(type));\
+    size_t radius = diameter / 2;\
     size_t row_min = (origin_y - radius - 1) < 0 ? 0 : (origin_y - radius - 1);\
     size_t row_max = (origin_y + radius + 1) > row_len ? row_len : (origin_y + radius + 1);\
     size_t col_min = (origin_x - radius - 1) < 0 ? 0 : (origin_x - radius - 1);\
     size_t col_max = (origin_x + radius + 1) > col_len ? col_len : (origin_x + radius + 1);\
     for (int64_t row = row_min; row < row_max; row++) {\
         for (int64_t col = col_min; col < col_max; col++) {\
-            if (\
-                (((row-origin_y) * (row-origin_y) + (col-origin_x) * (col-origin_x)) < (radius * radius))  && \
-                (((row - origin_y) + (col - origin_x)) <= radius) && /* bottom left corner*/ \
-                (((row - origin_y) - (col - origin_x)) <= radius) && /* top left corner*/ \
-                ((-1 * (row - origin_y) + (col - origin_x)) <= radius) && /* bottom right corner*/ \
-                ((-1*(row - origin_y) - (col - origin_x)) <= radius) /* top right corner*/ \
-                )\
-             {\
+            if (((row-origin_y) * (row-origin_y) + (col-origin_x) * (col-origin_x)) < (diameter * diameter / 4)) {\
                 out_mat[row * col_len + col] = 1;\
             }\
         }\
@@ -371,7 +365,6 @@ TEMPLATE_TYPES_BOOL
 }
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
-#undef REGISTER_ENUM
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_draw_rect_##type(type origin_x, type origin_y, size_t width, size_t height, size_t row_len, size_t col_len){\
