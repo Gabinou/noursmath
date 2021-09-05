@@ -347,6 +347,45 @@ TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern type * linalg_draw_circ_##type(type origin_x, type origin_y, size_t radius, size_t row_len, size_t col_len){\
+    type * out_mat = calloc(row_len*col_len, sizeof(type));\
+    size_t row_min = (origin_y - radius) < 0 ? 0 : (origin_y - radius);\
+    size_t row_max = (origin_y + radius) > row_len ? row_len : (origin_y + radius);\
+    size_t col_min = (origin_x - radius) < 0 ? 0 : (origin_x - radius);\
+    size_t col_max = (origin_x + radius) > col_len ? col_len : (origin_x + radius);\
+    for (size_t row = row_min; row < row_max; row++) {\
+        for (size_t col = col_min; col < col_max; col++) {\
+            if (row * row + col * col <= radius * radius) {\
+                out_mat[row * col_len + col] = 1;\
+            }\
+        }\
+    }\
+    return (out_mat);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_draw_rect_##type(type origin_x, type origin_y, size_t width, size_t height, size_t row_len, size_t col_len){\
+    type * out_mat = calloc(row_len*col_len, sizeof(type));\
+    size_t row_min = origin_y < 0 ? 0 : origin_y;\
+    size_t row_max = (origin_y + height) > row_len ? row_len : (origin_y + height);\
+    size_t col_min = origin_x < 0 ? 0 : origin_x;\
+    size_t col_max = (origin_x + width) > col_len ? col_len : (origin_x + width);\
+    for (size_t row = row_min; row < row_max; row++) {\
+        for (size_t col = col_min; col < col_max; col++) {\
+            out_mat[row * col_len + col] = 1;\
+        }\
+    }\
+    return (out_mat);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) void linalg_matrix_print_##type(type * array, size_t row_len, size_t col_len) {\
     for (size_t row = 0; row < row_len; row++) {\
         for (size_t col = 0; col < col_len; col++) {\
