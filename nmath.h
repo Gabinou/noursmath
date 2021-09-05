@@ -495,13 +495,11 @@ TEMPLATE_TYPES_BOOL
 
 #define REGISTER_ENUM(type) extern type * linalg_draw_circ_##type(type origin_x, type origin_y, size_t radius, size_t row_len, size_t col_len);
 TEMPLATE_TYPES_INT
-TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_draw_rect_##type(type origin_x, type origin_y, size_t width, size_t height, size_t row_len, size_t col_len);
 TEMPLATE_TYPES_INT
-TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
