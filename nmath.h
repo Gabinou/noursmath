@@ -474,6 +474,26 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern type * linalg_greater_##type(type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_geq_##type(type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_smaller_##type(type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_seq_##type(type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) extern type * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL

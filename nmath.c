@@ -407,6 +407,51 @@ TEMPLATE_TYPES_BOOL
 TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) type * linalg_smaller_##type(type * matrix1, type * matrix2, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+            out[i] = (matrix1[i] < matrix2[i]);\
+    }\
+return (out);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) type * linalg_seq_##type(type * matrix1, type * matrix2, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+            out[i] = (matrix1[i] <= matrix2[i]);\
+    }\
+return (out);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) type * linalg_greater_##type(type * matrix1, type * matrix2, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+            out[i] = (matrix1[i] > matrix2[i]);\
+    }\
+return (out);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+
+#define REGISTER_ENUM(type) type * linalg_geq_##type(type * matrix1, type * matrix2, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+            out[i] = (matrix1[i] >= matrix2[i]);\
+    }\
+return (out);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) type * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len) {\
     type * out = calloc(arr_len, sizeof(type));\
     for (size_t i = 0; i < arr_len; i++) {\
