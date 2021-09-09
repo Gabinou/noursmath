@@ -418,6 +418,50 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) type * linalg_sseq_##type(type * matrix1, type tocompare, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+            out[i] = (matrix1[i] <= tocompare);\
+    }\
+return (out);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) type * linalg_sgeq_##type(type * matrix1, type tocompare, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+            out[i] = (matrix1[i] >= tocompare);\
+    }\
+return (out);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) type * linalg_ssmaller_##type(type * matrix1, type tocompare, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+            out[i] = (matrix1[i] < tocompare);\
+    }\
+return (out);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) type * linalg_sgreater_##type(type * matrix1, type tocompare, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+            out[i] = (matrix1[i] > tocompare);\
+    }\
+return (out);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) type * linalg_seq_##type(type * matrix1, type * matrix2, size_t arr_len) {\
     type * out = calloc(arr_len, sizeof(type));\
     for (size_t i = 0; i < arr_len; i++) {\

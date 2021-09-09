@@ -489,7 +489,28 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
+// s for scalar
 #define REGISTER_ENUM(type) extern type * linalg_seq_##type(type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_sgreater_##type(type * matrix1, type tocompare, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_sgeq_##type(type * matrix1, type tocompare, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_ssmaller_##type(type * matrix1, type tocompare, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_sseq_##type(type * matrix1, type tocompare, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
