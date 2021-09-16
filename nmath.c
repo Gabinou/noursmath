@@ -659,6 +659,27 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
+/***************************** INDICES&ORDERS **********************************/
+
+int_tile_t * indices_DARR_make(int_tile_t * in_indices, size_t num_indices) { 
+
+}
+
+int_tile_t * orders_sparseDARR_make(int_tile_t * in_indices, size_t num_indices) { 
+    int_tile_t max = 0;
+    for(size_t i = 0; i < num_indices; i++) {
+        max = in_indices[i] > max ? in_indices[i] : max;
+    }
+    max++;
+    int_tile_t * out = DARR_INIT(out, int_tile_t, max); 
+    memset(out, 0, sizeof(*out)*max);
+        
+    for(size_t i = 0; i < num_indices; i++) {
+        out[in_indices[i]] = i;
+    }
+    return(out);
+}
+
 /******************************* PATHFINDING ***********************************/
 
 #define REGISTER_ENUM(type) type * pathfinding_Map_PushPullable_##type(struct nmath_sq_neighbors_##type  direction_block, struct nmath_sq_neighbors_##type  pushpullable, size_t row_len, size_t col_len, struct nmath_point_##type start, uint8_t mode_output) {\
