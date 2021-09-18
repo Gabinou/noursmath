@@ -418,6 +418,15 @@ TEMPLATE_TYPES_FLOAT
 #define  carmack_sqrt_double q_sqrt_double
 
 /***************************** INDICES&ORDERS **********************************/
+// indices: array of unique indices with a certain order.
+// sparseOrders: order is the position (+1) of the index in the indices array.  
+//      sparse cause many elements might be 0 (which is NULL).
+// indices[order1 - 1] = index1 <-> sparseOrders[index1] = order1
+// EXAMPLE: 
+//      indices is {4,6,12,5}
+//      sparseOrders is {0,0,0,0,1,3,2,0,0,0,0,0,4} -> 0 means NULL
+//      indices[1 - 1] = 4 <-> sparseOrders[4] = 1
+
 #define REGISTER_ENUM(type) extern type * indices2sparseOrders_##type(type * in_orders_sparse, size_t orders_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
