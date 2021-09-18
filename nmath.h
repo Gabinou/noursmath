@@ -426,6 +426,8 @@ TEMPLATE_TYPES_FLOAT
 //      indices is {4,6,12,5}
 //      sparseOrders is {0,0,0,0,1,3,2,0,0,0,0,0,4} -> 0 means NULL
 //      indices[1 - 1] = 4 <-> sparseOrders[4] = 1
+// USE CASE: finding order of index in indices is O(n), sparseOrders[index] is O(1) 
+
 
 #define REGISTER_ENUM(type) extern type * indices2sparseOrders_##type(type * in_orders_sparse, size_t orders_len);
 TEMPLATE_TYPES_INT
