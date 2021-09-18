@@ -661,24 +661,41 @@ TEMPLATE_TYPES_BOOL
 
 /***************************** INDICES&ORDERS **********************************/
 
-int_tile_t * indices_DARR_make(int_tile_t * in_indices, size_t num_indices) { 
-
-}
-
-int_tile_t * orders_sparseDARR_make(int_tile_t * in_indices, size_t num_indices) { 
-    int_tile_t max = 0;
-    for(size_t i = 0; i < num_indices; i++) {
-        max = in_indices[i] > max ? in_indices[i] : max;
+#define REGISTER_ENUM(type) type * indices2sparseOrders_##type(type * in_orders_sparse, size_t orders_len) {\
+    type num_indices = 0;\
+    for (size_t i = 0; i < orders_len; i++) {\
+        num_indices = in_orders_sparse[i] > 0 ? (num_indices + 1) : num_indices;\
+    }\
+    type * out = DARR_INIT(out, type, num_indices);\
+    size_t j = 0;\
+    for (size_t i = 0; i < orders_len; i++) {\
+        if ((in_orders_sparse[i] > 0) && (j < num_indices)) {\
+            out[j++] = i;\
+        }\
+    }\
+        return (out);\
     }
-    max++;
-    int_tile_t * out = DARR_INIT(out, int_tile_t, max); 
-    memset(out, 0, sizeof(*out)*max);
-        
-    for(size_t i = 0; i < num_indices; i++) {
-        out[in_indices[i]] = i;
-    }
-    return(out);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) type * sparseOrders2indices_##type(type * in_indices, size_t num_indices) {\
+    type orders_len = 0;\
+    for(size_t i = 0; i < num_indices; i++) {\
+        orders_len = in_indices[i] > orders_len ? in_indices[i] : orders_len;\
+    }\
+    orders_len++;\
+    type * out = DARR_INIT(out, type, orders_len); \
+    memset(out, 0, sizeof(*out)*orders_len);\
+        \
+    for(size_t i = 0; i < num_indices; i++) {\
+        out[in_indices[i]] = i;\
+    }\
+    return(out);\
 }
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
 
 /******************************* PATHFINDING ***********************************/
 
