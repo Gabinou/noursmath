@@ -661,7 +661,7 @@ TEMPLATE_TYPES_BOOL
 
 /***************************** INDICES&ORDERS **********************************/
 
-#define REGISTER_ENUM(type) type * indices2sparseOrders_##type(type * in_orders_sparse, size_t orders_len) {\
+#define REGISTER_ENUM(type) type * sparseOrders2indices_##type(type * in_orders_sparse, size_t orders_len) {\
     type num_indices = 0;\
     for (size_t i = 0; i < orders_len; i++) {\
         num_indices = in_orders_sparse[i] > 0 ? (num_indices + 1) : num_indices;\
@@ -670,7 +670,7 @@ TEMPLATE_TYPES_BOOL
     size_t j = 0;\
     for (size_t i = 0; i < orders_len; i++) {\
         if ((in_orders_sparse[i] > 0) && (j < num_indices)) {\
-            out[j++] = i;\
+            out[in_orders_sparse[i] - 1] = i;\
         }\
     }\
         return (out);\
@@ -679,7 +679,7 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * sparseOrders2indices_##type(type * in_indices, size_t num_indices) {\
+#define REGISTER_ENUM(type) type * indices2sparseOrders_##type(type * in_indices, size_t num_indices) {\
     type orders_len = 0;\
     for(size_t i = 0; i < num_indices; i++) {\
         orders_len = in_indices[i] > orders_len ? in_indices[i] : orders_len;\
@@ -689,7 +689,7 @@ TEMPLATE_TYPES_BOOL
     memset(out, 0, sizeof(*out)*orders_len);\
         \
     for(size_t i = 0; i < num_indices; i++) {\
-        out[in_indices[i]] = i;\
+        out[in_indices[i]] = i + 1;\
     }\
     return(out);\
 }

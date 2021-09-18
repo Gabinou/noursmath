@@ -177,6 +177,38 @@ enum ENUM_TEST_PATHFINDING {
     COL_LEN_TEST_PATHFINDING = 25,
 };
 
+void orders_indices_uint32_t() {
+
+    uint32_t temp_indices[] = {2, 4, 10, 6};
+    uint32_t * temp_indices2;
+    size_t temp_num_indices = 4;
+    size_t temp_orders_len = 10 + 1;
+    uint32_t * temp_orders;
+
+    temp_orders = indices2sparseOrders_uint32_t(temp_indices, temp_num_indices);
+    lok(temp_orders[0] == 0);
+    lok(temp_orders[1] == 0);
+    lok(temp_orders[2] == 1);
+    lok(temp_orders[3] == 0);
+    lok(temp_orders[4] == 2);
+    lok(temp_orders[5] == 0);
+    lok(temp_orders[6] == 4);
+    lok(temp_orders[7] == 0);
+    lok(temp_orders[8] == 0);
+    lok(temp_orders[9] == 0);
+    lok(temp_orders[10] == 3);
+    temp_indices2 = sparseOrders2indices_uint32_t(temp_orders, temp_orders_len);
+    lok(temp_indices2[0] == 2);
+    lok(temp_indices2[1] == 4);
+    lok(temp_indices2[2] == 10);
+    lok(temp_indices2[3] == 6);
+
+    DARR_FREE(temp_orders);
+    DARR_FREE(temp_indices2);
+
+
+}
+
 #define REGISTER_ENUM(type) void lina_d_##type() {\
     uint8_t * isequal = NULL;\
     uint8_t check_rect[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {\
@@ -4225,6 +4257,7 @@ int main() {
     globalf = fopen("nmath_test_results.txt", "w+");
     dupprintf(globalf, "\nHello, World! I am testing noursmath.\n");
     lrun("log2", test_log2);
+    lrun("orders_indices", orders_indices_uint32_t);
     lrun("test_q_math", test_q_math);
     lrun("test_double", linalg_double);
     lrun("test_float", linalg_float);
