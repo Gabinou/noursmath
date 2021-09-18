@@ -417,8 +417,18 @@ TEMPLATE_TYPES_FLOAT
 #define  carmack_sqrt_float q_sqrt_float
 #define  carmack_sqrt_double q_sqrt_double
 
-/********************************* LINALG ************************************/
+/***************************** INDICES&ORDERS **********************************/
+#define REGISTER_ENUM(type) extern type * indices2sparseOrders_##type(type * in_orders_sparse, size_t orders_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern type * sparseOrders2indices_##type(type * in_indices, size_t num_indices);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+/********************************* LINALG ************************************/
 // linalg uses unraveled arrays as n-dimensional matrices
 // col->x, row->y, depth->z
 #define linalg_index_arr2D(row, col, col_len) (row * col_len + col)
