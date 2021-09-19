@@ -419,10 +419,10 @@ TEMPLATE_TYPES_FLOAT
 
 /***************************** INDICES&ORDERS **********************************/
 // indices: array of unique indices with a certain order.
-// sparseOrders: order is the position (+1) of the index in the indices array.  
+// sparseOrders: order is the position (+1) of the index in the indices array.
 //      sparse cause many elements might be 0 (which is NULL).
 // indices[order1 - 1] = index1 <-> sparseOrders[index1] = order1
-// EXAMPLE: 
+// EXAMPLE:
 //      indices is {4,6,12,5}
 //      sparseOrders is {0,0,0,0,1,3,2,0,0,0,0,0,4} -> 0 means NULL
 //      indices[1 - 1] = 4 <-> sparseOrders[4] = 1
@@ -572,21 +572,44 @@ TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern type * linalg_plus_scalar_##type(type * matrix, type value, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) extern type * linalg_minus_##type(type * matrix1, type * matrix2, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * linalg_mult_scalar_##type(type * matrix1, type mult, size_t arr_len);
+#define REGISTER_ENUM(type) extern type * linalg_minus_scalar_##type(type * matrix, type value, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
+TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_mult_##type(type * matrix1, type * matrix2, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_mult_scalar_##type(type * matrix1, type value, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_div_##type(type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_div_scalar_##type(type * matrix1, type value, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+#undef REGISTER_ENUM
+
 
 #define REGISTER_ENUM(type) extern type * linalg_and_##type(type * matrix1, type * matrix2, size_t arr_len);
 TEMPLATE_TYPES_INT

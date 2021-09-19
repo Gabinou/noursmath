@@ -585,6 +585,18 @@ TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) type * linalg_plus_scalar_##type(type * matrix, type value, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+            out[i] = matrix[i] + value;\
+    }\
+    return (out);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) type * linalg_minus_##type(type * matrix1, type * matrix2, size_t arr_len) {\
     type * out = calloc(arr_len, sizeof(type));\
     for (size_t i = 0; i < arr_len; i++) {\
@@ -597,10 +609,22 @@ TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * linalg_mult_scalar_##type(type * matrix1, type mult, size_t arr_len) {\
+#define REGISTER_ENUM(type) type * linalg_minus_scalar_##type(type * matrix, type value, size_t arr_len) {\
     type * out = calloc(arr_len, sizeof(type));\
     for (size_t i = 0; i < arr_len; i++) {\
-            out[i] = matrix1[i] * mult;\
+            out[i] = (matrix[i] - value);\
+    }\
+    return (out);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) type * linalg_mult_##type(type * matrix1, type * matrix2, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+            out[i] = matrix1[i] * matrix2[i];\
     }\
     return (out);\
 }
@@ -608,10 +632,32 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * linalg_mult_##type(type * matrix1, type * matrix2, size_t arr_len) {\
+#define REGISTER_ENUM(type) type * linalg_mult_scalar_##type(type * matrix, type mult, size_t arr_len) {\
     type * out = calloc(arr_len, sizeof(type));\
     for (size_t i = 0; i < arr_len; i++) {\
-            out[i] = matrix1[i] * matrix2[i];\
+            out[i] = matrix[i] * mult;\
+    }\
+    return (out);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) type * linalg_div_##type(type * matrix1, type * matrix2, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+            out[i] = matrix1[i] / matrix2[i];\
+    }\
+    return (out);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) type * linalg_div_scalar_##type(type * matrix, type mult, size_t arr_len) {\
+    type * out = calloc(arr_len, sizeof(type));\
+    for (size_t i = 0; i < arr_len; i++) {\
+            out[i] = matrix[i] / mult;\
     }\
     return (out);\
 }
