@@ -315,6 +315,22 @@ TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) type * linalg_uniques_##type(type * array, type to_find, size_t arr_len) {\
+    type * uniques_list = DARR_INIT(uniques_list, type, arr_len);\
+    for (size_t i = 0; i < arr_len; i++) {\
+        if (!linalg_isIn_##type(uniques_list, array[i], DARR_NUM(uniques_list))) {\
+            DARR_PUT(uniques_list, array[i]);\
+        }\
+    }\
+    DARR_LEN(uniques_list) = DARR_NUM(uniques_list);\
+    uniques_list = DARR_REALLOC(uniques_list, (DARR_NUM(uniques_list) < NMATH_MINLEN? NMATH_MINLEN : DARR_NUM(uniques_list)));\
+    return (uniques_list);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) bool linalg_isIn_##type(type * array, type to_find, size_t arr_len) {\
     bool found = false;\
     for (size_t i = 0; i < arr_len; i++) {\

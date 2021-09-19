@@ -442,6 +442,7 @@ TEMPLATE_TYPES_BOOL
 
 /********************************* LINALG ************************************/
 // linalg uses unraveled arrays as n-dimensional matrices
+// linalg design: let caller take care of memory. -> NO MEMORY CREATION FOR EACH AND EVERY linalg FUNCTION CALLS.
 // col->x, row->y, depth->z
 #define linalg_index_arr2D(row, col, col_len) (row * col_len + col)
 #define linalg_index_arr3D(row, col, depth, row_len, col_len) (row * col_len * depth_len + col * depth_len + depth)
@@ -469,6 +470,13 @@ TEMPLATE_TYPES_FLOAT
 #define REGISTER_ENUM(type) extern bool linalg_isIn_##type(type * array, type to_find, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_uniques_##type(type * array, type to_find, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern bool linalg_list_isIn_1D_##type(type * list_1D, size_t list_len, type x);
