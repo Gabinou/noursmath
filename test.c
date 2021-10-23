@@ -205,8 +205,17 @@ void orders_indices_uint32_t() {
 
     DARR_FREE(temp_orders);
     DARR_FREE(temp_indices2);
+    uint32_t temp_duplicates[] = {2, 10, 10, 10, 10, 10, 2, 2, 2, 2, 4, 10, 10, 10, 10, 4, 4, 4, 10, 10, 4, 10, 6};
+    size_t temp_num_duplicates = 23;
+    size_t temp_num_uniques = 4;
 
-
+    uint32_t * temp_uniques = linalg_uniques_uint32_t(temp_duplicates, temp_num_duplicates);
+    lok(DARR_NUM(temp_uniques) == temp_num_uniques);
+    lok(DARR_LEN(temp_uniques) == temp_num_uniques);
+    lok(temp_uniques[0] == 2);
+    lok(temp_uniques[1] == 10);
+    lok(temp_uniques[2] == 4);
+    lok(temp_uniques[3] == 6);
 }
 
 #define REGISTER_ENUM(type) void lina_d_##type() {\
