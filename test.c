@@ -3455,11 +3455,11 @@ void test_q_math() {
         current = computed_attackmapp3_exclude[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];\
         lok(current == 1);\
     }\
-    type * computed_attackmapp3_include = pathfinding_Map_Attackto_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_INCLUDE);\
+    type * computed_attackmapp3_include = pathfinding_Map_Attackto_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_INCLUDE, toalloc);\
     out = linalg_equal_##type(computed_attackmapp3_include, attackmapp3_exclude, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
-    type * attackmapp3_include_list = pathfinding_Map_Attackto_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_INCLUDE);\
+    type * attackmapp3_include_list = pathfinding_Map_Attackto_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_INCLUDE, toalloc);\
     for (size_t i = 0; i < DARR_NUM(attackmapp3_exclude_list) / 2; i++) {\
         temp_col = attackmapp3_include_list[i * TWO_D + 0];\
         temp_row = attackmapp3_include_list[i * TWO_D + 1];\
@@ -3536,11 +3536,11 @@ void test_q_math() {
         current = computed_attackmapp4_exclude[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];\
         lok(current == 1);\
     }\
-    type * computed_attackmapp4_include = pathfinding_Map_Attackto_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_INCLUDE);\
+    type * computed_attackmapp4_include = pathfinding_Map_Attackto_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_INCLUDE, toalloc);\
     out = linalg_equal_##type(computed_attackmapp4_include, attackmapp4_include, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
-    type * attackmapp4_include_list = pathfinding_Map_Attackto_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_INCLUDE);\
+    type * attackmapp4_include_list = pathfinding_Map_Attackto_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_INCLUDE, toalloc);\
     for (size_t i = 0; i < DARR_NUM(attackmapp4_include_list) / 2; i++) {\
         temp_col = attackmapp4_include_list[i * TWO_D + 0];\
         temp_row = attackmapp4_include_list[i * TWO_D + 1];\

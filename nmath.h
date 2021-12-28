@@ -720,7 +720,7 @@ TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * papathfinding_Map_Attackto_##type(type * move_matrix, size_t row_len, size_t col_len, type move, type range[2], uint8_t mode_output, uint8_t mode_movetile, bool toalloc);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Attackto_##type(type * move_matrix, size_t row_len, size_t col_len, type move, type range[2], uint8_t mode_output, uint8_t mode_movetile, bool toalloc);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 

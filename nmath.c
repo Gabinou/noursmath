@@ -1002,7 +1002,7 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * papathfinding_Map_Attackto_##type(type * move_matrix, size_t row_len, size_t col_len, type  move, type  range[2], uint8_t mode_output, uint8_t mode_movetile, bool toalloc) {\
+#define REGISTER_ENUM(type) type * pathfinding_Map_Attackto_##type(type * move_matrix, size_t row_len, size_t col_len, type  move, type  range[2], uint8_t mode_output, uint8_t mode_movetile, bool toalloc) {\
     type  * attackmap = NULL, *temp_row = NULL, *move_list = NULL, * toadd = NULL;\
     type  subrangey_min, subrangey_max;\
     struct nmath_point_##type temp_nmath_point_##type;\
@@ -1064,7 +1064,7 @@ TEMPLATE_TYPES_SINT
     }\
     return (attackmap);\
 }
-TEMPLATE_TYPES_SINT
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type  * pathfinding_Map_Moveto_Hex_##type(type  * cost_matrix, size_t depth_len, size_t col_len, struct nmath_hexpoint_##type start, type  move, uint8_t mode_output, bool toalloc) {\
