@@ -175,9 +175,9 @@ enum NMATH_ATTACKMAP {
     NMATH_ATTACKMAP_MOVEABLEMIN = 1,
 };
 
-enum NMATH_ASSAILABLEMAP {
-    NMATH_ASSAILABLE_BLOCKED = 0,
-    NMATH_ASSAILABLE_MOVEABLEMIN = 1,
+enum NMATH_ATTACKFROMMAP {
+    NMATH_ATTACKFROM_BLOCKED = 0,
+    NMATH_ATTACKFROM_MOVEABLEMIN = 1,
 };
 
 enum NMATH_PUSHPULLMAP {
@@ -190,6 +190,7 @@ enum NMATH_COSTMAP {
     NMATH_COSTMAP_BLOCKED = 0,
     NMATH_COSTMAP_MOVEABLEMIN = 1,
 };
+#define NMATH_COSTMAP_fBLOCKED 0.0f
 
 enum NMATH_MOVEMAP {
     NMATH_MOVEMAP_BLOCKED = 0,
@@ -197,6 +198,7 @@ enum NMATH_MOVEMAP {
 };
 
 enum NMATH_BLOCKMAP {
+    NMATH_BLOCKMAP_INIT = 0,
     NMATH_BLOCKMAP_BLOCKED = 0,
     NMATH_BLOCKMAP_MIN = 1,
 };
@@ -253,6 +255,34 @@ REGISTER_ENUM(double)
 #ifndef TEMPLATE_TYPES_BOOL
 #define TEMPLATE_TYPES_BOOL REGISTER_ENUM(bool)
 #endif  /* TEMPLATE_TYPES_BOOL */
+
+enum NMATH_ZEROS_INT {
+    NMATH_ZERO_uint8_t = 0,
+    NMATH_ZERO_uint16_t = 0,
+    NMATH_ZERO_uint32_t = 0,
+    NMATH_ZERO_uint64_t = 0,
+    NMATH_ZERO_int8_t = 0,
+    NMATH_ZERO_int16_t = 0,
+    NMATH_ZERO_int32_t = 0,
+    NMATH_ZERO_int64_t = 0,
+};
+
+enum NMATH_ONES_INT {
+    NMATH_ONE_uint8_t = 1,
+    NMATH_ONE_uint16_t = 1,
+    NMATH_ONE_uint32_t = 1,
+    NMATH_ONE_uint64_t = 1,
+    NMATH_ONE_int8_t = 1,
+    NMATH_ONE_int16_t = 1,
+    NMATH_ONE_int32_t = 1,
+    NMATH_ONE_int64_t = 1,
+};
+
+
+#define NMATH_ZERO_float 0.0f
+#define NMATH_ZERO_double 0.0f
+#define NMATH_ONE_float 1.0f
+#define NMATH_ONE_double 1.0f
 
 enum DIMENSIONS {
     ONE_D = 1,
@@ -313,8 +343,17 @@ TEMPLATE_TYPES_FLOAT
 type x;\
 type y;\
 type distance;\
+type cost;\
 } nmath_node_##type##_default;
 TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern struct nmath_node_##type {\
+int32_t x;\
+int32_t y;\
+type distance;\
+} nmath_node_##type##_default;
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern struct nmath_node3D_##type {\
@@ -324,6 +363,7 @@ type z;\
 type distance;\
 } nmath_node3D_##type##_default;
 TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern struct nmath_hexnode_##type {\
@@ -655,67 +695,68 @@ TEMPLATE_TYPES_INT
 
 /******************************* PATHFINDING ***********************************/
 
-#define REGISTER_ENUM(type) extern struct nmath_sq_neighbors_##type pathfinding_Direction_Block_##type(type * costmap_pushpull, size_t row_len, size_t col_len, struct nmath_point_##type start);
+#define REGISTER_ENUM(type) extern struct nmath_sq_neighbors_##type pathfinding_Direction_Block_##type(type * costmap_pushpull, size_t row_len, size_t col_len, struct nmath_point_##type start, bool toalloc);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern struct nmath_sq_neighbors_##type pathfinding_Direction_Pushable_##type(type * assailablemap, size_t row_len, size_t col_len, type range[2], struct nmath_point_##type target);
+#define REGISTER_ENUM(type) extern struct nmath_sq_neighbors_##type pathfinding_Direction_Pushto_##type(type * assailablemap, size_t row_len, size_t col_len, type range[2], struct nmath_point_##type target, bool toalloc);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern struct nmath_sq_neighbors_##type pathfinding_Direction_Pullable_##type(type * assailablemap, size_t row_len, size_t col_len, type range[2], struct nmath_point_##type target);
+#define REGISTER_ENUM(type) extern struct nmath_sq_neighbors_##type pathfinding_Direction_Pullto_##type(type * assailablemap, size_t row_len, size_t col_len, type range[2], struct nmath_point_##type target, bool toalloc);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_PushPullable_##type(struct nmath_sq_neighbors_##type direction_block, struct nmath_sq_neighbors_##type pushpullable, size_t row_len, size_t col_len, struct nmath_point_##type start, uint8_t mode_output);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_PushPullto_##type(struct nmath_sq_neighbors_##type direction_block, struct nmath_sq_neighbors_##type pushpullto, size_t row_len, size_t col_len, struct nmath_point_##type start, uint8_t mode_output, bool toalloc);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Movable_##type(type * costmap, size_t row_len, size_t col_len, struct nmath_point_##type start, type move, uint8_t mode_output);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Moveto_##type(type * costmap, size_t row_len, size_t col_len, struct nmath_point_##type start, type move, uint8_t mode_output, bool toalloc);
+TEMPLATE_TYPES_SINT
+TEMPLATE_TYPES_FLOAT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Visible_##type(type * blockmap, size_t row_len, size_t col_len, struct nmath_point_##type start, type sight, uint8_t mode_output, bool toalloc);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Visible_##type(type * blockmap, size_t row_len, size_t col_len, struct nmath_point_##type start, type sight, uint8_t mode_output);
+#define REGISTER_ENUM(type) extern type * papathfinding_Map_Attackto_##type(type * move_matrix, size_t row_len, size_t col_len, type move, type range[2], uint8_t mode_output, uint8_t mode_movetile, bool toalloc);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Attack_##type(type * move_matrix, size_t row_len, size_t col_len, type move, type range[2], uint8_t mode_output, uint8_t mode_movetile);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Moveto_Hex_##type(type * costmap, size_t row_len, size_t depth_len, struct nmath_hexpoint_##type  start, type move, uint8_t mode_output, bool toalloc);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Movable_Hex_##type(type * costmap, size_t row_len, size_t depth_len, struct nmath_hexpoint_##type  start, type move, uint8_t mode_output);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Visible_Hex_##type(type * blockmap, size_t depth_len, size_t col_len, struct nmath_hexpoint_##type  start, type sight, uint8_t mode, bool toalloc);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Visible_Hex_##type(type * blockmap, size_t depth_len, size_t col_len, struct nmath_hexpoint_##type  start, type sight, uint8_t mode);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Attackfrom_##type(type * in_movemap, size_t row_len, size_t col_len, struct nmath_point_##type in_target, type range[2], uint8_t mode_output, bool toalloc);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Assailable_##type(type * in_movemap, size_t row_len, size_t col_len, struct nmath_point_##type in_target, type range[2], uint8_t mode_output);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Pushto_##type(type * in_movemap, size_t row_len, size_t col_len, struct nmath_point_##type in_target, uint8_t mode_output, bool toalloc);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Pushable_##type(type * in_movemap, size_t row_len, size_t col_len, struct nmath_point_##type in_target, uint8_t mode_output);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Pullto_##type(type * in_movemap, size_t row_len, size_t col_len, struct nmath_point_##type in_target, uint8_t mode_output, bool toalloc);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Pullable_##type(type * in_movemap, size_t row_len, size_t col_len, struct nmath_point_##type in_target, uint8_t mode_output);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_unitGradient_##type(type * in_costmap, size_t row_len, size_t col_len, struct nmath_point_##type * in_targets, size_t unit_num, bool toalloc);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_unitGradient_##type(type * in_costmap, size_t row_len, size_t col_len, struct nmath_point_##type * in_targets, size_t unit_num);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Path_##type(type * move_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, struct nmath_point_##type end, uint8_t mode_path, bool toalloc);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Path_##type(type * move_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, struct nmath_point_##type end, uint8_t mode_path);
+#define REGISTER_ENUM(type) extern type * pathfinding_Path_step2position_##type(type * step_list, size_t list_len, struct nmath_point_##type start, bool toalloc);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Path_step2position_##type(type * step_list, size_t list_len, struct nmath_point_##type start);
-TEMPLATE_TYPES_SINT
-#undef REGISTER_ENUM
-
-#define REGISTER_ENUM(type) extern type * pathfinding_Path_position2step_##type(type * position_list, size_t list_len);
+#define REGISTER_ENUM(type) extern type * pathfinding_Path_position2step_##type(type * position_list, size_t list_len, bool toalloc);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 

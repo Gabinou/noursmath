@@ -61,8 +61,8 @@ Definitions:
 - A *sightmap* is a 2D matrix with tiles visible by a certain unit.
 - Units can attack enemies that are on *attackable* tiles,
 - Units can attack enemies from *assailable* tiles,
-- Units can be push/pulled on *push/pullable* tiles,
-- Units can be only be push/pulled in *push/pullable* directions.
+- Units can be push/pulled on *push/Pullto* tiles,
+- Units can be only be push/pulled in *push/Pullto* directions.
 <!-- a traversable tile is traversable WHETHER IT IS IN OUR MOVEMENT RANGE OR NOT. a MOVABLE tile is DIFFERENT than a TRAVERSIBLE tile. -->
 <!-- although... movable implies that THE TILE MOVES. not the player! -> reachable tiles -->
 

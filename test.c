@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdio.h>
 #include <stdarg.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -153,7 +154,7 @@ void dupprintf(FILE * f, char const * fmt, ...) { // duplicate printf
 #define ARRAY_LEN 100
 #define STRINGIFY(x) #x
 size_t fps_iterations = 10;
-
+bool toalloc = true;
 /*******************************ACTUAL TESTS***************************/
 void test_log2() {
     lok(log2(0.0) == -INFINITY);
@@ -3118,8 +3119,8 @@ void test_q_math() {
     type current = 0;\
     type temp_row = 0;\
     type temp_col = 0;\
-    type * computed_movemapp = pathfinding_Map_Movable_##type(costmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_MATRIX);\
-    type * computed_movemapp_list = pathfinding_Map_Movable_##type(costmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_LIST);\
+    type * computed_movemapp = pathfinding_Map_Moveto_##type(costmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_MATRIX, toalloc);\
+    type * computed_movemapp_list = pathfinding_Map_Moveto_##type(costmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_LIST, toalloc);\
     lok(DARR_NUM(computed_movemapp_list) == 122);\
     for (size_t i = 0; i < DARR_NUM(computed_movemapp_list) / 2; i++) {\
         temp_col = computed_movemapp_list[i * TWO_D + 0];\
@@ -3127,9 +3128,9 @@ void test_q_math() {
         current = computed_movemapp[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];\
         lok(current > 0);\
     }\
-    type * computed_attackmapp = pathfinding_Map_Attack_##type(movemappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_EXCLUDE);\
+    type * computed_attackmapp = pathfinding_Map_Attackto_##type(movemappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_EXCLUDE, toalloc);\
     /* matrix_print_##type(computed_attackmapp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);*/\
-    type * computed_attackmapp_list = pathfinding_Map_Attack_##type(movemappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_EXCLUDE);\
+    type * computed_attackmapp_list = pathfinding_Map_Attackto_##type(movemappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_EXCLUDE, toalloc);\
     lok(DARR_NUM(computed_attackmapp_list) == 102);\
     for (size_t i = 0; i < DARR_NUM(computed_attackmapp_list) / 2; i++) {\
         temp_col = computed_attackmapp_list[i * TWO_D + 0];\
@@ -3278,16 +3279,16 @@ void test_q_math() {
             hexattackmappp2[row * COL_LEN_TEST_PATHFINDING + col] = temp_hexattackmapp2[row * COL_LEN_TEST_PATHFINDING + col];\
         }\
     }\
-    type * computed_movemapp2 = pathfinding_Map_Movable_##type(costmappp2, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_MATRIX);\
-    type * computed_movemapp_list2 = pathfinding_Map_Movable_##type(costmappp2, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_LIST);\
+    type * computed_movemapp2 = pathfinding_Map_Moveto_##type(costmappp2, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_MATRIX, toalloc);\
+    type * computed_movemapp_list2 = pathfinding_Map_Moveto_##type(costmappp2, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_LIST, toalloc);\
     for (size_t i = 0; i < DARR_NUM(computed_movemapp_list2) / 2; i++) {\
         temp_col = computed_movemapp_list2[i * TWO_D + 0];\
         temp_row = computed_movemapp_list2[i * TWO_D + 1];\
         current = computed_movemapp2[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];\
         lok(current > 0);\
     }\
-    type * computed_attackmapp2 = pathfinding_Map_Attack_##type(movemappp2, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_EXCLUDE);\
-    type * computed_attackmapp_list2 = pathfinding_Map_Attack_##type(movemappp2, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_EXCLUDE);\
+    type * computed_attackmapp2 = pathfinding_Map_Attackto_##type(movemappp2, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_EXCLUDE, toalloc);\
+    type * computed_attackmapp_list2 = pathfinding_Map_Attackto_##type(movemappp2, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_EXCLUDE, toalloc);\
     for (size_t i = 0; i < DARR_NUM(computed_attackmapp_list2) / 2; i++) {\
         temp_col = computed_attackmapp_list2[i * TWO_D + 0];\
         temp_row = computed_attackmapp_list2[i * TWO_D + 1];\
@@ -3300,12 +3301,12 @@ void test_q_math() {
     out = linalg_equal_##type(computed_attackmapp2, attackmappp2, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
-    type * computed_sightmapp = pathfinding_Map_Visible_##type(blockmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, 6, NMATH_POINTS_MODE_MATRIX);\
+    type * computed_sightmapp = pathfinding_Map_Visible_##type(blockmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, 6, NMATH_POINTS_MODE_MATRIX, toalloc);\
     out = linalg_equal_##type(computed_sightmapp, sightmappp, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
-    type * computed_hexmovemapp = pathfinding_Map_Movable_Hex_##type(costmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, hexstart, move, NMATH_POINTS_MODE_MATRIX);\
-    type * computed_hexmovemapp_list = pathfinding_Map_Movable_Hex_##type(costmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, hexstart, move, NMATH_POINTS_MODE_LIST);\
+    type * computed_hexmovemapp = pathfinding_Map_Moveto_Hex_##type(costmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, hexstart, move, NMATH_POINTS_MODE_MATRIX, toalloc);\
+    type * computed_hexmovemapp_list = pathfinding_Map_Moveto_Hex_##type(costmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, hexstart, move, NMATH_POINTS_MODE_LIST, toalloc);\
     out = linalg_equal_##type(computed_hexmovemapp, hexmovemappp, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
@@ -3315,8 +3316,8 @@ void test_q_math() {
         current = computed_hexmovemapp[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];\
         lok(current > 0);\
     }\
-    type * computed_hexmovemapp2 = pathfinding_Map_Movable_Hex_##type(costmappp2, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, hexstart, move, NMATH_POINTS_MODE_MATRIX);\
-    type * computed_hexmovemapp_list2 = pathfinding_Map_Movable_Hex_##type(costmappp2, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, hexstart, move, NMATH_POINTS_MODE_LIST);\
+    type * computed_hexmovemapp2 = pathfinding_Map_Moveto_Hex_##type(costmappp2, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, hexstart, move, NMATH_POINTS_MODE_MATRIX, toalloc);\
+    type * computed_hexmovemapp_list2 = pathfinding_Map_Moveto_Hex_##type(costmappp2, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, hexstart, move, NMATH_POINTS_MODE_LIST, toalloc);\
     out = linalg_equal_##type(computed_hexmovemapp2, hexmovemappp2, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
@@ -3326,8 +3327,8 @@ void test_q_math() {
         current = computed_hexmovemapp2[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];\
         lok(current > 0);\
     }\
-    type * computed_hexattackmapp = pathfinding_Map_Attack_##type(hexmovemappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_EXCLUDE);\
-    type * computed_hexattackmapp_list = pathfinding_Map_Attack_##type(hexmovemappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_EXCLUDE);\
+    type * computed_hexattackmapp = pathfinding_Map_Attackto_##type(hexmovemappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_EXCLUDE, toalloc);\
+    type * computed_hexattackmapp_list = pathfinding_Map_Attackto_##type(hexmovemappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_EXCLUDE, toalloc);\
     lok(linalg_equal_##type(computed_hexattackmapp, hexattackmappp, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     for (size_t i = 0; i < DARR_NUM(computed_hexattackmapp_list) / 2; i++) {\
         temp_col = computed_hexattackmapp_list[i * TWO_D + 0];\
@@ -3335,18 +3336,18 @@ void test_q_math() {
         current = computed_hexattackmapp[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];\
         lok(current == 1);\
     }\
-    type * computed_hexattackmapp2 = pathfinding_Map_Attack_##type(hexmovemappp2, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_EXCLUDE);\
+    type * computed_hexattackmapp2 = pathfinding_Map_Attackto_##type(hexmovemappp2, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_EXCLUDE, toalloc);\
     out = linalg_equal_##type(computed_hexattackmapp2, hexattackmappp2, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
-    type * computed_hexattackmapp_list2 = pathfinding_Map_Attack_##type(hexmovemappp2, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_EXCLUDE);\
+    type * computed_hexattackmapp_list2 = pathfinding_Map_Attackto_##type(hexmovemappp2, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_EXCLUDE, toalloc);\
     for (size_t i = 0; i < DARR_NUM(computed_hexattackmapp_list2) / 2; i++) {\
         temp_col = computed_hexattackmapp_list2[i * TWO_D + 0];\
         temp_row = computed_hexattackmapp_list2[i * TWO_D + 1];\
         current = computed_hexattackmapp2[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];\
         lok(current == 1);\
     }\
-    type * computed_hexsightmapp = pathfinding_Map_Visible_Hex_##type(blockmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, hexstart, 6, NMATH_POINTS_MODE_MATRIX);\
+    type * computed_hexsightmapp = pathfinding_Map_Visible_Hex_##type(blockmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, hexstart, 6, NMATH_POINTS_MODE_MATRIX, toalloc);\
     out = linalg_equal_##type(computed_hexsightmapp, hexsightmappp, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
@@ -3435,30 +3436,30 @@ void test_q_math() {
             attackmapp3_include[row * COL_LEN_TEST_PATHFINDING + col] = temp_attackmapp3_include[row * COL_LEN_TEST_PATHFINDING + col];\
         }\
     }\
-    type * computed_movemapp3 = pathfinding_Map_Movable_##type(costmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_MATRIX);\
-    type * computed_movemapp3_list = pathfinding_Map_Movable_##type(costmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_LIST);\
+    type * computed_movemapp3 = pathfinding_Map_Moveto_##type(costmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_MATRIX, toalloc);\
+    type * computed_movemapp3_list = pathfinding_Map_Moveto_##type(costmappp, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_LIST, toalloc);\
     for (size_t i = 0; i < DARR_NUM(computed_movemapp3_list) / 2; i++) {\
         temp_col = computed_movemapp3_list[i * TWO_D + 0];\
         temp_row = computed_movemapp3_list[i * TWO_D + 1];\
         current = computed_movemapp3[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];\
         lok(current > 0);\
     }\
-    type * computed_attackmapp3_exclude = pathfinding_Map_Attack_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_EXCLUDE);\
+    type * computed_attackmapp3_exclude = pathfinding_Map_Attackto_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_EXCLUDE, toalloc);\
     out = linalg_equal_##type(computed_attackmapp3_exclude, attackmapp3_exclude, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
-    type * attackmapp3_exclude_list = pathfinding_Map_Attack_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_EXCLUDE);\
+    type * attackmapp3_exclude_list = pathfinding_Map_Attackto_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_EXCLUDE, toalloc);\
     for (size_t i = 0; i < DARR_NUM(attackmapp3_exclude_list) / 2; i++) {\
         temp_col = attackmapp3_exclude_list[i * TWO_D + 0];\
         temp_row = attackmapp3_exclude_list[i * TWO_D + 1];\
         current = computed_attackmapp3_exclude[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];\
         lok(current == 1);\
     }\
-    type * computed_attackmapp3_include = pathfinding_Map_Attack_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_INCLUDE);\
+    type * computed_attackmapp3_include = pathfinding_Map_Attackto_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_INCLUDE);\
     out = linalg_equal_##type(computed_attackmapp3_include, attackmapp3_exclude, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
-    type * attackmapp3_include_list = pathfinding_Map_Attack_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_INCLUDE);\
+    type * attackmapp3_include_list = pathfinding_Map_Attackto_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_INCLUDE);\
     for (size_t i = 0; i < DARR_NUM(attackmapp3_exclude_list) / 2; i++) {\
         temp_col = attackmapp3_include_list[i * TWO_D + 0];\
         temp_row = attackmapp3_include_list[i * TWO_D + 1];\
@@ -3524,22 +3525,22 @@ void test_q_math() {
             attackmapp4_include[row * COL_LEN_TEST_PATHFINDING + col] = temp_attackmapp4_include[row * COL_LEN_TEST_PATHFINDING + col];\
         }\
     }\
-    type * computed_attackmapp4_exclude = pathfinding_Map_Attack_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_EXCLUDE);\
+    type * computed_attackmapp4_exclude = pathfinding_Map_Attackto_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_EXCLUDE, toalloc);\
     out = linalg_equal_##type(computed_attackmapp4_exclude, attackmapp4_exclude, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
-    type * attackmapp4_exclude_list = pathfinding_Map_Attack_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_EXCLUDE);\
+    type * attackmapp4_exclude_list = pathfinding_Map_Attackto_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_EXCLUDE, toalloc);\
     for (size_t i = 0; i < DARR_NUM(attackmapp4_exclude_list) / 2; i++) {\
         temp_col = attackmapp4_exclude_list[i * TWO_D + 0];\
         temp_row = attackmapp4_exclude_list[i * TWO_D + 1];\
         current = computed_attackmapp4_exclude[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];\
         lok(current == 1);\
     }\
-    type * computed_attackmapp4_include = pathfinding_Map_Attack_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_INCLUDE);\
+    type * computed_attackmapp4_include = pathfinding_Map_Attackto_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_MATRIX, NMATH_MOVETILE_INCLUDE);\
     out = linalg_equal_##type(computed_attackmapp4_include, attackmapp4_include, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
-    type * attackmapp4_include_list = pathfinding_Map_Attack_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_INCLUDE);\
+    type * attackmapp4_include_list = pathfinding_Map_Attackto_##type(temp_movemapp3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, move, range, NMATH_POINTS_MODE_LIST, NMATH_MOVETILE_INCLUDE);\
     for (size_t i = 0; i < DARR_NUM(attackmapp4_include_list) / 2; i++) {\
         temp_col = attackmapp4_include_list[i * TWO_D + 0];\
         temp_row = attackmapp4_include_list[i * TWO_D + 1];\
@@ -3603,8 +3604,8 @@ void test_q_math() {
             movemapp5[row * COL_LEN_TEST_PATHFINDING + col] = temp_movemapp5[row * COL_LEN_TEST_PATHFINDING + col];\
         }\
     }\
-    type * computed_movemapp5 = pathfinding_Map_Movable_##type(costmapp5, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_MATRIX);\
-    type * computed_movemapp5_list = pathfinding_Map_Movable_##type(costmapp5, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_LIST);\
+    type * computed_movemapp5 = pathfinding_Map_Moveto_##type(costmapp5, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_MATRIX, toalloc);\
+    type * computed_movemapp5_list = pathfinding_Map_Moveto_##type(costmapp5, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_LIST, toalloc);\
     for (size_t i = 0; i < DARR_NUM(computed_movemapp5_list) / 2; i++) {\
         temp_col = computed_movemapp5_list[i * TWO_D + 0];\
         temp_row = computed_movemapp5_list[i * TWO_D + 1];\
@@ -3693,8 +3694,8 @@ void test_q_math() {
             movemapp6[row * COL_LEN_TEST_PATHFINDING + col] = temp_movemapp6[row * COL_LEN_TEST_PATHFINDING + col];\
         }\
     }\
-    type * computed_movemapp6 = pathfinding_Map_Movable_##type(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_MATRIX);\
-    type * computed_movemapp6_list = pathfinding_Map_Movable_##type(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_LIST);\
+    type * computed_movemapp6 = pathfinding_Map_Moveto_##type(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_MATRIX, toalloc);\
+    type * computed_movemapp6_list = pathfinding_Map_Moveto_##type(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_LIST, toalloc);\
     for (size_t i = 0; i < DARR_NUM(computed_movemapp6_list) / TWO_D; i++) {\
         temp_col = computed_movemapp6_list[i * TWO_D + 0];\
         temp_row = computed_movemapp6_list[i * TWO_D + 1];\
@@ -3704,9 +3705,9 @@ void test_q_math() {
     out = linalg_equal_##type(movemapp6, computed_movemapp6, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
-    type * path_list_position6 = pathfinding_Map_Path_##type(computed_movemapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end, NMATH_PATH_POSITION);\
-    type * path_list_steps6 = pathfinding_Map_Path_##type(computed_movemapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end, NMATH_PATH_STEP);\
-    type * path_list_positionfromsteps6 = pathfinding_Path_step2position_##type(path_list_steps6, DARR_NUM(path_list_steps6) / TWO_D, start);\
+    type * path_list_position6 = pathfinding_Map_Path_##type(computed_movemapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end, NMATH_PATH_POSITION, toalloc);\
+    type * path_list_steps6 = pathfinding_Map_Path_##type(computed_movemapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end, NMATH_PATH_STEP, toalloc);\
+    type * path_list_positionfromsteps6 = pathfinding_Path_step2position_##type(path_list_steps6, DARR_NUM(path_list_steps6) / TWO_D, start, toalloc);\
     lok((DARR_NUM(path_list_position6) > 0));\
     lok((DARR_NUM(path_list_steps6) > 0));\
     lok((DARR_NUM(path_list_positionfromsteps6) > 0));\
@@ -3774,8 +3775,8 @@ void test_q_math() {
             movemapp7[row * COL_LEN_TEST_PATHFINDING + col] = temp_movemapp6[row * COL_LEN_TEST_PATHFINDING + col];\
         }\
     }\
-    type * computed_movemapp7 = pathfinding_Map_Movable_##type(costmapp7, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_MATRIX);\
-    type * path_list_position7 = pathfinding_Map_Path_##type(computed_movemapp7, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end, NMATH_PATH_POSITION);\
+    type * computed_movemapp7 = pathfinding_Map_Moveto_##type(costmapp7, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_MATRIX, toalloc);\
+    type * path_list_position7 = pathfinding_Map_Path_##type(computed_movemapp7, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end, NMATH_PATH_POSITION, toalloc);\
     type * path_matrix_fromposition7 = linalg_list2matrix_##type(path_list_position7, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, DARR_NUM(path_list_position7) / TWO_D);\
     out = linalg_equal_##type(path_matrix_fromposition7, temp_path7, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
@@ -3804,7 +3805,7 @@ void test_q_math() {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0\
     };\
     struct nmath_sq_neighbors_##type temp_blockdistance;\
-    temp_blockdistance = pathfinding_Direction_Block_##type(temp_movemap10_include, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start);\
+    temp_blockdistance = pathfinding_Direction_Block_##type(temp_movemap10_include, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, toalloc);\
     lok(temp_blockdistance.bottom == ROW_LEN_TEST_PATHFINDING - start.y - 1);\
     lok(temp_blockdistance.top == start.y);\
     lok(temp_blockdistance.right == COL_LEN_TEST_PATHFINDING - start.x - 1);\
@@ -3832,7 +3833,7 @@ void test_q_math() {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0\
     };\
-    temp_blockdistance = pathfinding_Direction_Block_##type(temp_movemap11_include, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start);\
+    temp_blockdistance = pathfinding_Direction_Block_##type(temp_movemap11_include, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, toalloc);\
     lok(temp_blockdistance.bottom == 2);\
     lok(temp_blockdistance.top == 2);\
     lok(temp_blockdistance.right == 2);\
@@ -3860,7 +3861,7 @@ void test_q_math() {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0\
     };\
-    temp_blockdistance = pathfinding_Direction_Block_##type(temp_movemap12_include, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start);\
+    temp_blockdistance = pathfinding_Direction_Block_##type(temp_movemap12_include, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, toalloc);\
     lok(temp_blockdistance.bottom == 1);\
     lok(temp_blockdistance.top == 3);\
     lok(temp_blockdistance.right == 2);\
@@ -3937,15 +3938,15 @@ void test_q_math() {
     struct nmath_point_##type target = {13, 6};\
     type range_1[2] = {1, 2};\
     type range_2[2] = {1, 3};\
-    type * compute_assailablemap1 = pathfinding_Map_Assailable_##type(temp_movemapp20, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, target, range_1, NMATH_POINTS_MODE_MATRIX);\
+    type * compute_assailablemap1 = pathfinding_Map_Attackfrom_##type(temp_movemapp20, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, target, range_1, NMATH_POINTS_MODE_MATRIX, toalloc);\
     out = linalg_equal_##type(compute_assailablemap1, temp_assailablemap1, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
-    type * compute_assailablemap2 = pathfinding_Map_Assailable_##type(temp_movemapp20, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, target, range_2, NMATH_POINTS_MODE_MATRIX);\
+    type * compute_assailablemap2 = pathfinding_Map_Attackfrom_##type(temp_movemapp20, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, target, range_2, NMATH_POINTS_MODE_MATRIX, toalloc);\
     out = linalg_equal_##type(compute_assailablemap2, temp_assailablemap2, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
-    type * compute_assailablemap2_list = pathfinding_Map_Assailable_##type(temp_movemapp20, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, target, range_2, NMATH_POINTS_MODE_LIST);\
+    type * compute_assailablemap2_list = pathfinding_Map_Attackfrom_##type(temp_movemapp20, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, target, range_2, NMATH_POINTS_MODE_LIST, toalloc);\
     lok((DARR_NUM(compute_assailablemap2_list) / TWO_D) == 4);\
     for (size_t i = 0; i < DARR_NUM(compute_assailablemap2_list) / TWO_D; i++) {\
         temp_col = compute_assailablemap2_list[i * TWO_D + 0];\
@@ -3982,16 +3983,16 @@ void test_q_math() {
     range_push[1] = 2;\
     range_pull[0] = 2;\
     range_pull[1] = 3;\
-    struct nmath_sq_neighbors_##type neighbors_pushable = pathfinding_Direction_Pushable_##type(temp_assailablemap3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, range_push, start);\
-    lok(neighbors_pushable.top == true);\
-    lok(neighbors_pushable.bottom == true);\
-    lok(neighbors_pushable.right == true);\
-    lok(neighbors_pushable.left == false);\
-    struct nmath_sq_neighbors_##type neighbors_pullable = pathfinding_Direction_Pullable_##type(temp_assailablemap3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, range_pull, start);\
-    lok(neighbors_pullable.top == false);\
-    lok(neighbors_pullable.bottom == false);\
-    lok(neighbors_pullable.right == false);\
-    lok(neighbors_pullable.left == false);\
+    struct nmath_sq_neighbors_##type neighbors_Pushto = pathfinding_Direction_Pushto_##type(temp_assailablemap3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, range_push, start, toalloc);\
+    lok(neighbors_Pushto.top == true);\
+    lok(neighbors_Pushto.bottom == true);\
+    lok(neighbors_Pushto.right == true);\
+    lok(neighbors_Pushto.left == false);\
+    struct nmath_sq_neighbors_##type neighbors_Pullto = pathfinding_Direction_Pullto_##type(temp_assailablemap3, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, range_pull, start, toalloc);\
+    lok(neighbors_Pullto.top == false);\
+    lok(neighbors_Pullto.bottom == false);\
+    lok(neighbors_Pullto.right == false);\
+    lok(neighbors_Pullto.left == false);\
     type temp_assailablemap4[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {\
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
@@ -4015,16 +4016,16 @@ void test_q_math() {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0\
     };\
-    neighbors_pushable = pathfinding_Direction_Pushable_##type(temp_assailablemap4, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, range_push, start);\
-    lok(neighbors_pushable.top == true);\
-    lok(neighbors_pushable.bottom == true);\
-    lok(neighbors_pushable.right == true);\
-    lok(neighbors_pushable.left == false);\
-    neighbors_pullable = pathfinding_Direction_Pullable_##type(temp_assailablemap4, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, range_pull, start);\
-    lok(neighbors_pullable.top == true);\
-    lok(neighbors_pullable.bottom == true);\
-    lok(neighbors_pullable.right == false);\
-    lok(neighbors_pullable.left == true);\
+    neighbors_Pushto = pathfinding_Direction_Pushto_##type(temp_assailablemap4, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, range_push, start, toalloc);\
+    lok(neighbors_Pushto.top == true);\
+    lok(neighbors_Pushto.bottom == true);\
+    lok(neighbors_Pushto.right == true);\
+    lok(neighbors_Pushto.left == false);\
+    neighbors_Pullto = pathfinding_Direction_Pullto_##type(temp_assailablemap4, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, range_pull, start, toalloc);\
+    lok(neighbors_Pullto.top == true);\
+    lok(neighbors_Pullto.bottom == true);\
+    lok(neighbors_Pullto.right == false);\
+    lok(neighbors_Pullto.left == true);\
     type temp_assailablemap5[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {\
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
@@ -4048,16 +4049,16 @@ void test_q_math() {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0\
     };\
-    neighbors_pushable = pathfinding_Direction_Pushable_##type(temp_assailablemap5, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, range_push, start);\
-    lok(neighbors_pushable.top == true);\
-    lok(neighbors_pushable.bottom == true);\
-    lok(neighbors_pushable.right == true);\
-    lok(neighbors_pushable.left == false);\
-    neighbors_pullable = pathfinding_Direction_Pullable_##type(temp_assailablemap5, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, range_pull, start);\
-    lok(neighbors_pullable.top == true);\
-    lok(neighbors_pullable.bottom == true);\
-    lok(neighbors_pullable.right == false);\
-    lok(neighbors_pullable.left == true);\
+    neighbors_Pushto = pathfinding_Direction_Pushto_##type(temp_assailablemap5, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, range_push, start, toalloc);\
+    lok(neighbors_Pushto.top == true);\
+    lok(neighbors_Pushto.bottom == true);\
+    lok(neighbors_Pushto.right == true);\
+    lok(neighbors_Pushto.left == false);\
+    neighbors_Pullto = pathfinding_Direction_Pullto_##type(temp_assailablemap5, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, range_pull, start, toalloc);\
+    lok(neighbors_Pullto.top == true);\
+    lok(neighbors_Pullto.bottom == true);\
+    lok(neighbors_Pullto.right == false);\
+    lok(neighbors_Pullto.left == true);\
     type temp_assailablemap6[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {\
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
@@ -4081,16 +4082,16 @@ void test_q_math() {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0\
     };\
-    neighbors_pushable = pathfinding_Direction_Pushable_##type(temp_assailablemap6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, range_push, start);\
-    lok(neighbors_pushable.top == false);\
-    lok(neighbors_pushable.bottom == true);\
-    lok(neighbors_pushable.right == true);\
-    lok(neighbors_pushable.left == true);\
-    neighbors_pullable = pathfinding_Direction_Pullable_##type(temp_assailablemap6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, range_pull, start);\
-    lok(neighbors_pullable.top == true);\
-    lok(neighbors_pullable.bottom == false);\
-    lok(neighbors_pullable.right == true);\
-    lok(neighbors_pullable.left == true);\
+    neighbors_Pushto = pathfinding_Direction_Pushto_##type(temp_assailablemap6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, range_push, start, toalloc);\
+    lok(neighbors_Pushto.top == false);\
+    lok(neighbors_Pushto.bottom == true);\
+    lok(neighbors_Pushto.right == true);\
+    lok(neighbors_Pushto.left == true);\
+    neighbors_Pullto = pathfinding_Direction_Pullto_##type(temp_assailablemap6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, range_pull, start, toalloc);\
+    lok(neighbors_Pullto.top == true);\
+    lok(neighbors_Pullto.bottom == false);\
+    lok(neighbors_Pullto.right == true);\
+    lok(neighbors_Pullto.left == true);\
     type temp_costmap30[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {\
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
         1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
@@ -4149,11 +4150,11 @@ void test_q_math() {
     units[3].y = 8;\
     units[4].x = 1;\
     units[4].y = 15;\
-    type * computed_gradientmap1 = pathfinding_Map_unitGradient_##type(temp_costmap30, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, units, 5);\
+    type * computed_gradientmap1 = pathfinding_Map_unitGradient_##type(temp_costmap30, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, units, 5, toalloc);\
     out = linalg_equal_##type(computed_gradientmap1, temp_gradientmap1, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
-    type temp_pushpullable1[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {\
+    type temp_pushpullto1[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {\
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,\
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,\
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,\
@@ -4180,15 +4181,15 @@ void test_q_math() {
     temp_blockdistance.top = 3;\
     temp_blockdistance.left = 4;\
     temp_blockdistance.bottom = 5;\
-    neighbors_pullable.top = true;\
-    neighbors_pullable.bottom = true;\
-    neighbors_pullable.right = true;\
-    neighbors_pullable.left =true;\
-    type * computed_pushpullable1 = pathfinding_Map_PushPullable_##type(temp_blockdistance, neighbors_pullable, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start,NMATH_POINTS_MODE_MATRIX);\
-    out = linalg_equal_##type(computed_pushpullable1, temp_pushpullable1, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
+    neighbors_Pullto.top = true;\
+    neighbors_Pullto.bottom = true;\
+    neighbors_Pullto.right = true;\
+    neighbors_Pullto.left =true;\
+    type * computed_pushpullto1 = pathfinding_Map_PushPullto_##type(temp_blockdistance, neighbors_Pullto, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start,NMATH_POINTS_MODE_MATRIX, toalloc);\
+    out = linalg_equal_##type(computed_pushpullto1, temp_pushpullto1, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
-    type temp_pushpullable2[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {\
+    type temp_pushpullto2[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {\
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,\
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,\
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,\
@@ -4215,15 +4216,15 @@ void test_q_math() {
     temp_blockdistance.top = 3;\
     temp_blockdistance.left = 4;\
     temp_blockdistance.bottom = 5;\
-    neighbors_pullable.top = false;\
-    neighbors_pullable.bottom = true;\
-    neighbors_pullable.right = true;\
-    neighbors_pullable.left = true;\
-    type * computed_pushpullable2 = pathfinding_Map_PushPullable_##type(temp_blockdistance, neighbors_pullable, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start,NMATH_POINTS_MODE_MATRIX);\
-    out = linalg_equal_##type(computed_pushpullable2, temp_pushpullable2, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
+    neighbors_Pullto.top = false;\
+    neighbors_Pullto.bottom = true;\
+    neighbors_Pullto.right = true;\
+    neighbors_Pullto.left = true;\
+    type * computed_pushpullto2 = pathfinding_Map_PushPullto_##type(temp_blockdistance, neighbors_Pullto, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start,NMATH_POINTS_MODE_MATRIX, toalloc);\
+    out = linalg_equal_##type(computed_pushpullto2, temp_pushpullto2, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
-    type temp_pushpullable3[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {\
+    type temp_pushpullto3[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {\
         -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,\
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,\
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,\
@@ -4250,12 +4251,12 @@ void test_q_math() {
     temp_blockdistance.top = 3;\
     temp_blockdistance.left = 4;\
     temp_blockdistance.bottom = 5;\
-    neighbors_pullable.top = false;\
-    neighbors_pullable.bottom = true;\
-    neighbors_pullable.right = false;\
-    neighbors_pullable.left = true;\
-    type * computed_pushpullable3 = pathfinding_Map_PushPullable_##type(temp_blockdistance, neighbors_pullable, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, NMATH_POINTS_MODE_MATRIX);\
-    out = linalg_equal_##type(computed_pushpullable3, temp_pushpullable3, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
+    neighbors_Pullto.top = false;\
+    neighbors_Pullto.bottom = true;\
+    neighbors_Pullto.right = false;\
+    neighbors_Pullto.left = true;\
+    type * computed_pushpullto3 = pathfinding_Map_PushPullto_##type(temp_blockdistance, neighbors_Pullto, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, NMATH_POINTS_MODE_MATRIX, toalloc);\
+    out = linalg_equal_##type(computed_pushpullto3, temp_pushpullto3, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
 }
