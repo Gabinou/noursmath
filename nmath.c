@@ -274,7 +274,7 @@ TEMPLATE_TYPES_BOOL
 #define REGISTER_ENUM(type) bool linalg_list_isIn_1D_##type(type * list_2D, size_t list_len, type x) {\
     bool found = false;\
     for (size_t i = 0; i < list_len; i++) {\
-        if (x == list_2D[i * ONE_D + 0]) {\
+        if (x == list_2D[i * NMATH_ONE_D + 0]) {\
             found = true;\
             break;\
         }\
@@ -289,7 +289,7 @@ TEMPLATE_TYPES_BOOL
 #define REGISTER_ENUM(type) bool linalg_list_isIn_2D_##type(type * list_2D, size_t list_len, type x, type y) {\
     bool found = false;\
     for (size_t i = 0; i < list_len; i++) {\
-        if ((x == list_2D[i * TWO_D + 0]) && (y == list_2D[i * TWO_D + 1])) {\
+        if ((x == list_2D[i * NMATH_TWO_D + 0]) && (y == list_2D[i * NMATH_TWO_D + 1])) {\
             found = true;\
             break;\
         }\
@@ -304,7 +304,7 @@ TEMPLATE_TYPES_BOOL
 #define REGISTER_ENUM(type) bool linalg_list_isIn_3D_##type(type * list_3D, size_t list_len, type x, type y, type z) {\
     bool found = false;\
     for (size_t i = 0; i < list_len; i++) {\
-        if ((x == list_3D[i * THREE_D + 0]) && (y == list_3D[i * THREE_D + 1]) && (z == list_3D[i * THREE_D + 2])) {\
+        if ((x == list_3D[i * NMATH_THREE_D + 0]) && (y == list_3D[i * NMATH_THREE_D + 1]) && (z == list_3D[i * NMATH_THREE_D + 2])) {\
             found = true;\
             break;\
         }\
@@ -770,7 +770,7 @@ TEMPLATE_TYPES_BOOL
     type * pushpullto_ptr = (type *)&pushpullto;\
     switch (mode_output) {\
         case (NMATH_POINTS_MODE_LIST):\
-            pushpulltomap = DARR_INIT(pushpulltomap, type, row_len * col_len * TWO_D);\
+            pushpulltomap = DARR_INIT(pushpulltomap, type, row_len * col_len * NMATH_TWO_D);\
             break;\
         case (NMATH_POINTS_MODE_MATRIX):\
             pushpulltomap = calloc(row_len * col_len, sizeof(*pushpulltomap));\
@@ -861,7 +861,7 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) struct nmath_sq_neighbors_##type  pathfinding_Direction_Pushto_##type(type  * assailablemap, size_t row_len, size_t col_len, type  range[2], struct nmath_point_##type target, bool toalloc) {\
+#define REGISTER_ENUM(type) struct nmath_sq_neighbors_##type  pathfinding_Direction_Pushto_##type(type  * assailablemap, size_t row_len, size_t col_len, int8_t range[2], struct nmath_point_##type target, bool toalloc) {\
     struct nmath_sq_neighbors_##type  Pushto = {0, 0, 0, 0};\
     struct nmath_point_##type neighbor;\
     for (type  distance = range[0]; distance <= range[1]; distance++) {\
@@ -886,7 +886,7 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) struct nmath_sq_neighbors_##type  pathfinding_Direction_Pullto_##type(type  * assailablemap, size_t row_len, size_t col_len, type  range[2], struct nmath_point_##type target, bool toalloc) {\
+#define REGISTER_ENUM(type) struct nmath_sq_neighbors_##type  pathfinding_Direction_Pullto_##type(type  * assailablemap, size_t row_len, size_t col_len, int8_t range[2], struct nmath_point_##type target, bool toalloc) {\
     struct nmath_sq_neighbors_##type  Pullto = {0, 0, 0, 0};\
     struct nmath_point_##type neighbor;\
     type * Pullto_ptr = (type *)&Pullto;\
@@ -960,12 +960,12 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type  * pathfinding_Map_Attackfrom_##type(type  * in_movemap, size_t row_len, size_t col_len, struct nmath_point_##type in_target, type  range[2], uint8_t mode_output, bool toalloc) {\
+#define REGISTER_ENUM(type) type  * pathfinding_Map_Attackfrom_##type(type  * in_movemap, size_t row_len, size_t col_len, struct nmath_point_##type in_target, int8_t range[2], uint8_t mode_output, bool toalloc) {\
     struct nmath_point_##type perimeter_nmath_point_##type, delta;\
     type  * assailablemap = NULL;\
     switch (mode_output) {\
         case (NMATH_POINTS_MODE_LIST):\
-            assailablemap = DARR_INIT(assailablemap, type, row_len * col_len * TWO_D);\
+            assailablemap = DARR_INIT(assailablemap, type, row_len * col_len * NMATH_TWO_D);\
             break;\
         case (NMATH_POINTS_MODE_MATRIX):\
             assailablemap = calloc(row_len * col_len, sizeof(type));\
@@ -985,7 +985,7 @@ TEMPLATE_TYPES_SINT
             if (in_movemap[perimeter_nmath_point_##type.y * col_len + perimeter_nmath_point_##type.x] >= NMATH_MOVEMAP_MOVEABLEMIN) {\
                 switch (mode_output) {\
                     case NMATH_POINTS_MODE_LIST:\
-                        if (!linalg_list_isIn_2D_##type(assailablemap, DARR_NUM(assailablemap) / TWO_D, perimeter_nmath_point_##type.x, perimeter_nmath_point_##type.y)) {\
+                        if (!linalg_list_isIn_2D_##type(assailablemap, DARR_NUM(assailablemap) / NMATH_TWO_D, perimeter_nmath_point_##type.x, perimeter_nmath_point_##type.y)) {\
                             DARR_PUT(assailablemap, perimeter_nmath_point_##type.x);\
                             DARR_PUT(assailablemap, perimeter_nmath_point_##type.y);\
                         }\
@@ -1002,15 +1002,15 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * pathfinding_Map_Attackto_##type(type * move_matrix, size_t row_len, size_t col_len, type  move, type  range[2], uint8_t mode_output, uint8_t mode_movetile, bool toalloc) {\
+#define REGISTER_ENUM(type) type * pathfinding_Map_Attackto_##type(type * move_matrix, size_t row_len, size_t col_len, type  move, int8_t range[2], uint8_t mode_output, uint8_t mode_movetile, bool toalloc) {\
     type  * attackmap = NULL, *temp_row = NULL, *move_list = NULL, * toadd = NULL;\
     type  subrangey_min, subrangey_max;\
     struct nmath_point_##type temp_nmath_point_##type;\
     move_list = linalg_matrix2list_##type(move_matrix, row_len, col_len);\
-    size_t list_len = DARR_NUM(move_list) / TWO_D;\
+    size_t list_len = DARR_NUM(move_list) / NMATH_TWO_D;\
     switch (mode_output) {\
         case (NMATH_POINTS_MODE_LIST):\
-            attackmap = DARR_INIT(attackmap, type, row_len * col_len * TWO_D);\
+            attackmap = DARR_INIT(attackmap, type, row_len * col_len * NMATH_TWO_D);\
             break;\
         case (NMATH_POINTS_MODE_MATRIX):\
             if (toalloc) {\
@@ -1032,14 +1032,14 @@ TEMPLATE_TYPES_SINT
             add_nmath_point_##type = true;\
             break;\
     }\
-    for (type  i = 0; i < list_len; i++) {\
-        for (type  rangex = 0; rangex <= range[1]; rangex++) {\
+    for (type i = 0; i < list_len; i++) {\
+        for (type rangex = 0; rangex <= range[1]; rangex++) {\
             subrangey_min = (rangex > range[0]) ? 0 : (range[0] - rangex);\
             subrangey_max = (rangex > range[1]) ? 0 : (range[1] - rangex);\
             for (type  rangey = subrangey_min; rangey <= subrangey_max; rangey++) {\
-                for (type  sq_neighbor = 0; sq_neighbor < NMATH_SQUARE_NEIGHBOURS; sq_neighbor++) {\
-                    temp_nmath_point_##type.x = nmath_inbounds_##type(move_list[i * TWO_D + 0] + q_cycle4_pmmp(sq_neighbor) * rangex, 0, col_len - 1);\
-                    temp_nmath_point_##type.y = nmath_inbounds_##type(move_list[i * TWO_D + 1] + q_cycle4_ppmm(sq_neighbor) * rangey, 0, row_len - 1);\
+                for (int8_t sq_neighbor = 0; sq_neighbor < NMATH_SQUARE_NEIGHBOURS; sq_neighbor++) {\
+                    temp_nmath_point_##type.x = nmath_inbounds_##type(move_list[i * NMATH_TWO_D + 0] + q_cycle4_pmmp(sq_neighbor) * rangex, 0, col_len - 1);\
+                    temp_nmath_point_##type.y = nmath_inbounds_##type(move_list[i * NMATH_TWO_D + 1] + q_cycle4_ppmm(sq_neighbor) * rangey, 0, row_len - 1);\
                     switch (mode_movetile) {\
                         case NMATH_MOVETILE_EXCLUDE:\
                             add_nmath_point_##type = (move_matrix[temp_nmath_point_##type.y * col_len + temp_nmath_point_##type.x] == NMATH_MOVEMAP_BLOCKED);\
@@ -1048,7 +1048,7 @@ TEMPLATE_TYPES_SINT
                     if (add_nmath_point_##type) {\
                         switch (mode_output) {\
                             case NMATH_POINTS_MODE_LIST:\
-                                if (!linalg_list_isIn_2D_##type(attackmap, DARR_NUM(attackmap) / TWO_D, temp_nmath_point_##type.x, temp_nmath_point_##type.y)) {\
+                                if (!linalg_list_isIn_2D_##type(attackmap, DARR_NUM(attackmap) / NMATH_TWO_D, temp_nmath_point_##type.x, temp_nmath_point_##type.y)) {\
                                     DARR_PUT(attackmap, temp_nmath_point_##type.x);\
                                     DARR_PUT(attackmap, temp_nmath_point_##type.y);\
                                 }\
@@ -1071,7 +1071,7 @@ TEMPLATE_TYPES_INT
     type  * move_matrix = NULL, * temp_row = NULL;\
     switch (mode_output) {\
         case (NMATH_POINTS_MODE_LIST):\
-            move_matrix = DARR_INIT(move_matrix, type, depth_len * col_len * TWO_D);\
+            move_matrix = DARR_INIT(move_matrix, type, depth_len * col_len * NMATH_TWO_D);\
             break;\
         case (NMATH_POINTS_MODE_MATRIX):\
             move_matrix = calloc(depth_len * col_len, sizeof(type));\
@@ -1097,7 +1097,7 @@ TEMPLATE_TYPES_INT
                 }\
                 break;\
             case NMATH_POINTS_MODE_LIST:\
-                found = linalg_list_isIn_2D_##type(move_matrix, DARR_NUM(move_matrix) / TWO_D, current.x, current.z);\
+                found = linalg_list_isIn_2D_##type(move_matrix, DARR_NUM(move_matrix) / NMATH_TWO_D, current.x, current.z);\
                 if (!found) {\
                     DARR_PUT(move_matrix, current.x);\
                     DARR_PUT(move_matrix, current.z);\
@@ -1144,7 +1144,7 @@ TEMPLATE_TYPES_SINT
     type * move_matrix = NULL, * temp_row = NULL;\
     switch (mode_output) {\
         case (NMATH_POINTS_MODE_LIST):\
-            move_matrix = DARR_INIT(move_matrix, type, row_len * col_len * TWO_D);\
+            move_matrix = DARR_INIT(move_matrix, type, row_len * col_len * NMATH_TWO_D);\
             break;\
         case (NMATH_POINTS_MODE_MATRIX):\
             if (toalloc) {\
@@ -1172,14 +1172,14 @@ TEMPLATE_TYPES_SINT
                 }\
                 break;\
             case NMATH_POINTS_MODE_LIST:\
-                found = linalg_list_isIn_2D_##type(move_matrix, DARR_NUM(move_matrix) / TWO_D, current.x, current.y);\
+                found = linalg_list_isIn_2D_##type(move_matrix, DARR_NUM(move_matrix) / NMATH_TWO_D, current.x, current.y);\
                 if (!found) {\
                     DARR_PUT(move_matrix, current.x);\
                     DARR_PUT(move_matrix, current.y);\
                 }\
                 break;\
         }\
-        for (size_t i = 0; i < NMATH_SQUARE_NEIGHBOURS; i++) {\
+        for (int8_t i = 0; i < NMATH_SQUARE_NEIGHBOURS; i++) {\
             neighbor.x = nmath_inbounds_##type(current.x + q_cycle4_mzpz(i), 0, col_len - 1);\
             neighbor.y = nmath_inbounds_##type(current.y + q_cycle4_zmzp(i), 0, row_len - 1);\
             neighbor.distance = current.distance + cost_matrix[neighbor.y * col_len + neighbor.x];\
@@ -1216,7 +1216,7 @@ TEMPLATE_TYPES_FLOAT
     bool visible;\
     switch (mode_output) {\
         case (NMATH_POINTS_MODE_LIST):\
-            sightmap = DARR_INIT(sightmap, type, row_len * col_len * TWO_D);\
+            sightmap = DARR_INIT(sightmap, type, row_len * col_len * NMATH_TWO_D);\
             break;\
         case (NMATH_POINTS_MODE_MATRIX):\
             sightmap = calloc(row_len * col_len, sizeof(type));\
@@ -1272,7 +1272,7 @@ TEMPLATE_TYPES_SINT
     bool visible;\
     switch (mode_output) {\
         case (NMATH_POINTS_MODE_LIST):\
-            sightmap = DARR_INIT(sightmap, type, depth_len * col_len * TWO_D);\
+            sightmap = DARR_INIT(sightmap, type, depth_len * col_len * NMATH_TWO_D);\
             break;\
         case (NMATH_POINTS_MODE_MATRIX):\
             sightmap = calloc(depth_len * col_len, sizeof(type));\
@@ -1319,8 +1319,8 @@ TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * pathfinding_Map_Path_##type(type * move_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, struct nmath_point_##type end, uint8_t mode_path, bool toalloc) {\
-    type  * path_position = DARR_INIT(path_position, type, row_len * col_len * TWO_D);\
-    type  * out = DARR_INIT(out, type, row_len * col_len * TWO_D);\
+    type  * path_position = DARR_INIT(path_position, type, row_len * col_len * NMATH_TWO_D);\
+    type  * out = DARR_INIT(out, type, row_len * col_len * NMATH_TWO_D);\
     struct nmath_point_##type current = end, neighbor, next;\
     type  current_cost;\
     if ((move_matrix[start.y * col_len + start.x] >= NMATH_MOVEMAP_MOVEABLEMIN) || (move_matrix[end.y * col_len + end.x] >= NMATH_MOVEMAP_MOVEABLEMIN)) {\
@@ -1347,9 +1347,9 @@ TEMPLATE_TYPES_SINT
     DARR_PUT(path_position, current.y);\
     switch (mode_path) {\
         case NMATH_PATH_STEP:\
-            for (type  i = ((DARR_NUM(path_position) / TWO_D) - 1); i > 0 ; i--) {\
-                DARR_PUT(out, (path_position[(i - 1) * TWO_D + 0] - path_position[i * TWO_D + 0]));\
-                DARR_PUT(out, (path_position[(i - 1) * TWO_D + 1] - path_position[i * TWO_D + 1]));\
+            for (type  i = ((DARR_NUM(path_position) / NMATH_TWO_D) - 1); i > 0 ; i--) {\
+                DARR_PUT(out, (path_position[(i - 1) * NMATH_TWO_D + 0] - path_position[i * NMATH_TWO_D + 0]));\
+                DARR_PUT(out, (path_position[(i - 1) * NMATH_TWO_D + 1] - path_position[i * NMATH_TWO_D + 1]));\
             }\
             break;\
         case NMATH_PATH_POSITION:\
@@ -1366,8 +1366,8 @@ TEMPLATE_TYPES_SINT
     DARR_PUT(path_position, start.x);\
     DARR_PUT(path_position, start.y);\
     for (type  i = 0; i < list_len; i++) {\
-        DARR_PUT(path_position, (path_position[i * TWO_D + 0] + step_list[i * TWO_D + 0]));\
-        DARR_PUT(path_position, (path_position[i * TWO_D + 1] + step_list[i * TWO_D + 1]));\
+        DARR_PUT(path_position, (path_position[i * NMATH_TWO_D + 0] + step_list[i * NMATH_TWO_D + 0]));\
+        DARR_PUT(path_position, (path_position[i * NMATH_TWO_D + 1] + step_list[i * NMATH_TWO_D + 1]));\
     }\
     return (path_position);\
 }
