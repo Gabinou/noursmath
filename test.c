@@ -3937,7 +3937,7 @@ void test_q_math() {
     };\
     struct nmath_point_##type target = {13, 6};\
     int8_t range_1[2] = {1, 2};\
-    type range_2[2] = {1, 3};\
+    int8_t range_2[2] = {1, 3};\
     type * compute_assailablemap1 = pathfinding_Map_Attackfrom_##type(temp_movemapp20, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, target, range_1, NMATH_POINTS_MODE_MATRIX, toalloc);\
     out = linalg_equal_##type(compute_assailablemap1, temp_assailablemap1, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
