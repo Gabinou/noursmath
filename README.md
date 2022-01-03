@@ -22,6 +22,7 @@ Compileable with ```tcc```.
 - Naive operations, no overflow protection, wonky unsigned types.
 - Includes [DARR](https://gitlab.com/Gabinou/darr) and [DTAB](https://gitlab.com/Gabinou/dtab).
 - Fast? Questionable (no vectorization)
+- No memory management. Caller deals with memory.
 
 ## q_math
     
@@ -44,7 +45,6 @@ Common linear algebra operations like dot product and cross product are implemen
 
 These functions are designed for a turn-based strategy game that takes place on a 2D map with square tiles, made to compute movement and sight.
 Some variants are implemented for a 2D map with hexagonal tiles.
-Some
 
 No diagonal movement is possible, but there are no such restriction on sight.
 Each map tile has a movement cost; each unit has a maximal movement and sight value, and minimal to maximal attack range.
@@ -59,10 +59,10 @@ Definitions:
 - A *movemap* is a 2D matrix with tiles a certain unit can move to.
 - A *blockmap* is a 2D matrix with tiles blocked for vision.
 - A *sightmap* is a 2D matrix with tiles visible by a certain unit.
-- Units can attack enemies that are on *attackable* tiles,
-- Units can attack enemies from *assailable* tiles,
-- Units can be push/pulled on *push/Pullto* tiles,
-- Units can be only be push/pulled in *push/Pullto* directions.
+- Units can attack enemies that are on *attackto* tiles,
+- Units can attack enemies from *attackfrom* tiles,
+- Units can be push/pulled on *pushto/pullto*  tiles,
+- Units can be only be push/pulled in *pushto/pullto* directions.
 <!-- a traversable tile is traversable WHETHER IT IS IN OUR MOVEMENT RANGE OR NOT. a MOVABLE tile is DIFFERENT than a TRAVERSIBLE tile. -->
 <!-- although... movable implies that THE TILE MOVES. not the player! -> reachable tiles -->
 

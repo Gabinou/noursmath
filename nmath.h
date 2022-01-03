@@ -510,6 +510,11 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern type * linalg_crossProduct_noM_##type(type * product, type * vec3D1, type * vec3D2);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) extern type * linalg_uniques_##type(type * array, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
@@ -547,12 +552,27 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern type * linalg_greater_noM_##type(type * out, type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) extern type * linalg_greater_##type(type * matrix1, type * matrix2, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern type * linalg_geq_noM_##type(type * out, type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) extern type * linalg_geq_##type(type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_smaller_noM_##type(type * out, type * matrix1, type * matrix2, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
@@ -563,18 +583,28 @@ TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
 // s for scalar
+#define REGISTER_ENUM(type) extern type * linalg_seq_noM_h##type(type * out, type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) extern type * linalg_seq_##type(type * matrix1, type * matrix2, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * linalg_sgreater_##type(type * out, type * matrix1, type tocompare, size_t arr_len);
+#define REGISTER_ENUM(type) extern type * linalg_sgreater_noM_##type(type * out, type * matrix1, type tocompare, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
 
-#define REGISTER_ENUM(type) extern type * linalg_sgreaterM_##type(type * matrix1, type tocompare, size_t arr_len);
+#define REGISTER_ENUM(type) extern type * linalg_sgreater_##type(type * matrix1, type tocompare, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_sgeq_noM_##type(type * out, type * matrix1, type tocompare, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
@@ -584,7 +614,17 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern type * linalg_ssmaller_noM_##type(type * out, type * matrix1, type tocompare, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) extern type * linalg_ssmaller_##type(type * matrix1, type tocompare, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_sseq_noM_##type(type * out, type * matrix1, type tocompare, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
@@ -594,9 +634,18 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern type * linalg_equal_noM_##type(type * out, type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) extern type * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern bool * linalg_equal_noM_##type(type * out, type * matrix1, type * matrix2, size_t arr_len, type tolerance);
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern bool * linalg_equal_##type(type * matrix1, type * matrix2, size_t arr_len, type tolerance);
@@ -613,7 +662,17 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern type * linalg_draw_circ_noM_##type(type * out_mat, type origin_x, type origin_y, size_t radius, size_t row_len, size_t col_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) extern type * linalg_draw_circ_##type(type origin_x, type origin_y, size_t radius, size_t row_len, size_t col_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_draw_rect_noM_##type(type * out_mat, type origin_x, type origin_y, size_t width, size_t height, size_t row_len, size_t col_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
@@ -623,7 +682,19 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern type * linalg_plus_noM_##type(type * out, type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) extern type * linalg_plus_##type(type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_plus_scalar_noM_##type(type * out, type * matrix, type value, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
@@ -635,7 +706,19 @@ TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern type * linalg_minus_noM_##type(type * out, type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) extern type * linalg_minus_##type(type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_minus_scalar_noM_##type(type * out, type * matrix, type value, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
@@ -645,6 +728,11 @@ TEMPLATE_TYPES_BOOL
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_mult_noM_##type(type * out, type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_mult_##type(type * matrix1, type * matrix2, size_t arr_len);
@@ -657,7 +745,17 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern type * linalg_div_noM_##type(type * out, type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) extern type * linalg_div_##type(type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_div_scalar_noM_##type(type * out, type * matrix1, type value, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
@@ -667,13 +765,27 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern type * linalg_and_noM_##type(type * out, type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+#undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_and_##type(type * matrix1, type * matrix2, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern type * linalg_or_noM_##type(type * out, type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) extern type * linalg_or_##type(type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_mask_noM_##type(type * out, type * matrix, type * mask, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
@@ -684,6 +796,10 @@ TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_matrix2list_##type(type * matrix, size_t row_len, size_t col_len);
+TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_list2matrix_noM_##type(type * out, type * list, size_t row_len, size_t col_len, size_t list_len);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
@@ -713,18 +829,26 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_PushPullto_noM_##type(type * pushpulltomap, mhstruct nmath_sq_neighbors_##type direction_block, struct nmath_sq_neighbors_##type pushpullto, size_t row_len, size_t col_len, struct nmath_point_##type start);
+TEMPLATE_TYPES_SINT
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) extern type * pathfinding_Map_PushPullto_##type(struct nmath_sq_neighbors_##type direction_block, struct nmath_sq_neighbors_##type pushpullto, size_t row_len, size_t col_len, struct nmath_point_##type start, uint8_t mode_output);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Moveto_##type(type * move_matrix, type * cost_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, type move);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Moveto_noM_##type(type * move_matrix, type * cost_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, type move);
 TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_MovetoM_##type(type * costmap, size_t row_len, size_t col_len, struct nmath_point_##type start, type move, uint8_t mode_output);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Moveto_##type(type * costmap, size_t row_len, size_t col_len, struct nmath_point_##type start, type move, uint8_t mode_output);
 TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_FLOAT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Visible_##type(type * sightmap, type * blockmap, size_t row_len, size_t col_len, struct nmath_point_##type start, type sight);
+TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * pathfinding_Map_Visible_##type(type * blockmap, size_t row_len, size_t col_len, struct nmath_point_##type start, type sight, uint8_t mode_output);
@@ -735,7 +859,7 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_AttacktoM_##type(type * move_matrix, size_t row_len, size_t col_len, type move, int8_t range[2], uint8_t mode_output, uint8_t mode_movetile);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_AttacktoM_##type(type * move_matrix, size_t row_len, size_t col_len, type move, int8_t range[2], uint8_t mode_movetile);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
@@ -744,6 +868,10 @@ TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * pathfinding_Map_Visible_Hex_##type(type * blockmap, size_t depth_len, size_t col_len, struct nmath_hexpoint_##type  start, type sight, uint8_t mode);
+TEMPLATE_TYPES_SINT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Attackfrom_noM_##type(type * attackfrommap, type * in_movemap, size_t row_len, size_t col_len, struct nmath_point_##type in_target, int8_t range[2]);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
@@ -756,6 +884,10 @@ TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * pathfinding_Map_Pullto_##type(type * in_movemap, size_t row_len, size_t col_len, struct nmath_point_##type in_target, uint8_t mode_output);
+TEMPLATE_TYPES_SINT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_unitGradient_noM_##type(type * unitgradientmap, type * in_costmap, size_t row_len, size_t col_len, struct nmath_point_##type * in_targets, size_t unit_num);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
