@@ -829,7 +829,7 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_PushPullto_noM_##type(type * pushpulltomap, mhstruct nmath_sq_neighbors_##type direction_block, struct nmath_sq_neighbors_##type pushpullto, size_t row_len, size_t col_len, struct nmath_point_##type start);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_PushPullto_noM_##type(type * pushpulltomap, struct nmath_sq_neighbors_##type direction_block, struct nmath_sq_neighbors_##type pushpullto, size_t row_len, size_t col_len, struct nmath_point_##type start);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
@@ -847,7 +847,7 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Visible_##type(type * sightmap, type * blockmap, size_t row_len, size_t col_len, struct nmath_point_##type start, type sight);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Visible_noM_##type(type * sightmap, type * blockmap, size_t row_len, size_t col_len, struct nmath_point_##type start, type sight);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
@@ -855,15 +855,15 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Attackto_##type(type * attackto_matrix, type * move_matrix, size_t row_len, size_t col_len, type move, int8_t range[2], uint8_t mode_movetile);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Attackto_noM_##type(type * attackto_matrix, type * move_matrix, size_t row_len, size_t col_len, type move, int8_t range[2], uint8_t mode_movetile);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_AttacktoM_##type(type * move_matrix, size_t row_len, size_t col_len, type move, int8_t range[2], uint8_t mode_movetile);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Attackto_##type(type * move_matrix, size_t row_len, size_t col_len, type move, int8_t range[2], uint8_t mode_output, uint8_t mode_movetile);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Moveto_Hex_##type(type * costmap, size_t row_len, size_t depth_len, struct nmath_hexpoint_##type  start, type move, uint8_t mode_output);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Moveto_Hex_##type(type * costmap, size_t row_len, size_t depth_len, struct nmath_hexpoint_##type start, type move, uint8_t mode_output);
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 

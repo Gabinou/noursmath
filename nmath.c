@@ -597,7 +597,7 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * linalg_greater_##type(type * out, type * matrix1, type * matrix2, size_t arr_len) {\
+#define REGISTER_ENUM(type) type * linalg_greater_noM_##type(type * out, type * matrix1, type * matrix2, size_t arr_len) {\
     for (size_t i = 0; i < arr_len; i++) {\
             out[i] = (matrix1[i] > matrix2[i]);\
     }\
@@ -1032,7 +1032,7 @@ TEMPLATE_TYPES_BOOL
 
 /******************************* PATHFINDING ***********************************/
 
-#define REGISTER_ENUM(type) type * pathfinding_Map_PushPullto_noM_##type(type * pushpulltomap, struct nmath_sq_neighbors_##type  direction_block, struct nmath_sq_neighbors_##type  pushpullto, size_t row_len, size_t col_len, struct nmath_point_##type start, uint8_t mode_output) {\
+#define REGISTER_ENUM(type) type * pathfinding_Map_PushPullto_noM_##type(type * pushpulltomap, struct nmath_sq_neighbors_##type  direction_block, struct nmath_sq_neighbors_##type  pushpullto, size_t row_len, size_t col_len, struct nmath_point_##type start) {\
     type temp_distance;\
     struct nmath_point_##type pushpullto_tile;\
     type * block_ptr = (type *)&direction_block;\
@@ -1042,16 +1042,14 @@ TEMPLATE_TYPES_BOOL
             pushpulltomap[(row * col_len + col)] = NMATH_PUSHPULLMAP_BLOCKED;\
         }\
     }\
-    }\
     pushpulltomap[start.y * col_len + start.x] = 0;\
     for (type  sq_neighbor = 0; sq_neighbor < NMATH_SQUARE_NEIGHBOURS; sq_neighbor++) {\
         temp_distance = *(block_ptr + sq_neighbor);\
         if (*(pushpullto_ptr + sq_neighbor) >= NMATH_PUSHPULLMAP_MINDIST) {\
-            for (type  distance = 1; distance < temp_distance; distance++) {\
-                pushpullto_tile.x = nmath_inbounds_##type((distance * q_cycle4_pzmz(sq_neighbor)) + start.x, 0, col_len - 1);\
-                pushpullto_tile.y = nmath_inbounds_##type((distance * q_cycle4_zmzp(sq_neighbor)) + start.y, 0, row_len - 1);\
-                pushpulltomap[pushpullto_tile.y * col_len + pushpullto_tile.x] = distance;\
-                }\
+        for (type  distance = 1; distance < temp_distance; distance++) {\
+            pushpullto_tile.x = nmath_inbounds_##type((distance * q_cycle4_pzmz(sq_neighbor)) + start.x, 0, col_len - 1);\
+            pushpullto_tile.y = nmath_inbounds_##type((distance * q_cycle4_zmzp(sq_neighbor)) + start.y, 0, row_len - 1);\
+            pushpulltomap[pushpullto_tile.y * col_len + pushpullto_tile.x] = distance;\
             }\
         }\
     }\
@@ -1313,7 +1311,7 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type  * pathfinding_Map_Attackfrom_noM_##type(ype * attackfrommap, type * in_movemap, size_t row_len, size_t col_len, struct nmath_point_##type in_target, int8_t range[2]) {\
+#define REGISTER_ENUM(type) type  * pathfinding_Map_Attackfrom_noM_##type(type * attackfrommap, type * in_movemap, size_t row_len, size_t col_len, struct nmath_point_##type in_target, int8_t range[2]) {\
     struct nmath_point_##type perimeter_nmath_point_##type, delta;\
     for (uint8_t row = 0; row < row_len; row++) {\
         for (uint8_t col = 0; col < col_len; col++) {\
@@ -1331,7 +1329,6 @@ TEMPLATE_TYPES_SINT
                 }\
             }\
         }\
-    }\
     return (attackfrommap);\
 }
 TEMPLATE_TYPES_SINT
@@ -1425,7 +1422,7 @@ TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 
-#define REGISTER_ENUM(type) type * pathfinding_Map_AttacktoM_##type(type * move_matrix, size_t row_len, size_t col_len, type  move, int8_t range[2], uint8_t mode_output, uint8_t mode_movetile) {\
+#define REGISTER_ENUM(type) type * pathfinding_Map_Attackto_##type(type * move_matrix, size_t row_len, size_t col_len, type  move, int8_t range[2], uint8_t mode_output, uint8_t mode_movetile) {\
     type  * attackmap = NULL, *temp_row = NULL, *move_list = NULL, * toadd = NULL;\
     type  subrangey_min, subrangey_max;\
     struct nmath_point_##type temp_nmath_point_##type;\
@@ -1672,8 +1669,7 @@ TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * pathfinding_Map_Visible_noM_##type(type * sightmap, type * block_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, type sight) {\
-    type  * sightmap = NULL;\
-    struct nmath_point_##type perimeter_nmath_point_##type = {0, 0}, delta = {0, 0}, interpolated = {0, 0};\
+     struct nmath_point_##type perimeter_nmath_point_##type = {0, 0}, delta = {0, 0}, interpolated = {0, 0};\
     bool visible;\
     for (uint8_t row = 0; row < row_len; row++) {\
         for (uint8_t col = 0; col < col_len; col++) {\
