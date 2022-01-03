@@ -468,7 +468,19 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * linalg_sgreater_##type(type * matrix1, type tocompare, size_t arr_len) {\
+
+#define REGISTER_ENUM(type) type * linalg_sgreater_##type(type * out, type * matrix1, type tocompare, size_t arr_len) {\
+    for (size_t i = 0; i < arr_len; i++) {\
+            out[i] = (matrix1[i] > tocompare);\
+    }\
+return (out);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+
+#define REGISTER_ENUM(type) type * linalg_sgreaterM_##type(type * matrix1, type tocompare, size_t arr_len) {\
     type * out = calloc(arr_len, sizeof(type));\
     for (size_t i = 0; i < arr_len; i++) {\
             out[i] = (matrix1[i] > tocompare);\
@@ -762,7 +774,7 @@ TEMPLATE_TYPES_BOOL
 
 /******************************* PATHFINDING ***********************************/
 
-#define REGISTER_ENUM(type) type * pathfinding_Map_PushPullto_##type(struct nmath_sq_neighbors_##type  direction_block, struct nmath_sq_neighbors_##type  pushpullto, size_t row_len, size_t col_len, struct nmath_point_##type start, uint8_t mode_output, bool toalloc) {\
+#define REGISTER_ENUM(type) type * pathfinding_Map_PushPullto_##type(struct nmath_sq_neighbors_##type  direction_block, struct nmath_sq_neighbors_##type  pushpullto, size_t row_len, size_t col_len, struct nmath_point_##type start, uint8_t mode_output) {\
     type * pushpulltomap = NULL;\
     type temp_distance;\
     struct nmath_point_##type pushpullto_tile;\
@@ -805,7 +817,7 @@ TEMPLATE_TYPES_BOOL
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * pathfinding_Map_unitGradient_##type(type * in_costmap, size_t row_len, size_t col_len, struct nmath_point_##type * in_targets, size_t unit_num, bool toalloc) {\
+#define REGISTER_ENUM(type) type * pathfinding_Map_unitGradient_##type(type * in_costmap, size_t row_len, size_t col_len, struct nmath_point_##type * in_targets, size_t unit_num) {\
     type * unitgradientmap = calloc(row_len * col_len, sizeof(type));\
     for (type  col = 0; col < col_len; col++) {\
         for (type  row = 0; row < row_len; row++) {\
@@ -861,7 +873,7 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) struct nmath_sq_neighbors_##type  pathfinding_Direction_Pushto_##type(type  * assailablemap, size_t row_len, size_t col_len, int8_t range[2], struct nmath_point_##type target, bool toalloc) {\
+#define REGISTER_ENUM(type) struct nmath_sq_neighbors_##type  pathfinding_Direction_Pushto_##type(type  * assailablemap, size_t row_len, size_t col_len, int8_t range[2], struct nmath_point_##type target) {\
     struct nmath_sq_neighbors_##type  Pushto = {0, 0, 0, 0};\
     struct nmath_point_##type neighbor;\
     for (type  distance = range[0]; distance <= range[1]; distance++) {\
@@ -886,7 +898,7 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) struct nmath_sq_neighbors_##type  pathfinding_Direction_Pullto_##type(type  * assailablemap, size_t row_len, size_t col_len, int8_t range[2], struct nmath_point_##type target, bool toalloc) {\
+#define REGISTER_ENUM(type) struct nmath_sq_neighbors_##type  pathfinding_Direction_Pullto_##type(type  * assailablemap, size_t row_len, size_t col_len, int8_t range[2], struct nmath_point_##type target) {\
     struct nmath_sq_neighbors_##type  Pullto = {0, 0, 0, 0};\
     struct nmath_point_##type neighbor;\
     type * Pullto_ptr = (type *)&Pullto;\
@@ -905,7 +917,7 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) struct nmath_sq_neighbors_##type  pathfinding_Direction_Block_##type(type  * costmap_pushpull, size_t row_len, size_t col_len, struct nmath_point_##type start, bool toalloc) {\
+#define REGISTER_ENUM(type) struct nmath_sq_neighbors_##type  pathfinding_Direction_Block_##type(type  * costmap_pushpull, size_t row_len, size_t col_len, struct nmath_point_##type start) {\
     struct nmath_sq_neighbors_##type  distance_block = {0, 0, 0, 0};\
     type * distance_ptr = (type *)&distance_block;\
     struct nmath_point_##type neighbor = {0, 0};\
@@ -960,7 +972,7 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type  * pathfinding_Map_Attackfrom_##type(type  * in_movemap, size_t row_len, size_t col_len, struct nmath_point_##type in_target, int8_t range[2], uint8_t mode_output, bool toalloc) {\
+#define REGISTER_ENUM(type) type  * pathfinding_Map_Attackfrom_##type(type  * in_movemap, size_t row_len, size_t col_len, struct nmath_point_##type in_target, int8_t range[2], uint8_t mode_output) {\
     struct nmath_point_##type perimeter_nmath_point_##type, delta;\
     type  * assailablemap = NULL;\
     switch (mode_output) {\
@@ -1002,7 +1014,54 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * pathfinding_Map_Attackto_##type(type * move_matrix, size_t row_len, size_t col_len, type  move, int8_t range[2], uint8_t mode_output, uint8_t mode_movetile, bool toalloc) {\
+
+#define REGISTER_ENUM(type) type * pathfinding_Map_Attackto_##type(type * attackmap, type * move_matrix, size_t row_len, size_t col_len, type  move, int8_t range[2], uint8_t mode_movetile) {\
+    type *temp_row = NULL, *move_list = NULL, * toadd = NULL;\
+    type  subrangey_min, subrangey_max;\
+    struct nmath_point_##type temp_nmath_point_##type;\
+    move_list = linalg_matrix2list_##type(move_matrix, row_len, col_len);\
+    size_t list_len = DARR_NUM(move_list) / NMATH_TWO_D;\
+    for (uint8_t row = 0; row < row_len; row++) {\
+        for (uint8_t col = 0; col < col_len; col++) {\
+            attackmap[(row * col_len + col)] = NMATH_ATTACKMAP_BLOCKED;\
+        }\
+    }\
+    bool add_nmath_point_##type;\
+    switch (mode_movetile) {\
+        case NMATH_MOVETILE_INCLUDE:\
+            add_nmath_point_##type = true;\
+            break;\
+        default:\
+            add_nmath_point_##type = true;\
+            break;\
+    }\
+    for (type i = 0; i < list_len; i++) {\
+        for (type rangex = 0; rangex <= range[1]; rangex++) {\
+            subrangey_min = (rangex > range[0]) ? 0 : (range[0] - rangex);\
+            subrangey_max = (rangex > range[1]) ? 0 : (range[1] - rangex);\
+            for (type  rangey = subrangey_min; rangey <= subrangey_max; rangey++) {\
+                for (int8_t sq_neighbor = 0; sq_neighbor < NMATH_SQUARE_NEIGHBOURS; sq_neighbor++) {\
+                    temp_nmath_point_##type.x = nmath_inbounds_##type(move_list[i * NMATH_TWO_D + 0] + q_cycle4_pmmp(sq_neighbor) * rangex, 0, col_len - 1);\
+                    temp_nmath_point_##type.y = nmath_inbounds_##type(move_list[i * NMATH_TWO_D + 1] + q_cycle4_ppmm(sq_neighbor) * rangey, 0, row_len - 1);\
+                    switch (mode_movetile) {\
+                        case NMATH_MOVETILE_EXCLUDE:\
+                            add_nmath_point_##type = (move_matrix[temp_nmath_point_##type.y * col_len + temp_nmath_point_##type.x] == NMATH_MOVEMAP_BLOCKED);\
+                            break;\
+                    }\
+                    if (add_nmath_point_##type) {\
+                        attackmap[temp_nmath_point_##type.y * col_len + temp_nmath_point_##type.x] = NMATH_ATTACKMAP_MOVEABLEMIN;\
+                    }\
+                }\
+            }\
+        }\
+    }\
+    return (attackmap);\
+}
+TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+
+#define REGISTER_ENUM(type) type * pathfinding_Map_AttacktoM_##type(type * move_matrix, size_t row_len, size_t col_len, type  move, int8_t range[2], uint8_t mode_output, uint8_t mode_movetile) {\
     type  * attackmap = NULL, *temp_row = NULL, *move_list = NULL, * toadd = NULL;\
     type  subrangey_min, subrangey_max;\
     struct nmath_point_##type temp_nmath_point_##type;\
@@ -1013,9 +1072,7 @@ TEMPLATE_TYPES_SINT
             attackmap = DARR_INIT(attackmap, type, row_len * col_len * NMATH_TWO_D);\
             break;\
         case (NMATH_POINTS_MODE_MATRIX):\
-            if (toalloc) {\
                 attackmap = calloc(row_len * col_len, sizeof(type));\
-            }\
             for (uint8_t row = 0; row < row_len; row++) {\
                 for (uint8_t col = 0; col < col_len; col++) {\
                     attackmap[(row * col_len + col)] = NMATH_ATTACKMAP_BLOCKED;\
@@ -1067,7 +1124,7 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type  * pathfinding_Map_Moveto_Hex_##type(type  * cost_matrix, size_t depth_len, size_t col_len, struct nmath_hexpoint_##type start, type  move, uint8_t mode_output, bool toalloc) {\
+#define REGISTER_ENUM(type) type  * pathfinding_Map_Moveto_Hex_##type(type  * cost_matrix, size_t depth_len, size_t col_len, struct nmath_hexpoint_##type start, type move, uint8_t mode_output) {\
     type  * move_matrix = NULL, * temp_row = NULL;\
     switch (mode_output) {\
         case (NMATH_POINTS_MODE_LIST):\
@@ -1135,21 +1192,62 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) type * pathfinding_Map_Moveto_##type(type * move_matrix, type * cost_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, type move) {\
+    type * temp_row = NULL;\
+    for (size_t row = 0; row < row_len; row++) {\
+        for (size_t col = 0; col < col_len; col++) {\
+            move_matrix[(row * col_len + col)] = NMATH_MOVEMAP_BLOCKED;\
+        }\
+    }\
+    struct nmath_node_##type * open = DARR_INIT(open, struct nmath_node_##type, row_len * col_len * 2);\
+    struct nmath_node_##type * closed = DARR_INIT(closed, struct nmath_node_##type, row_len * col_len * 2);\
+    struct nmath_node_##type current = {start.x, start.y, NMATH_ZERO_##type}, neighbor;\
+    DARR_PUT(open, current);\
+    bool found, neighbor_inclosed;\
+    while (DARR_NUM(open) > 0) {\
+        current = DARR_POP(open);\
+        DARR_PUT(closed, current);\
+        if ((move_matrix[current.y * col_len + current.x] == NMATH_MOVEMAP_BLOCKED) || (move_matrix[current.y * col_len + current.x] > (current.distance + NMATH_ONE_##type))) {\
+            move_matrix[current.y * col_len + current.x] = current.distance + NMATH_ONE_##type;\
+        }\
+        for (int8_t i = 0; i < NMATH_SQUARE_NEIGHBOURS; i++) {\
+            neighbor.x = nmath_inbounds_##type(current.x + q_cycle4_mzpz(i), 0, col_len - 1);\
+            neighbor.y = nmath_inbounds_##type(current.y + q_cycle4_zmzp(i), 0, row_len - 1);\
+            neighbor.distance = current.distance + cost_matrix[neighbor.y * col_len + neighbor.x];\
+            if ((neighbor.distance <= move) && (cost_matrix[neighbor.y * col_len + neighbor.x] >= NMATH_ONE_##type)) {\
+                neighbor_inclosed = false;\
+                for (int32_t k = 0; k < DARR_NUM(closed); k++) {\
+                    if ((neighbor.x == closed[k].x) && (neighbor.y == closed[k].y)) {\
+                        neighbor_inclosed = true;\
+                        if (neighbor.distance < closed[k].distance) {\
+                            neighbor_inclosed = false;\
+                            size_t num = DARR_NUM(closed);\
+                            size_t size = sizeof(*closed);\
+                            DARR_DEL(closed, k);\
+                        }\
+                        break;\
+                    }\
+                }\
+                if (!neighbor_inclosed) {\
+                    DARR_PUT(open, neighbor);\
+                }\
+            }\
+        }\
+    }\
+    return (move_matrix);\
+}
+TEMPLATE_TYPES_SINT
+TEMPLATE_TYPES_FLOAT
+#undef REGISTER_ENUM
 
-// What is a movemap:
-// number of steps? NO
-// cumulative cost at each tile YES -> same type
-// NO NEED FOR COST/DISTANCE.
-#define REGISTER_ENUM(type) type * pathfinding_Map_Moveto_##type(type * cost_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, type move, uint8_t mode_output, bool toalloc) {\
+#define REGISTER_ENUM(type) type * pathfinding_Map_MovetoM_##type(type * cost_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, type move, uint8_t mode_output) {\
     type * move_matrix = NULL, * temp_row = NULL;\
     switch (mode_output) {\
         case (NMATH_POINTS_MODE_LIST):\
             move_matrix = DARR_INIT(move_matrix, type, row_len * col_len * NMATH_TWO_D);\
             break;\
         case (NMATH_POINTS_MODE_MATRIX):\
-            if (toalloc) {\
-                move_matrix = calloc(row_len * col_len, sizeof(*move_matrix));\
-            }\
+            move_matrix = calloc(row_len * col_len, sizeof(*move_matrix));\
             for (size_t row = 0; row < row_len; row++) {\
                 for (size_t col = 0; col < col_len; col++) {\
                     move_matrix[(row * col_len + col)] = NMATH_MOVEMAP_BLOCKED;\
@@ -1210,7 +1308,7 @@ TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 
-#define REGISTER_ENUM(type) type * pathfinding_Map_Visible_##type(type  * block_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, type  sight, uint8_t mode_output, bool toalloc) {\
+#define REGISTER_ENUM(type) type * pathfinding_Map_Visible_##type(type  * block_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, type  sight, uint8_t mode_output) {\
     type  * sightmap = NULL;\
     struct nmath_point_##type perimeter_nmath_point_##type = {0, 0}, delta = {0, 0}, interpolated = {0, 0};\
     bool visible;\
@@ -1266,7 +1364,7 @@ TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * pathfinding_Map_Visible_Hex_##type(type  * block_matrix, size_t depth_len, size_t col_len, struct nmath_hexpoint_##type start, type sight, uint8_t mode_output, bool toalloc) {\
+#define REGISTER_ENUM(type) type * pathfinding_Map_Visible_Hex_##type(type  * block_matrix, size_t depth_len, size_t col_len, struct nmath_hexpoint_##type start, type sight, uint8_t mode_output) {\
     type  * sightmap = NULL;\
     struct nmath_hexpoint_##type perimeter_nmath_point_##type = {0, 0, 0}, delta = {0, 0, 0}, interpolated = {0, 0, 0};\
     bool visible;\
@@ -1318,7 +1416,7 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * pathfinding_Map_Path_##type(type * move_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, struct nmath_point_##type end, uint8_t mode_path, bool toalloc) {\
+#define REGISTER_ENUM(type) type * pathfinding_Map_Path_##type(type * move_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, struct nmath_point_##type end, uint8_t mode_path) {\
     type  * path_position = DARR_INIT(path_position, type, row_len * col_len * NMATH_TWO_D);\
     type  * out = DARR_INIT(out, type, row_len * col_len * NMATH_TWO_D);\
     struct nmath_point_##type current = end, neighbor, next;\
@@ -1361,7 +1459,7 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * pathfinding_Path_step2position_##type(type  * step_list, size_t list_len, struct nmath_point_##type start, bool toalloc) {\
+#define REGISTER_ENUM(type) type * pathfinding_Path_step2position_##type(type  * step_list, size_t list_len, struct nmath_point_##type start) {\
     type  * path_position = DARR_INIT(path_position, type, ((list_len + 1) * 2));\
     DARR_PUT(path_position, start.x);\
     DARR_PUT(path_position, start.y);\
