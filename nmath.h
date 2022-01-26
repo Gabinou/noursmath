@@ -151,10 +151,23 @@ S for stringify, H for hash */
 
 /******************************** CONSTANTS *********************************/
 
+enum NMATH_ITERATIONS_LIMIT {
+    NMATH_ITERATIONS_LIMIT = 1000,
+};
+
 enum NMATH_2DGRID_NEIGHBORS {
     NMATH_SQUARE_NEIGHBOURS = 4,
     NMATH_HEXAGON_NEIGHBOURS = 6,
 };
+
+enum NMATH_2DDIRECTIONS {
+    NMATH_DIRECTION_NONE = 0,
+    NMATH_DIRECTION_RIGHT = 1 << 0,
+    NMATH_DIRECTION_UP = 1 << 1,
+    NMATH_DIRECTION_LEFT = 1 << 2,
+    NMATH_DIRECTION_DOWN = 1 << 3,
+};
+
 
 enum NMATH_SIGHTMAP {
     NMATH_SIGHTMAP_BLOCKED = 0,
@@ -376,6 +389,11 @@ TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 /******************************** UTILITIES **********************************/
+
+#define REGISTER_ENUM(type) extern type nmath_Direction_Compute_##type(type x_0, type y_0, type x_1, type y_1);
+TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
 
 #define REGISTER_ENUM(type) extern type nmath_inbounds_##type(type pos, type boundmin, type boundmax);
 TEMPLATE_TYPES_INT

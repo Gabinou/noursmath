@@ -2893,15 +2893,146 @@ void test_q_math() {
 
 }
 
+void test_pathfinding_map_path() {
+    dupprintf(globalf, "\ntest_pathfinding_map_path\n");
+    dupprintf(globalf, "\nconstants\n");
+    struct nmath_point_int32_t start = {10, 6};
+    struct nmath_point_int32_t end = {15, 1};
+    struct nmath_hexpoint_int32_t hexstart = {10, -4, 6};
+    int8_t range[2];
+    int32_t * position;
+    int32_t move = 5;
+    range[0] = 1;
+    range[1] = 2;
+    dupprintf(globalf, "\nmaps\n");
+    int32_t temp_costmapp6[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 4, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 9, 3, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 9, 3, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 9, 3, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 9, 3, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 9, 3, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 4, 3, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 3, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+    };
+    int32_t temp_path6[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    };
+    int32_t temp_movemapp6[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {
+        27, 26, 25, 24, 23, 22, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,  0,  0,  0,  0, 0,  0, 0, 0,
+        26, 25, 24, 23, 22, 21, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,  0,  0,  0, 0,  0, 0, 0,
+        25, 24, 23, 22, 21, 20, 19, 20, 21, 22, 23,  0,  0, 28, 29, 30, 31,  0,  0,  0,  0, 0,  0, 0, 0,
+        24, 23, 22, 21, 20, 19, 18, 21,  0,  0,  0,  5,  0, 29, 30, 31,  0,  0,  0,  0,  0, 0,  0, 0, 0,
+        23, 22, 21, 20, 19, 18, 17, 17,  8,  5,  3,  4,  0, 30, 31,  0,  0,  0,  0,  0,  0, 0,  0, 0, 0,
+        22, 21, 20, 19, 18, 17, 16, 16,  7,  4,  2,  3,  0, 31,  0,  0,  0,  0,  0,  0,  0, 0,  0, 0, 0,
+        21, 20, 19, 18, 17, 16, 15, 15,  6,  3,  1,  2,  0, 30, 31,  0,  0,  0,  0,  0,  0, 0,  0, 0, 0,
+        20, 19, 18, 17, 16, 15, 14, 16,  7,  4,  2,  3,  0, 29, 30, 31,  0,  0,  0,  0,  0, 0,  0, 0, 0,
+        19, 18, 17, 16, 15, 14, 13, 17,  8,  5,  3,  4,  0, 28, 29, 30, 31,  0,  0,  0,  0, 0,  0, 0, 0,
+        18, 17, 16, 15, 14, 13, 12, 13,  9,  6,  4,  5,  0, 27, 28, 29, 30, 31,  0,  0,  0, 0,  0, 0, 0,
+        17, 16, 15, 14, 13, 12, 11, 10, 10,  7,  5,  6,  0, 26, 27, 28, 29, 30, 31,  0,  0, 0,  0, 0, 0,
+        16, 15, 14, 13, 12, 11, 10,  9,  8,  7,  6,  7,  0, 25, 26, 27, 28, 29, 30, 31,  0, 0,  0, 0, 0,
+        17, 16, 15, 14, 13,  0,  0,  0,  0,  0,  0,  0,  0, 24, 25, 26, 27, 28, 29, 30, 31, 0,  0, 0, 0,
+        18, 17, 16, 15, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 0, 0, 0,
+        19, 18, 17, 16, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 0,  0, 0, 0,
+        20, 19, 18, 17, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,  0, 0,  0, 0, 0,
+        21, 20, 19, 18, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,  0,  0, 0,  0, 0, 0,
+        22, 21, 20, 19, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,  0,  0,  0, 0,  0, 0, 0,
+        23, 22, 21, 20, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,  0,  0,  0,  0, 0,  0, 0, 0,
+        24, 23, 22, 21, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,  0,  0,  0,  0,  0, 0,  0, 0, 0,
+        25, 24, 23, 22, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,  0,  0,  0,  0,  0,  0, 0,  0, 0, 0,
+    };
+    dupprintf(globalf, "\n tests batch 1\n");
+    int32_t * costmapp6 = NULL;
+    int32_t * movemapp6 = NULL;
+    costmapp6 = calloc(sizeof(*costmapp6), COL_LEN_TEST_PATHFINDING * ROW_LEN_TEST_PATHFINDING);
+    movemapp6 = calloc(sizeof(*movemapp6), COL_LEN_TEST_PATHFINDING * ROW_LEN_TEST_PATHFINDING);
+    for (size_t row = 0; row < ROW_LEN_TEST_PATHFINDING; row++) {
+        for (size_t col = 0; col < COL_LEN_TEST_PATHFINDING; col++) {
+            costmapp6[row * COL_LEN_TEST_PATHFINDING + col] = temp_costmapp6[row * COL_LEN_TEST_PATHFINDING + col];
+            movemapp6[row * COL_LEN_TEST_PATHFINDING + col] = temp_movemapp6[row * COL_LEN_TEST_PATHFINDING + col];
+        }
+    }
+    int32_t temp_col;
+    int32_t temp_row;
+    int32_t current;
+    int32_t * computed_movemapp6 = pathfinding_Map_Moveto_int32_t(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_MATRIX);
+    int32_t * computed_movemapp6_list = pathfinding_Map_Moveto_int32_t(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_LIST);
+    for (size_t i = 0; i < DARR_NUM(computed_movemapp6_list) / 2; i++) {
+        int32_t temp_col = computed_movemapp6_list[i * NMATH_TWO_D + 0];
+        int32_t temp_row = computed_movemapp6_list[i * NMATH_TWO_D + 1];
+        int32_t current = computed_movemapp6[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];
+        lok(current > 0);
+    }
+
+    dupprintf(globalf, "\n tests batch 2\n");
+    printf("\n tests batch 2.0\n");
+    int32_t * path_list_position6 = pathfinding_Map_Path_int32_t(computed_movemapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end, NMATH_PATH_POSITION);
+    dupprintf(globalf, "\n call 1 \n");
+    int32_t * path_list_steps6 = pathfinding_Map_Path_int32_t(computed_movemapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end, NMATH_PATH_STEP);
+    dupprintf(globalf, "\n call 2 \n");
+    int32_t * path_list_positionfromsteps6 = pathfinding_Path_step2position_int32_t(path_list_steps6, DARR_NUM(path_list_steps6) / NMATH_TWO_D, start);
+    lok((DARR_NUM(path_list_position6) > 0));
+    lok((DARR_NUM(path_list_steps6) > 0));
+    lok((DARR_NUM(path_list_positionfromsteps6) > 0));
+    lok((DARR_NUM(path_list_positionfromsteps6) == DARR_NUM(path_list_steps6)));
+    lok((DARR_NUM(path_list_positionfromsteps6) == DARR_NUM(path_list_position6)));
+
+    dupprintf(globalf, "\n call 3 \n");
+    int32_t * path_matrix_fromposition6 = linalg_list2matrix_int32_t(path_list_position6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, DARR_NUM(path_list_position6) / NMATH_TWO_D);
+
+    dupprintf(globalf, "\n call 4 \n");
+    int32_t * path_matrix_fromsteps6 = linalg_list2matrix_int32_t(path_list_positionfromsteps6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, DARR_NUM(path_list_positionfromsteps6) / NMATH_TWO_D);
+
+    dupprintf(globalf, "\n call  \n");
+    int32_t * out = linalg_equal_int32_t(path_matrix_fromposition6, temp_path6, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);
+
+    lok(linalg_all_int32_t(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));
+
+    free(out);
+    dupprintf(globalf, "\n end\n");
+}
+
 #define REGISTER_ENUM(type) void test_pathfinding_##type() {\
     /* dupprintf(globalf,"\ntest_pathfinding\n"); */ \
-    type move;\
     struct nmath_point_##type start = {10, 6};\
     struct nmath_point_##type end = {15, 1};\
     struct nmath_hexpoint_##type hexstart = {10, -4, 6};\
     int8_t range[2];\
     type * position;\
-    move = 5;\
+    type move = 5;\
     range[0] = 1;\
     range[1] = 2;\
     type temp_costmapp[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {\
@@ -3614,172 +3745,6 @@ void test_q_math() {
     out = linalg_equal_##type(movemapp5, computed_movemapp5, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
     lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
     free(out);\
-    type temp_costmapp6[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 4, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 9, 3, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 9, 3, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 9, 3, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 9, 3, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 9, 3, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 4, 3, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 3, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1\
-    };\
-    type temp_path6[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-    };\
-    type temp_movemapp6[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {\
-        27, 26, 25, 24, 23, 22, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,  0,  0,  0,  0, 0,  0, 0, 0,\
-        26, 25, 24, 23, 22, 21, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,  0,  0,  0, 0,  0, 0, 0,\
-        25, 24, 23, 22, 21, 20, 19, 20, 21, 22, 23,  0,  0, 28, 29, 30, 31,  0,  0,  0,  0, 0,  0, 0, 0,\
-        24, 23, 22, 21, 20, 19, 18, 21,  0,  0,  0,  5,  0, 29, 30, 31,  0,  0,  0,  0,  0, 0,  0, 0, 0,\
-        23, 22, 21, 20, 19, 18, 17, 17,  8,  5,  3,  4,  0, 30, 31,  0,  0,  0,  0,  0,  0, 0,  0, 0, 0,\
-        22, 21, 20, 19, 18, 17, 16, 16,  7,  4,  2,  3,  0, 31,  0,  0,  0,  0,  0,  0,  0, 0,  0, 0, 0,\
-        21, 20, 19, 18, 17, 16, 15, 15,  6,  3,  1,  2,  0, 30, 31,  0,  0,  0,  0,  0,  0, 0,  0, 0, 0,\
-        20, 19, 18, 17, 16, 15, 14, 16,  7,  4,  2,  3,  0, 29, 30, 31,  0,  0,  0,  0,  0, 0,  0, 0, 0,\
-        19, 18, 17, 16, 15, 14, 13, 17,  8,  5,  3,  4,  0, 28, 29, 30, 31,  0,  0,  0,  0, 0,  0, 0, 0,\
-        18, 17, 16, 15, 14, 13, 12, 13,  9,  6,  4,  5,  0, 27, 28, 29, 30, 31,  0,  0,  0, 0,  0, 0, 0,\
-        17, 16, 15, 14, 13, 12, 11, 10, 10,  7,  5,  6,  0, 26, 27, 28, 29, 30, 31,  0,  0, 0,  0, 0, 0,\
-        16, 15, 14, 13, 12, 11, 10,  9,  8,  7,  6,  7,  0, 25, 26, 27, 28, 29, 30, 31,  0, 0,  0, 0, 0,\
-        17, 16, 15, 14, 13,  0,  0,  0,  0,  0,  0,  0,  0, 24, 25, 26, 27, 28, 29, 30, 31, 0,  0, 0, 0,\
-        18, 17, 16, 15, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 0, 0, 0,\
-        19, 18, 17, 16, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 0,  0, 0, 0,\
-        20, 19, 18, 17, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,  0, 0,  0, 0, 0,\
-        21, 20, 19, 18, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,  0,  0, 0,  0, 0, 0,\
-        22, 21, 20, 19, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,  0,  0,  0, 0,  0, 0, 0,\
-        23, 22, 21, 20, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,  0,  0,  0,  0, 0,  0, 0, 0,\
-        24, 23, 22, 21, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,  0,  0,  0,  0,  0, 0,  0, 0, 0,\
-        25, 24, 23, 22, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,  0,  0,  0,  0,  0,  0, 0,  0, 0, 0,\
-    };\
-    type * costmapp6 = NULL;\
-    type * movemapp6 = NULL;\
-    costmapp6 = calloc(sizeof(*costmapp6), COL_LEN_TEST_PATHFINDING * ROW_LEN_TEST_PATHFINDING);\
-    movemapp6 = calloc(sizeof(*movemapp6), COL_LEN_TEST_PATHFINDING * ROW_LEN_TEST_PATHFINDING);\
-    for (size_t row = 0; row < ROW_LEN_TEST_PATHFINDING; row++) {\
-        for (size_t col = 0; col < COL_LEN_TEST_PATHFINDING; col++) {\
-            costmapp6[row * COL_LEN_TEST_PATHFINDING + col] = temp_costmapp6[row * COL_LEN_TEST_PATHFINDING + col];\
-            movemapp6[row * COL_LEN_TEST_PATHFINDING + col] = temp_movemapp6[row * COL_LEN_TEST_PATHFINDING + col];\
-        }\
-    }\
-    type * computed_movemapp6 = pathfinding_Map_Moveto_##type(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_MATRIX);\
-    type * computed_movemapp6_list = pathfinding_Map_Moveto_##type(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_LIST);\
-    for (size_t i = 0; i < DARR_NUM(computed_movemapp6_list) / NMATH_TWO_D; i++) {\
-        temp_col = computed_movemapp6_list[i * NMATH_TWO_D + 0];\
-        temp_row = computed_movemapp6_list[i * NMATH_TWO_D + 1];\
-        current = computed_movemapp6[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];\
-        lok(current > 0);\
-    }\
-    out = linalg_equal_##type(movemapp6, computed_movemapp6, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
-    lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
-    free(out);\
-    type * path_list_position6 = pathfinding_Map_Path_##type(computed_movemapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end, NMATH_PATH_POSITION);\
-    type * path_list_steps6 = pathfinding_Map_Path_##type(computed_movemapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end, NMATH_PATH_STEP);\
-    type * path_list_positionfromsteps6 = pathfinding_Path_step2position_##type(path_list_steps6, DARR_NUM(path_list_steps6) / NMATH_TWO_D, start);\
-    lok((DARR_NUM(path_list_position6) > 0));\
-    lok((DARR_NUM(path_list_steps6) > 0));\
-    lok((DARR_NUM(path_list_positionfromsteps6) > 0));\
-    type * path_matrix_fromposition6 = linalg_list2matrix_##type(path_list_position6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, DARR_NUM(path_list_position6) / NMATH_TWO_D);\
-    type * path_matrix_fromsteps6 = linalg_list2matrix_##type(path_list_positionfromsteps6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, DARR_NUM(path_list_positionfromsteps6) / NMATH_TWO_D);\
-    out = linalg_equal_##type(path_matrix_fromposition6, temp_path6, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
-    lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
-    free(out);\
-    out = linalg_equal_##type(path_matrix_fromsteps6, temp_path6, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
-    lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
-    free(out);\
-    type temp_costmapp7[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 4, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 9, 3, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 9, 3, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 9, 3, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 4, 3, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 3, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,\
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1\
-    };\
-    type temp_path7[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
-    };\
-    type * costmapp7 = NULL;\
-    type * movemapp7 = NULL;\
-    costmapp7 = calloc(sizeof(*costmapp7), COL_LEN_TEST_PATHFINDING * ROW_LEN_TEST_PATHFINDING);\
-    movemapp7 = calloc(sizeof(*movemapp7), COL_LEN_TEST_PATHFINDING * ROW_LEN_TEST_PATHFINDING);\
-    for (size_t row = 0; row < ROW_LEN_TEST_PATHFINDING; row++) {\
-        for (size_t col = 0; col < COL_LEN_TEST_PATHFINDING; col++) {\
-            costmapp7[row * COL_LEN_TEST_PATHFINDING + col] = temp_costmapp7[row * COL_LEN_TEST_PATHFINDING + col];\
-            movemapp7[row * COL_LEN_TEST_PATHFINDING + col] = temp_movemapp6[row * COL_LEN_TEST_PATHFINDING + col];\
-        }\
-    }\
-    type * computed_movemapp7 = pathfinding_Map_Moveto_##type(costmapp7, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, move, NMATH_POINTS_MODE_MATRIX);\
-    type * path_list_position7 = pathfinding_Map_Path_##type(computed_movemapp7, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end, NMATH_PATH_POSITION);\
-    type * path_matrix_fromposition7 = linalg_list2matrix_##type(path_list_position7, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, DARR_NUM(path_list_position7) / NMATH_TWO_D);\
-    out = linalg_equal_##type(path_matrix_fromposition7, temp_path7, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);\
-    lok(linalg_all_##type(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));\
-    free(out);\
     type temp_movemap10_include[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {\
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,\
@@ -4265,22 +4230,23 @@ TEMPLATE_TYPES_SINT
 int main() {
     globalf = fopen("nmath_test_results.txt", "w+");
     dupprintf(globalf, "\nHello, World! I am testing noursmath.\n");
-    lrun("log2", test_log2);
-    lrun("orders_indices", orders_indices_uint32_t);
-    lrun("test_q_math", test_q_math);
-    lrun("test_double", linalg_double);
-    lrun("test_float", linalg_float);
+    // lrun("log2", test_log2);
+    // lrun("orders_indices", orders_indices_uint32_t);
+    // lrun("test_q_math", test_q_math);
+    // lrun("test_double", linalg_double);
+    // lrun("test_float", linalg_float);
+    lrun("test_pathfinding_map_path", test_pathfinding_map_path);
 
-#define REGISTER_ENUM(type) lrun(STRINGIFY(path_##type), test_pathfinding_##type);
-    TEMPLATE_TYPES_SINT
-#undef REGISTER_ENUM
-#define REGISTER_ENUM(type) lrun(STRINGIFY(linalg_##type), linalg_##type);
-    TEMPLATE_TYPES_INT
-#undef REGISTER_ENUM
-#define REGISTER_ENUM(type) lrun(STRINGIFY(lina_d_##type), lina_d_##type);
-    TEMPLATE_TYPES_INT
-    TEMPLATE_TYPES_BOOL
-#undef REGISTER_ENUM
+// #define REGISTER_ENUM(type) lrun(STRINGIFY(path_##type), test_pathfinding_##type);
+//     TEMPLATE_TYPES_SINT
+// #undef REGISTER_ENUM
+// #define REGISTER_ENUM(type) lrun(STRINGIFY(linalg_##type), linalg_##type);
+//     TEMPLATE_TYPES_INT
+// #undef REGISTER_ENUM
+// #define REGISTER_ENUM(type) lrun(STRINGIFY(lina_d_##type), lina_d_##type);
+//     TEMPLATE_TYPES_INT
+//     TEMPLATE_TYPES_BOOL
+// #undef REGISTER_ENUM
 
     lresults();
 
