@@ -644,7 +644,7 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern bool * linalg_equal_noM_##type(type * out, type * matrix1, type * matrix2, size_t arr_len, type tolerance);
+#define REGISTER_ENUM(type) extern bool * linalg_equal_noM_##type(bool * out, type * matrix1, type * matrix2, size_t arr_len, type tolerance);
 TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
@@ -682,7 +682,13 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * linalg_plus_noM_##type(type * out, type * matrix1, type * matrix2, size_t arr_len);
+#define REGISTER_ENUM(type) extern type * linalg_sub_noM_##type(type * matrix1, type * matrix2, size_t arr_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * linalg_plus_noM_##type(type * matrix1, type * matrix2, size_t arr_len);
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
@@ -896,7 +902,11 @@ TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * pathfinding_Map_Path_##type(type * move_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, struct nmath_point_##type end, uint8_t mode_path);
-TEMPLATE_TYPES_SINT
+TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Path_noM_##type(type *out, type * move_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, struct nmath_point_##type end);
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * pathfinding_Path_step2position_##type(type * step_list, size_t list_len, struct nmath_point_##type start);

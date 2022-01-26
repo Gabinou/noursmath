@@ -660,7 +660,7 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) bool * linalg_equal_noM_##type(type * out, type * matrix1, type * matrix2, size_t arr_len, type tolerance) {\
+#define REGISTER_ENUM(type) bool * linalg_equal_noM_##type(bool * out, type * matrix1, type * matrix2, size_t arr_len, type tolerance) {\
     for (size_t i = 0; i < arr_len; i++) {\
         out[i] = (fabs(matrix1[i] - matrix2[i]) < tolerance);\
     }\
@@ -755,11 +755,22 @@ TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type * linalg_plus_noM_##type(type * out, type * matrix1, type * matrix2, size_t arr_len) {\
+#define REGISTER_ENUM(type) type * linalg_sub_noM_##type(type * matrix1, type * matrix2, size_t arr_len) {\
     for (size_t i = 0; i < arr_len; i++) {\
-            out[i] = matrix1[i] + matrix2[i];\
+            matrix1[i] -= matrix2[i];\
     }\
-    return (out);\
+    return (matrix1);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_FLOAT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) type * linalg_plus_noM_##type(type * matrix1, type * matrix2, size_t arr_len) {\
+    for (size_t i = 0; i < arr_len; i++) {\
+            matrix1[i] += matrix2[i];\
+    }\
+    return (matrix1);\
 }
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
@@ -1819,8 +1830,9 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
+/* A_star algorithm? */
 #define REGISTER_ENUM(type) type * pathfinding_Map_Path_##type(type * move_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, struct nmath_point_##type end, uint8_t mode_path) {\
-    type  * path_position = DARR_INIT(path_position, type, row_len * col_len * NMATH_TWO_D);\
+    type * path_position = DARR_INIT(path_position, type, row_len * col_len * NMATH_TWO_D);\
     type  * out = DARR_INIT(out, type, row_len * col_len * NMATH_TWO_D);\
     struct nmath_point_##type current = end, neighbor, next;\
     type  current_cost;\
@@ -1860,6 +1872,35 @@ TEMPLATE_TYPES_SINT
     return (out);\
 }
 TEMPLATE_TYPES_SINT
+#undef REGISTER_ENUM
+
+/* A_star algorithm? */
+#define REGISTER_ENUM(type) type * pathfinding_Map_Path_noM_##type(type * out, type * move_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, struct nmath_point_##type end) {\
+    struct nmath_point_##type current = end, neighbor, next;\
+    type  current_cost;\
+    if ((move_matrix[start.y * col_len + start.x] >= NMATH_MOVEMAP_MOVEABLEMIN) || (move_matrix[end.y * col_len + end.x] >= NMATH_MOVEMAP_MOVEABLEMIN)) {\
+        while ((current.x != start.x) || (current.y != start.y)) {\
+            DARR_PUT(out, current.x);\
+            DARR_PUT(out, current.y);\
+            current_cost = type##_MAX;\
+            for (type  sq_neighbor = 0; sq_neighbor < NMATH_SQUARE_NEIGHBOURS; sq_neighbor++) {\
+                neighbor.x = nmath_inbounds_##type(q_cycle4_mzpz(sq_neighbor) + current.x, 0, col_len - 1);\
+                neighbor.y = nmath_inbounds_##type(q_cycle4_zmzp(sq_neighbor) + current.y, 0, row_len - 1);\
+                if (move_matrix[neighbor.y * col_len + neighbor.x] >= NMATH_MOVEMAP_MOVEABLEMIN) {\
+                    if (current_cost > move_matrix[neighbor.y * col_len + neighbor.x]) {\
+                        current_cost = move_matrix[neighbor.y * col_len + neighbor.x];\
+                        next = neighbor;\
+                    }\
+                }\
+            }\
+            current = next;\
+        }\
+    }\
+    DARR_PUT(out, current.x);\
+    DARR_PUT(out, current.y);\
+    return (out);\
+}
+TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * pathfinding_Path_step2position_##type(type  * step_list, size_t list_len, struct nmath_point_##type start) {\
