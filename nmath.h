@@ -57,6 +57,14 @@ DARR_GROW(darr);\
 darr[DARR_NUM(darr)++] = elem;\
 } while(0)
 
+// DARR_INSERT: Put elem at inde, moving other elements over
+#define DARR_INSERT(darr, elem, index) do {if ((++DARR_NUM(darr)) >= (DARR_LEN(darr))) {\
+DARR_GROW(darr);\
+}\
+memmove((darr + index), (darr + index + 1), sizeof(*darr) * (DARR_NUM(darr) - index));\
+darr[index] = elem;\
+} while (0)
+
 // DARR_POP: get top element of darr, and "remove" it by decrementing DARR_NUM
 #define DARR_POP(darr) darr[--DARR_NUM(darr)]
 
@@ -828,6 +836,10 @@ TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_list2matrix_##type(type * list, size_t row_len, size_t col_len, size_t list_len);
+TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) extern type linalg_distance_manhattan_point_##type(struct nmath_point_##type start, struct nmath_point_##type end);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 

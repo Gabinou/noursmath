@@ -1317,8 +1317,15 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) type linalg_distance_manhattan_##type(struct nmath_point_##type start, struct nmath_point_##type end) {\
+#define REGISTER_ENUM(type) type linalg_distance_manhattan_point_##type(struct nmath_point_##type start, struct nmath_point_##type end) {\
     type  distance = abs(start.x - end.x) + abs(start.y - end.y);\
+    return (distance);\
+}
+TEMPLATE_TYPES_SINT
+#undef REGISTER_ENUM
+
+#define REGISTER_ENUM(type) type linalg_distance_manhattan_##type(type x_0, type y_y, type x_1, type y_1) {\
+    type distance = abs(x_0 -  x_1) + abs(y_0 - y_1);\
     return (distance);\
 }
 TEMPLATE_TYPES_SINT
