@@ -931,7 +931,7 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Path_##type(type * move_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, struct nmath_point_##type end, uint8_t mode_path);
+#define REGISTER_ENUM(type) extern type * pathfinding_Map_Path_##type(type * costmap, size_t row_len, size_t col_len, struct nmath_point_##type start, struct nmath_point_##type end, uint8_t mode_path);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 

@@ -155,6 +155,7 @@ TEMPLATE_TYPES_FLOAT
     .x = 0,\
     .y = 0,\
     .distance = 0\
+    .cost = 0\
 };
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
@@ -1859,28 +1860,33 @@ TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
 /* A_star algorithm? */
-int32_t * pathfinding_Map_Path_int32_t(int32_t * move_matrix, size_t row_len, size_t col_len, struct nmath_point_int32_t start, struct nmath_point_int32_t end) {
+int32_t * pathfinding_Map_Path_int32_t(int32_t * costmap, size_t row_len, size_t col_len, struct nmath_point_int32_t start, struct nmath_point_int32_t end) {
     printf("pathfinding_Map_Path_int32_t \n");
     printf("start %d %d \n", start.x, start.y);
     printf("end %d %d \n", end.x, end.y);
+    int32_t * cost_tomove = calloc(row_len * col_len, sizeof(*cost_tomove));
     assert((start.x != end.x) || (start.y != end.y));
     assert(move_matrix[start.y * col_len + start.x] >= NMATH_MOVEMAP_MOVEABLEMIN);
     assert(move_matrix[end.y * col_len + end.x] >= NMATH_MOVEMAP_MOVEABLEMIN);
+   // lowest cost is top of queue.
+   
+    struct nmath_node_int32_t * frontier_queue = DARR_INIT(frontie_queue, struct nmath_node_int32_t , row_len * col_len);
+
     int32_t * path_position = DARR_INIT(path_position, int32_t, row_len * col_len * NMATH_TWO_D);
     int32_t  * out = DARR_INIT(out, int32_t, row_len * col_len * NMATH_TWO_D);
-    struct nmath_point_int32_t current = end, neighbor, next;
+    struct nmath_node_int32_t current = end, neighbor, next;
     int32_t  current_cost;
     size_t iter = 0;
-    while (((current.x != start.x) || (current.y != start.y)) && (iter < NMATH_ITERATIONS_LIMIT)) {
+    while (DARR_NUM(frontier_queue) > 0) {
         printf("iter %d \n", iter);
-        DARR_PUT(path_position, current.x);
-        DARR_PUT(path_position, current.y);
-        current_cost = INT32_MAX;
+        current = DARR_POP(frontier_queue);
+    
+    
         for (int32_t sq_neighbor = 0; sq_neighbor < NMATH_SQUARE_NEIGHBOURS; sq_neighbor++) {
             /* visit all square neighbor*/
             neighbor.x = nmath_inbounds_int32_t(q_cycle4_mzpz(sq_neighbor) + current.x, 0, col_len - 1);
             neighbor.y = nmath_inbounds_int32_t(q_cycle4_zmzp(sq_neighbor) + current.y, 0, row_len - 1);
-            if (move_matrix[neighbor.y * col_len + neighbor.x] >= NMATH_MOVEMAP_MOVEABLEMIN) {
+            if (costmap[neighbor.y * col_len + neighbor.x] >= NMATH_MOVEMAP_MOVEABLEMIN) {
                 if (current_cost > move_matrix[neighbor.y * col_len + neighbor.x]) {
                     current_cost = move_matrix[neighbor.y * col_len + neighbor.x];
                     next = neighbor;
