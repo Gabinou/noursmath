@@ -1876,6 +1876,8 @@ int32_t * pathfinding_Astar_int32_t(int32_t * costmap, size_t row_len, size_t co
     struct nmath_nodeq_int32_t * frontier_queue = DARR_INIT(frontier_queue, struct nmath_nodeq_int32_t, row_len * col_len);
 
     int32_t * path_list = DARR_INIT(path_list, int32_t, col_len * NMATH_TWO_D);
+    DARR_PUT(path_list, start.x);
+    DARR_PUT(path_list, start.y);
     int32_t * out = DARR_INIT(out, int32_t, row_len * col_len * NMATH_TWO_D);
     struct nmath_nodeq_int32_t current, neighbor, next;
     current.x = start.x;
@@ -1884,18 +1886,18 @@ int32_t * pathfinding_Astar_int32_t(int32_t * costmap, size_t row_len, size_t co
     DARR_PUT(frontier_queue, current);
     size_t iter = 0;
     while (DARR_NUM(frontier_queue) > 0) {
-        printf("DARR_NUM(frontier_queue) %d \n", DARR_NUM(frontier_queue));
+        // printf("DARR_NUM(frontier_queue) %d \n", DARR_NUM(frontier_queue));
         current = DARR_POP(frontier_queue);
-        printf("DARR_NUM(frontier_queue) %d \n", DARR_NUM(frontier_queue));
+        // printf("DARR_NUM(frontier_queue) %d \n", DARR_NUM(frontier_queue));
         printf("current. %d %d %d \n", current.x, current.y, current.cost);
-        getchar();
+        // getchar();
         if ((current.x == end.x) && (current.y == end.y)) {
             size_t distance = linalg_distance_manhattan_int32_t(end.x, end.y, start.x, start.y);
             path_list[distance * NMATH_TWO_D] = end.x;
             path_list[distance * NMATH_TWO_D + 1] = end.y;
             break;
         }
-        printf("check \n");
+        // printf("check \n");
 
         for (int32_t sq_neighbor = 0; sq_neighbor < NMATH_SQUARE_NEIGHBOURS; sq_neighbor++) {
             /* visit all square neighbors*/
@@ -1903,42 +1905,40 @@ int32_t * pathfinding_Astar_int32_t(int32_t * costmap, size_t row_len, size_t co
             neighbor.x = nmath_inbounds_int32_t(q_cycle4_mzpz(sq_neighbor) + current.x, 0, col_len - 1);
             neighbor.y = nmath_inbounds_int32_t(q_cycle4_zmzp(sq_neighbor) + current.y, 0, row_len - 1);
             neighbor.cost = current.cost + costmap[neighbor.y * col_len + neighbor.x];
-            printf("neighbor \n");
+            // printf("neighbor \n");
             // printf("neighbor.y %d %d %d \n", neighbor.x, neighbor.y, neighbor.cost);
 
             if ((cost_tomove[neighbor.y * col_len + neighbor.x] == 0) || neighbor.cost <  cost_tomove[neighbor.y * col_len + neighbor.x]) {
-                printf("distance \n");
+                // printf("distance \n");
                 size_t distance = linalg_distance_manhattan_int32_t(end.x, end.y, neighbor.x, neighbor.y);
-                printf("distance \n");
+                // printf("distance \n");
                 cost_tomove[neighbor.y * col_len + neighbor.x] = neighbor.cost;
-                printf("tomove \n");
+                // printf("tomove \n");
+
                 neighbor.priority = neighbor.cost + distance;
-                printf("priority \n");
 
                 /* Find index to insert neighbor into queue */
                 size_t index = 0;
                 if (DARR_NUM(frontier_queue) == 0) {
-                    printf("putting \n");
                     DARR_PUT(frontier_queue, neighbor);
-                    printf("puted \n");
                 } else {
                     index = DARR_NUM(frontier_queue) - 1;
-                    printf("index %d \n", index);
-                    printf("neighbor %d %d %d \n", neighbor.x, neighbor.y, neighbor.priority);
+                    // printf("index %d \n", index);
+                    // printf("neighbor %d %d %d \n", neighbor.x, neighbor.y, neighbor.priority);
 
                     while ((neighbor.priority > frontier_queue[index].priority) && (index > 0)) {
-                        printf("neighbor.priority, frontier_queue[index].priority %d %d \n", neighbor.priority > frontier_queue[index].priority);
+                        // printf("neighbor.priority, frontier_queue[index].priority %d %d \n", neighbor.priority > frontier_queue[index].priority);
 
                         index--;
                     }
-                    printf("index %d \n", index);
+                    // printf("index %d \n", index);
                     DARR_INSERT(frontier_queue, neighbor, index + 1);
-                    for (size_t i = 0; i < DARR_NUM(frontier_queue); i++) {
-                        printf("i %d %d %d \n", frontier_queue[i].x, frontier_queue[i].y, frontier_queue[i].priority);
+                    // for (size_t i = 0; i < DARR_NUM(frontier_queue); i++) {
+                    //     printf("i %d %d %d \n", frontier_queue[i].x, frontier_queue[i].y, frontier_queue[i].priority);
 
-                    }
+                    // }
                 }
-                printf("frontier_queue.y %d %d %d \n", frontier_queue[index].x, frontier_queue[index].y, frontier_queue[index].priority);
+                // printf("frontier_queue.y %d %d %d \n", frontier_queue[index].x, frontier_queue[index].y, frontier_queue[index].priority);
 
                 /* next point on path is at distance */
                 if ((distance * NMATH_TWO_D + 1) >= DARR_LEN(path_list)) {
@@ -1947,13 +1947,17 @@ int32_t * pathfinding_Astar_int32_t(int32_t * costmap, size_t row_len, size_t co
                 if ((distance * NMATH_TWO_D) >= DARR_NUM(path_list)) {
                     DARR_NUM(path_list) = (distance - 1) * NMATH_TWO_D;
                 }
-                // printf("distance %d \n", distance);
+                printf("distance %d \n", distance);
                 path_list[distance * NMATH_TWO_D] = neighbor.x;
                 path_list[(distance * NMATH_TWO_D) + 1] = neighbor.y;
             }
         }
     }
-
+    DARR_PUT(path_list, end.x);
+    DARR_PUT(path_list, end.y);
+    for (size_t i = 0; i < DARR_NUM(path_list); i++) {
+        printf("path_list %d %d \n", path_list[i * NMATH_TWO_D], path_list[i * NMATH_TWO_D + 1]);
+    }
     return (path_list);
 }
 
