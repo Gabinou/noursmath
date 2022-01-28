@@ -374,7 +374,7 @@ type x;\
 type y;\
 type priority;\
 type cost;\
-} nmath_node_##type##_default;
+} nmath_nodeq_##type##_default;
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
@@ -852,7 +852,7 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type linalg_distance_manhattan_##type(struct nmath_point_##type start, struct nmath_point_##type end);
+#define REGISTER_ENUM(type) extern type linalg_distance_manhattan_##type(type x_0, type y_0, type x_1, type y_1);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
