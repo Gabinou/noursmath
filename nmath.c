@@ -1885,7 +1885,7 @@ int32_t * pathfinding_Map_Path_int32_t(int32_t * costmap, size_t row_len, size_t
         if ((current.x == end.x) && (current.y == end.y)) {
             break;
         }
-    
+       
         for (int32_t sq_neighbor = 0; sq_neighbor < NMATH_SQUARE_NEIGHBOURS; sq_neighbor++) {
             /* visit all square neighbor*/
             neighbor.x = nmath_inbounds_int32_t(q_cycle4_mzpz(sq_neighbor) + current.x, 0, col_len - 1);
@@ -1902,12 +1902,8 @@ int32_t * pathfinding_Map_Path_int32_t(int32_t * costmap, size_t row_len, size_t
               }
             }
         }
-        current = next;
-        iter++;
     }
-    DARR_PUT(path_position, current.x);
-    DARR_PUT(path_position, current.y);
-}
+   }
 
 
 
