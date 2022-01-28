@@ -1947,14 +1947,22 @@ int32_t * pathfinding_Astar_int32_t(int32_t * costmap, size_t row_len, size_t co
                 if ((distance * NMATH_TWO_D) >= DARR_NUM(path_list)) {
                     DARR_NUM(path_list) = (distance - 1) * NMATH_TWO_D;
                 }
-                printf("distance %d \n", distance);
+                printf("distance %d\n", distance);
                 path_list[distance * NMATH_TWO_D] = neighbor.x;
                 path_list[(distance * NMATH_TWO_D) + 1] = neighbor.y;
             }
         }
     }
-    DARR_PUT(path_list, end.x);
-    DARR_PUT(path_list, end.y);
+    size_t distance = linalg_distance_manhattan_int32_t(end.x, end.y, start.x, start.y);
+    if ((distance * NMATH_TWO_D + 1) >= DARR_LEN(path_list)) {
+        DARR_GROW(path_list);
+    }
+    if ((distance * NMATH_TWO_D) >= DARR_NUM(path_list)) {
+        DARR_NUM(path_list) = distance * NMATH_TWO_D;
+    }
+    path_list[distance * NMATH_TWO_D] = end.x;
+    path_list[(distance * NMATH_TWO_D) + 1] = end.y;
+    printf("DARR_NUM(path_list) %d\n", DARR_NUM(path_list));
     for (size_t i = 0; i < DARR_NUM(path_list); i++) {
         printf("path_list %d %d \n", path_list[i * NMATH_TWO_D], path_list[i * NMATH_TWO_D + 1]);
     }
