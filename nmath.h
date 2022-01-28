@@ -369,6 +369,15 @@ type cost;\
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern struct nmath_nodeq_##type {\
+type x;\
+type y;\
+type priority;\
+type cost;\
+} nmath_node_##type##_default;
+TEMPLATE_TYPES_INT
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) extern struct nmath_node_##type {\
 int32_t x;\
 int32_t y;\
