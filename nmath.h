@@ -61,7 +61,7 @@ darr[DARR_NUM(darr)++] = elem;\
 #define DARR_INSERT(darr, elem, index) do {if ((++DARR_NUM(darr)) >= (DARR_LEN(darr))) {\
 DARR_GROW(darr);\
 }\
-memmove((darr + index), (darr + index + 1), sizeof(*darr) * (DARR_NUM(darr) - index));\
+memmove((darr + index + 1), (darr + index), sizeof(*darr) * (DARR_NUM(darr) - index));\
 darr[index] = elem;\
 } while (0)
 

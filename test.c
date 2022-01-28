@@ -2999,29 +2999,15 @@ void test_pathfinding_Astar() {
 
     dupprintf(globalf, "\n tests batch 2\n");
     printf("\n tests batch 2.0\n");
-    int32_t * path_list_position6 = pathfinding_Astar_int32_t(computed_movemapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end);
+    int32_t * path_list_position6 = pathfinding_Astar_int32_t(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end);
     dupprintf(globalf, "\n call 1 \n");
-    int32_t * path_list_steps6 = pathfinding_Astar_int32_t(computed_movemapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end);
-    dupprintf(globalf, "\n call 2 \n");
-    int32_t * path_list_positionfromsteps6 = pathfinding_Path_step2position_int32_t(path_list_steps6, DARR_NUM(path_list_steps6) / NMATH_TWO_D, start);
-    lok((DARR_NUM(path_list_position6) > 0));
-    lok((DARR_NUM(path_list_steps6) > 0));
-    lok((DARR_NUM(path_list_positionfromsteps6) > 0));
-    lok((DARR_NUM(path_list_positionfromsteps6) == DARR_NUM(path_list_steps6)));
-    lok((DARR_NUM(path_list_positionfromsteps6) == DARR_NUM(path_list_position6)));
+    int32_t * path_list6 = pathfinding_Astar_int32_t(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end);
+    lok((DARR_NUM(path_list6) > 0));
 
     dupprintf(globalf, "\n call 3 \n");
-    int32_t * path_matrix_fromposition6 = linalg_list2matrix_int32_t(path_list_position6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, DARR_NUM(path_list_position6) / NMATH_TWO_D);
+    int32_t * path_matrix6 = linalg_list2matrix_int32_t(path_list6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, DARR_NUM(path_list_position6) / NMATH_TWO_D);
+    linalg_matrix_print_int32_t(path_matrix6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
 
-    dupprintf(globalf, "\n call 4 \n");
-    int32_t * path_matrix_fromsteps6 = linalg_list2matrix_int32_t(path_list_positionfromsteps6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, DARR_NUM(path_list_positionfromsteps6) / NMATH_TWO_D);
-
-    dupprintf(globalf, "\n call  \n");
-    int32_t * out = linalg_equal_int32_t(path_matrix_fromposition6, temp_path6, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING);
-
-    lok(linalg_all_int32_t(out, ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING));
-
-    free(out);
     dupprintf(globalf, "\n end\n");
 }
 
