@@ -1860,8 +1860,11 @@ TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
 /* A_star algorithm */
-int32_t * pathfinding_Map_Path_int32_t(int32_t * costmap, size_t row_len, size_t col_len, struct nmath_point_int32_t start, struct nmath_point_int32_t end) {
-    printf("pathfinding_Map_Path_int32_t \n");
+int32_t * pathfinding_Path_Astar_int32_t(int32_t * costmap, size_t row_len, size_t col_len, struct nmath_point_int32_t start, struct nmath_point_int32_t end) {
+    printf("pathfinding_Map_Astar_int32_t \n");
+    /* Assumes square grid */
+    /* [1]: http://www.redblobgames.com/pathfinding/a-star/introduction.html */
+
     printf("start %d %d \n", start.x, start.y);
     printf("end %d %d \n", end.x, end.y);
     int32_t * cost_tomove = calloc(row_len * col_len, sizeof(*cost_tomove));
@@ -1872,8 +1875,8 @@ int32_t * pathfinding_Map_Path_int32_t(int32_t * costmap, size_t row_len, size_t
    
     struct nmath_nodeq_int32_t * frontier_queue = DARR_INIT(frontier_queue, struct nmath_node_int32_t , row_len * col_len);
 
-    int32_t * path_list = DARR_INIT(path_list, int32_t, row_len * col_len * NMATH_TWO_D);
-    int32_t  * out = DARR_INIT(out, int32_t, row_len * col_len * NMATH_TWO_D);
+    int32_t * path_list = DARR_INIT(path_list, int32_t, col_len * NMATH_TWO_D);
+    int32_t * out = DARR_INIT(out, int32_t, row_len * col_len * NMATH_TWO_D);
     struct nmath_nodeq_int32_t current neighbor, next;
     current.x = start.x;
     current.y = start.y;
@@ -1882,30 +1885,43 @@ int32_t * pathfinding_Map_Path_int32_t(int32_t * costmap, size_t row_len, size_t
     while (DARR_NUM(frontier_queue) > 0) {
         printf("iter %d \n", iter);
         current = DARR_POP(frontier_queue);
+
         if ((current.x == end.x) && (current.y == end.y)) {
+            size_t distance = linalg_distance_manhattan_int32_t(end.x, end.y, start.x, start.y);
+            path_list[distance*NMATH_TWO_D] = end.x;
+            path_list[distance*NMATH_TWO_D + 1] = end.y;
             break;
         }
        
         for (int32_t sq_neighbor = 0; sq_neighbor < NMATH_SQUARE_NEIGHBOURS; sq_neighbor++) {
-            /* visit all square neighbor*/
+            /* visit all square neighbors*/
             neighbor.x = nmath_inbounds_int32_t(q_cycle4_mzpz(sq_neighbor) + current.x, 0, col_len - 1);
             neighbor.y = nmath_inbounds_int32_t(q_cycle4_zmzp(sq_neighbor) + current.y, 0, row_len - 1);
             neighbor.cost = current.cost + costmap[neighbor.y * col_len + neighbor.x];
             
-            if ((cost_tomove[neighbor.y * col_len + neighbor.x] >= == 0) || neighbor.cost <  cost_tomove[neighbor.y * col_len + neighbor.x]) {
-              neighbor.priority = neighbor.cost + linalg_distance_manhattan_int32_t(end.x, end.y, neighbor.x, neighbor.y);
-              size_t index = 0;
-              for (size_t i = DARR_NUM(frontier_queue); i > 0 ; i--) {
-              if (neighbor.priority < frontier_queue[i]. priority] {
-                  index = i;
-                  break;
-              }
+            if ((cost_tomove[neighbor.y * col_len + neighbor.x] == 0) || neighbor.cost <  cost_tomove[neighbor.y * col_len + neighbor.x]) {
+                size_t distance = linalg_distance_manhattan_int32_t(end.x, end.y, neighbor.x, neighbor.y)l
+                neighbor.priority = neighbor.cost + distance;
+                /* Find index to insert neighbor into queue */
+                size_t index = 0;
+                for (size_t i = DARR_NUM(frontier_queue); i > 0 ; i--) {
+                    if (neighbor.priority < frontier_queue[i].priority) {
+                        index = i;
+                        break;
+                    }
+                }
+                DARR_INSERT(frontier_queue, neighbor, index);
+                /* next point on path is at distance */
+                if ((distance*NMATH_TWO_D + 1) >= DARR_LEN(path_list)) {
+                    DARR_GROW(path_list);
+                }
+                path_list[distance*NMATH_TWO_D] = neighbor.x;
+                path_list[distance*NMATH_TWO_D + 1] = neighbor.y;
             }
         }
     }
-   }
-
-
+    return(path_list);
+}
 
 // #define REGISTER_ENUM(type) type * pathfinding_Map_Path_##type(type * move_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, struct nmath_point_##type end, uint8_t mode_path) {\
 //     type * path_position = DARR_INIT(path_position, type, row_len * col_len * NMATH_TWO_D);\
