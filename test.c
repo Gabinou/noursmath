@@ -2893,8 +2893,8 @@ void test_q_math() {
 
 }
 
-void test_pathfinding_map_Astar() {
-    dupprintf(globalf, "\ntest_pathfinding_map_Astar\n");
+void test_pathfinding_Astar() {
+    dupprintf(globalf, "\ntest_pathfinding_Astar\n");
     dupprintf(globalf, "\nconstants\n");
     struct nmath_point_int32_t start = {10, 6};
     struct nmath_point_int32_t end = {15, 1};
@@ -2999,9 +2999,9 @@ void test_pathfinding_map_Astar() {
 
     dupprintf(globalf, "\n tests batch 2\n");
     printf("\n tests batch 2.0\n");
-    int32_t * path_list_position6 = pathfinding_Map_Astar_int32_t(computed_movemapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end, NMATH_PATH_POSITION);
+    int32_t * path_list_position6 = pathfinding_Astar_int32_t(computed_movemapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end);
     dupprintf(globalf, "\n call 1 \n");
-    int32_t * path_list_steps6 = pathfinding_Map_Astar_int32_t(computed_movemapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end, NMATH_PATH_STEP);
+    int32_t * path_list_steps6 = pathfinding_Astar_int32_t(computed_movemapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end);
     dupprintf(globalf, "\n call 2 \n");
     int32_t * path_list_positionfromsteps6 = pathfinding_Path_step2position_int32_t(path_list_steps6, DARR_NUM(path_list_steps6) / NMATH_TWO_D, start);
     lok((DARR_NUM(path_list_position6) > 0));
@@ -4235,7 +4235,7 @@ int main() {
     // lrun("test_q_math", test_q_math);
     // lrun("test_double", linalg_double);
     // lrun("test_float", linalg_float);
-    lrun("test_pathfinding_map_Astar", test_pathfinding_map_Astar);
+    lrun("test_pathfinding_Astar", test_pathfinding_Astar);
 
 // #define REGISTER_ENUM(type) lrun(STRINGIFY(path_##type), test_pathfinding_##type);
 //     TEMPLATE_TYPES_SINT

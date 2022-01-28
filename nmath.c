@@ -1860,7 +1860,7 @@ TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
 /* A_star algorithm */
-int32_t * pathfinding_Path_Astar_int32_t(int32_t * costmap, size_t row_len, size_t col_len, struct nmath_point_int32_t start, struct nmath_point_int32_t end) {
+int32_t * pathfinding_Astar_int32_t(int32_t * costmap, size_t row_len, size_t col_len, struct nmath_point_int32_t start, struct nmath_point_int32_t end) {
     printf("pathfinding_Map_Astar_int32_t \n");
     /* Assumes square grid */
     /* [1]: http://www.redblobgames.com/pathfinding/a-star/introduction.html */
