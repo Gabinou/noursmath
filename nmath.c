@@ -1872,7 +1872,7 @@ int32_t * pathfinding_Map_Path_int32_t(int32_t * costmap, size_t row_len, size_t
    
     struct nmath_nodeq_int32_t * frontier_queue = DARR_INIT(frontier_queue, struct nmath_node_int32_t , row_len * col_len);
 
-    int32_t * path_position = DARR_INIT(path_position, int32_t, row_len * col_len * NMATH_TWO_D);
+    int32_t * path_list = DARR_INIT(path_list, int32_t, row_len * col_len * NMATH_TWO_D);
     int32_t  * out = DARR_INIT(out, int32_t, row_len * col_len * NMATH_TWO_D);
     struct nmath_nodeq_int32_t current neighbor, next;
     current.x = start.x;
@@ -1882,7 +1882,9 @@ int32_t * pathfinding_Map_Path_int32_t(int32_t * costmap, size_t row_len, size_t
     while (DARR_NUM(frontier_queue) > 0) {
         printf("iter %d \n", iter);
         current = DARR_POP(frontier_queue);
-    
+        if ((current.x == end.x) && (current.y == end.y)) {
+            break;
+        }
     
         for (int32_t sq_neighbor = 0; sq_neighbor < NMATH_SQUARE_NEIGHBOURS; sq_neighbor++) {
             /* visit all square neighbor*/
@@ -1898,7 +1900,6 @@ int32_t * pathfinding_Map_Path_int32_t(int32_t * costmap, size_t row_len, size_t
                   index = i;
                   break;
               }
-           
             }
         }
         current = next;
