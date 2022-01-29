@@ -1984,8 +1984,6 @@ int32_t * pathfinding_Astar_Map_int32_t(int32_t * path_map, int32_t * costmap, s
     // frontier points queue, by priority
     // lowest (movcost + distance) is top of queue.
     struct nmath_nodeq_int32_t * frontier_queue = DARR_INIT(frontier_queue, struct nmath_nodeq_int32_t, row_len * col_len);
-
-    int32_t * out = DARR_INIT(out, int32_t, row_len * col_len * NMATH_TWO_D);
     struct nmath_nodeq_int32_t current = {.x = start.x, .y = start.y, .cost = 0};
     struct nmath_nodeq_int32_t neighbor, next;
     DARR_PUT(frontier_queue, current);
