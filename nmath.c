@@ -1319,6 +1319,7 @@ TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type linalg_distance_manhattan_point_##type(struct nmath_point_##type start, struct nmath_point_##type end) {\
+    /* Does not include start and endpoints */ \
     type  distance = abs(start.x - end.x) + abs(start.y - end.y);\
     return (distance);\
 }
@@ -1860,35 +1861,35 @@ TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
 int32_t * came_from2path_list(int32_t * came_from, size_t row_len, size_t col_len, int32_t x_start, int32_t y_start, int32_t x_end, int32_t y_end) {
-    printf("came_from2path_list \n");
+    printf("came_from2path_list %d %d %d %d \n", x_start, y_start, x_end, y_end);
     struct nmath_point_int32_t current;
     current.x = x_end;
     current.y = y_end;
     size_t distance = linalg_distance_manhattan_int32_t(x_start, y_start, x_end, y_end);
-    int32_t * path_list = DARR_INIT(path_list, int32_t, (distance * NMATH_TWO_D));
-      for (size_t i = 0; i < (distance - 1); i++) {
-    printf("i %d \n",i);
-        path_list[i*NMATH_TWO_D] = current.x;
-        path_list[i*NMATH_TWO_D +1] = current.y;
-    printf("i %d \n",i);
+    int32_t * path_list = DARR_INIT(path_list, int32_t, ((distance + NMATH_ENDPOINTS_NUM) * NMATH_TWO_D));
+    for (size_t i = 0; i < (distance + NMATH_ENDPOINTS_NUM); i++) {
+        printf("current %d %d \n", current.x, current.y);
+        path_list[i * NMATH_TWO_D] = current.x;
+        path_list[i * NMATH_TWO_D + 1] = current.y;
         switch (came_from[current.y * col_len + current.x]) {
             case NMATH_DIRECTION_UP:
-                current.y += 1;
-                break;
-            case NMATH_DIRECTION_DOWN:
                 current.y -= 1;
                 break;
+            case NMATH_DIRECTION_DOWN:
+                current.y += 1;
+                break;
             case NMATH_DIRECTION_LEFT:
-                current.x -= 1;
+                current.x += 1;
                 break;
             case NMATH_DIRECTION_RIGHT:
-                current.x += 1;
+                current.x -= 1;
                 break;
         }
     }
-    path_list[(distance - 1)*NMATH_TWO_D] =x_end;
-    path_list[(distance - 1)*NMATH_TWO_D +1] = y_end;
-    return(path_list);
+    path_list[(distance + NMATH_ENDPOINTS_NUM - 1) * NMATH_TWO_D] = x_end;
+    path_list[(distance + NMATH_ENDPOINTS_NUM - 1) * NMATH_TWO_D + 1] = y_end;
+    DARR_NUM(path_list) = distance + 1;
+    return (path_list);
 }
 
 /* A_star algorithm */
@@ -1904,9 +1905,9 @@ int32_t * pathfinding_Astar_int32_t(int32_t * costmap, size_t row_len, size_t co
     assert((start.x != end.x) || (start.y != end.y));
     assert(costmap[start.y * col_len + start.x] >= NMATH_MOVEMAP_MOVEABLEMIN);
     assert(costmap[end.y * col_len + end.x] >= NMATH_MOVEMAP_MOVEABLEMIN);
-    // lowest cost is top of queue.
 
     struct nmath_nodeq_int32_t * frontier_queue = DARR_INIT(frontier_queue, struct nmath_nodeq_int32_t, row_len * col_len);
+    // lowest (movcost + distance) is top of queue. 
 
     int32_t * out = DARR_INIT(out, int32_t, row_len * col_len * NMATH_TWO_D);
     struct nmath_nodeq_int32_t current, neighbor, next;
@@ -1919,24 +1920,22 @@ int32_t * pathfinding_Astar_int32_t(int32_t * costmap, size_t row_len, size_t co
         current = DARR_POP(frontier_queue);
         printf("current. %d %d %d \n", current.x, current.y, current.cost);
         if ((current.x == end.x) && (current.y == end.y)) {
-            // size_t distance = linalg_distance_manhattan_int32_t(end.x, end.y, start.x, start.y);
-            // path_list[distance * NMATH_TWO_D] = end.x;
-            // path_list[distance * NMATH_TWO_D + 1] = end.y;
             break;
         }
 
         for (int32_t sq_neighbor = 0; sq_neighbor < NMATH_SQUARE_NEIGHBOURS; sq_neighbor++) {
             /* visit all square neighbors*/
-
             neighbor.x = nmath_inbounds_int32_t(q_cycle4_mzpz(sq_neighbor) + current.x, 0, col_len - 1);
             neighbor.y = nmath_inbounds_int32_t(q_cycle4_zmzp(sq_neighbor) + current.y, 0, row_len - 1);
             neighbor.cost = current.cost + costmap[neighbor.y * col_len + neighbor.x];
 
             if ((cost_tomove[neighbor.y * col_len + neighbor.x] == 0) || neighbor.cost <  cost_tomove[neighbor.y * col_len + neighbor.x]) {
+                // distance is heuristic for closeness to goal
                 size_t distance = linalg_distance_manhattan_int32_t(end.x, end.y, neighbor.x, neighbor.y);
                 cost_tomove[neighbor.y * col_len + neighbor.x] = neighbor.cost;
+                // Djikstra algo only has cost in this step
+                neighbor.priority = neighbor.cost + distance; // Core of Astar
 
-                neighbor.priority = neighbor.cost + distance;
 
                 /* Find index to insert neighbor into queue */
                 size_t index = 0;
@@ -1954,38 +1953,18 @@ int32_t * pathfinding_Astar_int32_t(int32_t * costmap, size_t row_len, size_t co
 
                     // }
                 }
-                // printf("frontier_queue.y %d %d %d \n", frontier_queue[index].x, frontier_queue[index].y, frontier_queue[index].priority);
-
-                /* next point on path is at distance */
-                // if ((distance * NMATH_TWO_D + 1) >= DARR_LEN(path_list)) {
-                //     DARR_GROW(path_list);
-                // }
-                // if ((distance * NMATH_TWO_D) >= DARR_NUM(path_list)) {
-                //     DARR_NUM(path_list) = (distance - 1) * NMATH_TWO_D;
-                // }
-                // printf("distance %d\n", distance);
                 came_from[neighbor.y * col_len + neighbor.x] =  nmath_Direction_Compute_int32_t(current.x, current.y, neighbor.x, neighbor.y);
-                // path_list[distance * NMATH_TWO_D] = neighbor.x;
-                // path_list[(distance * NMATH_TWO_D) + 1] = neighbor.y;
             }
         }
     }
 
     linalg_matrix_print_int32_t(came_from, row_len, col_len);
     int32_t * path_list = came_from2path_list(came_from, row_len, col_len, start.x, start.y, end.x, end.y);
-    // size_t distance = linalg_distance_manhattan_int32_t(end.x, end.y, start.x, start.y);
-    // if ((distance * NMATH_TWO_D + 1) >= DARR_LEN(path_list)) {
-    //     DARR_GROW(path_list);
-    // }
-    // if ((distance * NMATH_TWO_D) >= DARR_NUM(path_list)) {
-    //     DARR_NUM(path_list) = distance * NMATH_TWO_D;
-    // }
-    // path_list[distance * NMATH_TWO_D] = end.x;
-    // path_list[(distance * NMATH_TWO_D) + 1] = end.y;
-    // printf("DARR_NUM(path_list) %d\n", DARR_NUM(path_list));
+
     for (size_t i = 0; i < DARR_NUM(path_list); i++) {
         printf("path_list %d %d \n", path_list[i * NMATH_TWO_D], path_list[i * NMATH_TWO_D + 1]);
     }
+    getchar();
     return (path_list);
 }
 

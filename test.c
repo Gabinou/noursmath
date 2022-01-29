@@ -3005,7 +3005,7 @@ void test_pathfinding_Astar() {
     lok((DARR_NUM(path_list6) > 0));
 
     dupprintf(globalf, "\n call 3 \n");
-    int32_t * path_matrix6 = linalg_list2matrix_int32_t(path_list6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, DARR_NUM(path_list_position6) / NMATH_TWO_D);
+    int32_t * path_matrix6 = linalg_list2matrix_int32_t(path_list6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, DARR_NUM(path_list_position6));
     linalg_matrix_print_int32_t(path_matrix6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
 
     dupprintf(globalf, "\n end\n");
