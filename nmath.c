@@ -1978,7 +1978,6 @@ int32_t * pathfinding_Astar_List_int32_t(int32_t * costmap, size_t row_len, size
     return (path_list);
 }
 
-
 int32_t * pathfinding_Astar_Map_int32_t(int32_t * path_map, int32_t * costmap, size_t row_len, size_t col_len, struct nmath_point_int32_t start, struct nmath_point_int32_t end) {
     /* Assumes square grid */
     /* [1]: http://www.redblobgames.com/pathfinding/a-star/introduction.html */
