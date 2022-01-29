@@ -3002,14 +3002,18 @@ void test_pathfinding_Astar() {
     int32_t * path_list6 = pathfinding_Astar_List_int32_t(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end);
     int32_t * path_map6 = calloc(ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING, sizeof(*path_map6));
     path_map6 = pathfinding_Astar_Map_int32_t(path_map6, costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end);
+    lok(path_map6);
     dupprintf(globalf, "\n call 1 \n");
+    linalg_matrix_print_int32_t(path_map6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
 
     dupprintf(globalf, "\n call 2 \n");
     int32_t * path_matrix6 = linalg_list2matrix_int32_t(path_list6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, DARR_NUM(path_list6) / NMATH_TWO_D);
+    dupprintf(globalf, "\n printing \n");
     linalg_matrix_print_int32_t(path_matrix6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
 
     for (size_t row = 0; row < ROW_LEN_TEST_PATHFINDING; row++) {
         for (size_t col = 0; col < COL_LEN_TEST_PATHFINDING; col++) {
+            dupprintf(globalf, "\n row %d col %d \n", row, col);
             lok(path_matrix6[row * COL_LEN_TEST_PATHFINDING + col] == path_map6[row * COL_LEN_TEST_PATHFINDING + col]);
         }
     }

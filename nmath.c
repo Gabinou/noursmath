@@ -2033,6 +2033,7 @@ int32_t * pathfinding_Astar_Map_int32_t(int32_t * path_map, int32_t * costmap, s
     }
 
     linalg_matrix_print_int32_t(came_from, row_len, col_len);
+    path_map = memset(path_map, 0, row_len * col_len * sizeof(*path_map));
     path_map = came_from2path_map(path_map, came_from, row_len, col_len, start.x, start.y, end.x, end.y);
 
     free(came_from);
