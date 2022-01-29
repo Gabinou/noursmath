@@ -2999,11 +2999,13 @@ void test_pathfinding_Astar() {
 
     dupprintf(globalf, "\n tests batch 2\n");
     printf("\n tests batch 2.0\n");
-    int32_t * path_list_position6 = pathfinding_Astar_int32_t(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end);
+    int32_t * path_list_position6 = pathfinding_Astar_List_int32_t(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end);
     dupprintf(globalf, "\n call 1 \n");
-    int32_t * path_list6 = pathfinding_Astar_int32_t(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end);
+    int32_t * path_list6 = pathfinding_Astar_List_int32_t(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end);
+    dupprintf(globalf, "\n here \n");
     lok((DARR_NUM(path_list6) > 0));
 
+    dupprintf(globalf, "\n call 2 \n");
     int32_t * path_matrix6 = linalg_list2matrix_int32_t(path_list6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, DARR_NUM(path_list6) / NMATH_TWO_D);
     linalg_matrix_print_int32_t(path_matrix6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
 

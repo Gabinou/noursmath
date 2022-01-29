@@ -1911,12 +1911,13 @@ int32_t * came_from2path_list(int32_t * came_from, size_t row_len, size_t col_le
     return (path_list);
 }
 
-int32_t * pathfinding_Astar_int32_t(int32_t * costmap, size_t row_len, size_t col_len, struct nmath_point_int32_t start, struct nmath_point_int32_t end) {
+int32_t * pathfinding_Astar_List_int32_t(int32_t * costmap, size_t row_len, size_t col_len, struct nmath_point_int32_t start, struct nmath_point_int32_t end) {
     /* Assumes square grid */
     /* [1]: http://www.redblobgames.com/pathfinding/a-star/introduction.html */
 
     int32_t * cost_tomove = calloc(row_len * col_len, sizeof(*cost_tomove));
     int32_t * came_from = calloc(row_len * col_len, sizeof(*came_from));
+
     assert((start.x != end.x) || (start.y != end.y));
     assert(costmap[start.y * col_len + start.x] >= NMATH_MOVEMAP_MOVEABLEMIN);
     assert(costmap[end.y * col_len + end.x] >= NMATH_MOVEMAP_MOVEABLEMIN);
@@ -1967,6 +1968,7 @@ int32_t * pathfinding_Astar_int32_t(int32_t * costmap, size_t row_len, size_t co
     linalg_matrix_print_int32_t(came_from, row_len, col_len);
     int32_t * path_list = came_from2path_list(came_from, row_len, col_len, start.x, start.y, end.x, end.y);
 
+
     printf("path_list %d \n", DARR_NUM(path_list));
     for (size_t i = 0; i < DARR_NUM(path_list) / NMATH_TWO_D; i++) {
         printf("path_list %d %d \n", path_list[i * NMATH_TWO_D], path_list[(i * NMATH_TWO_D) + 1]);
@@ -1974,6 +1976,68 @@ int32_t * pathfinding_Astar_int32_t(int32_t * costmap, size_t row_len, size_t co
     free(came_from);
     free(cost_tomove);
     return (path_list);
+}
+
+
+int32_t * pathfinding_Astar_Map_int32_t(int32_t * path_map, int32_t * costmap, size_t row_len, size_t col_len, struct nmath_point_int32_t start, struct nmath_point_int32_t end) {
+    /* Assumes square grid */
+    /* [1]: http://www.redblobgames.com/pathfinding/a-star/introduction.html */
+
+    int32_t * cost_tomove = path_map;
+    int32_t * came_from = calloc(row_len * col_len, sizeof(*came_from));
+
+    assert((start.x != end.x) || (start.y != end.y));
+    assert(costmap[start.y * col_len + start.x] >= NMATH_MOVEMAP_MOVEABLEMIN);
+    assert(costmap[end.y * col_len + end.x] >= NMATH_MOVEMAP_MOVEABLEMIN);
+
+    struct nmath_nodeq_int32_t * frontier_queue = DARR_INIT(frontier_queue, struct nmath_nodeq_int32_t, row_len * col_len);
+    // lowest (movcost + distance) is top of queue.
+
+    int32_t * out = DARR_INIT(out, int32_t, row_len * col_len * NMATH_TWO_D);
+    struct nmath_nodeq_int32_t current = {.x = start.x, .y = start.y, .cost = 0};
+    struct nmath_nodeq_int32_t neighbor, next;
+    DARR_PUT(frontier_queue, current);
+    while (DARR_NUM(frontier_queue) > 0) {
+        current = DARR_POP(frontier_queue);
+        if ((current.x == end.x) && (current.y == end.y)) {
+            break;
+        }
+
+        for (int32_t sq_neighbor = 0; sq_neighbor < NMATH_SQUARE_NEIGHBOURS; sq_neighbor++) {
+            /* visit all square neighbors*/
+            neighbor.x = nmath_inbounds_int32_t(q_cycle4_mzpz(sq_neighbor) + current.x, 0, col_len - 1);
+            neighbor.y = nmath_inbounds_int32_t(q_cycle4_zmzp(sq_neighbor) + current.y, 0, row_len - 1);
+            neighbor.cost = current.cost + costmap[neighbor.y * col_len + neighbor.x];
+
+            if ((cost_tomove[neighbor.y * col_len + neighbor.x] == 0) || neighbor.cost <  cost_tomove[neighbor.y * col_len + neighbor.x]) {
+                // distance is heuristic for closeness to goal
+                size_t distance = linalg_distance_manhattan_int32_t(end.x, end.y, neighbor.x, neighbor.y);
+                cost_tomove[neighbor.y * col_len + neighbor.x] = neighbor.cost;
+                // Djikstra algo only has cost in this step
+                neighbor.priority = neighbor.cost + distance; // Core of Astar
+
+                /* Find index to insert neighbor into queue */
+                size_t index = 0;
+                if (DARR_NUM(frontier_queue) == 0) {
+                    DARR_PUT(frontier_queue, neighbor);
+                } else {
+                    index = DARR_NUM(frontier_queue) - 1;
+
+                    while ((neighbor.priority > frontier_queue[index].priority) && (index > 0)) {
+                        index--;
+                    }
+                    DARR_INSERT(frontier_queue, neighbor, index + 1);
+                }
+                came_from[neighbor.y * col_len + neighbor.x] =  nmath_Direction_Compute_int32_t(current.x, current.y, neighbor.x, neighbor.y);
+            }
+        }
+    }
+
+    linalg_matrix_print_int32_t(came_from, row_len, col_len);
+    path_map = came_from2path_map(path_map, came_from, row_len, col_len, start.x, start.y, end.x, end.y);
+
+    free(came_from);
+    return (path_map);
 }
 
 // bad idea to make a path from the movemap.
