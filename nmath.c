@@ -1861,7 +1861,7 @@ TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
 int32_t * came_from2path_list(int32_t * came_from, size_t row_len, size_t col_len, int32_t x_start, int32_t y_start, int32_t x_end, int32_t y_end) {
-    printf("came_from2path_list %d %d %d %d \n", x_start, y_start, x_end, y_end);
+    // printf("came_from2path_list %d %d %d %d \n", x_start, y_start, x_end, y_end);
     struct nmath_point_int32_t current;
     current.x = x_end;
     current.y = y_end;
@@ -1898,8 +1898,6 @@ int32_t * pathfinding_Astar_int32_t(int32_t * costmap, size_t row_len, size_t co
     /* Assumes square grid */
     /* [1]: http://www.redblobgames.com/pathfinding/a-star/introduction.html */
 
-    printf("start %d %d \n", start.x, start.y);
-    printf("end %d %d \n", end.x, end.y);
     int32_t * cost_tomove = calloc(row_len * col_len, sizeof(*cost_tomove));
     int32_t * came_from = calloc(row_len * col_len, sizeof(*came_from));
     assert((start.x != end.x) || (start.y != end.y));
@@ -1907,18 +1905,14 @@ int32_t * pathfinding_Astar_int32_t(int32_t * costmap, size_t row_len, size_t co
     assert(costmap[end.y * col_len + end.x] >= NMATH_MOVEMAP_MOVEABLEMIN);
 
     struct nmath_nodeq_int32_t * frontier_queue = DARR_INIT(frontier_queue, struct nmath_nodeq_int32_t, row_len * col_len);
-    // lowest (movcost + distance) is top of queue. 
+    // lowest (movcost + distance) is top of queue.
 
     int32_t * out = DARR_INIT(out, int32_t, row_len * col_len * NMATH_TWO_D);
-    struct nmath_nodeq_int32_t current, neighbor, next;
-    current.x = start.x;
-    current.y = start.y;
-    current.cost = 0;
+    struct nmath_nodeq_int32_t current = {.x = start.x, .y = start.y, .cost = 0};
+    struct nmath_nodeq_int32_t neighbor, next;
     DARR_PUT(frontier_queue, current);
-    size_t iter = 0;
     while (DARR_NUM(frontier_queue) > 0) {
         current = DARR_POP(frontier_queue);
-        printf("current. %d %d %d \n", current.x, current.y, current.cost);
         if ((current.x == end.x) && (current.y == end.y)) {
             break;
         }
@@ -1948,6 +1942,8 @@ int32_t * pathfinding_Astar_int32_t(int32_t * costmap, size_t row_len, size_t co
                         index--;
                     }
                     DARR_INSERT(frontier_queue, neighbor, index + 1);
+                    /* index + 1 because? */
+
                     // for (size_t i = 0; i < DARR_NUM(frontier_queue); i++) {
                     //     printf("i %d %d %d \n", frontier_queue[i].x, frontier_queue[i].y, frontier_queue[i].priority);
 
@@ -1964,7 +1960,6 @@ int32_t * pathfinding_Astar_int32_t(int32_t * costmap, size_t row_len, size_t co
     for (size_t i = 0; i < DARR_NUM(path_list); i++) {
         printf("path_list %d %d \n", path_list[i * NMATH_TWO_D], path_list[i * NMATH_TWO_D + 1]);
     }
-    getchar();
     return (path_list);
 }
 
