@@ -1859,6 +1859,32 @@ TEMPLATE_TYPES_SINT
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
+int32_t * came_from2path_list(int32_t came_from, int32_t path_map, size_t row_len, size_t col_len, int32_t x_start, int32_t y_start, int32_t x_end, int32_t y_end) {
+    nmath_point_int32_t current;
+    int32_t * path_list = DARR_INIT(path_list, int32_t, col_len * NMATH_TWO_D);
+    size_t distance = linalg_distance_manhattan_int32_t(x_start, y_start, x_end, y_end);
+    while ((current.x != start.x) &&  current.y != start.y)){
+        DARR_PUT(path_list, current.x);
+        DARR_PUT(path_list, current.y);
+        switch (came_from[current.y * col_len + current.x]]) {
+            case NMATH_DIRECTION_UP;
+                current.y += 1;
+                break;
+            case NMATH_DIRECTION_DOWN;
+                current.y -= 1;
+                break;
+            case NMATH_DIRECTION_LEFT;
+                current.x -= 1;
+                break;
+            case NMATH_DIRECTION_RIGHT;
+                current.x += 1;
+                 break;
+       }
+    }
+    DARR_PUT(path_list, x_start);
+    DARR_PUT(path_list, y_start);
+}
+
 /* A_star algorithm */
 int32_t * pathfinding_Astar_int32_t(int32_t * costmap, size_t row_len, size_t col_len, struct nmath_point_int32_t start, struct nmath_point_int32_t end) {
     printf("pathfinding_Map_Astar_int32_t \n");
@@ -1868,6 +1894,7 @@ int32_t * pathfinding_Astar_int32_t(int32_t * costmap, size_t row_len, size_t co
     printf("start %d %d \n", start.x, start.y);
     printf("end %d %d \n", end.x, end.y);
     int32_t * cost_tomove = calloc(row_len * col_len, sizeof(*cost_tomove));
+    int32_t * came_from = calloc(row_len * col_len, sizeof(*came_from));
     assert((start.x != end.x) || (start.y != end.y));
     assert(costmap[start.y * col_len + start.x] >= NMATH_MOVEMAP_MOVEABLEMIN);
     assert(costmap[end.y * col_len + end.x] >= NMATH_MOVEMAP_MOVEABLEMIN);
@@ -1875,9 +1902,6 @@ int32_t * pathfinding_Astar_int32_t(int32_t * costmap, size_t row_len, size_t co
 
     struct nmath_nodeq_int32_t * frontier_queue = DARR_INIT(frontier_queue, struct nmath_nodeq_int32_t, row_len * col_len);
 
-    int32_t * path_list = DARR_INIT(path_list, int32_t, col_len * NMATH_TWO_D);
-    DARR_PUT(path_list, start.x);
-    DARR_PUT(path_list, start.y);
     int32_t * out = DARR_INIT(out, int32_t, row_len * col_len * NMATH_TWO_D);
     struct nmath_nodeq_int32_t current, neighbor, next;
     current.x = start.x;
