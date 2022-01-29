@@ -2996,7 +2996,8 @@ void test_pathfinding_Astar() {
     }
     linalg_matrix_print_int32_t(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
 
-    int32_t * path_list6 = pathfinding_Astar_List_int32_t(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end);
+    int32_t * path_list6 = DARR_INIT(path_list6, int32_t, 32);
+    path_list6 = pathfinding_Astar_List_int32_t(path_list6, costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end);
     int32_t * path_map6 = calloc(ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING, sizeof(*path_map6));
     path_map6 = pathfinding_Astar_Map_int32_t(path_map6, costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end);
     lok(path_map6);

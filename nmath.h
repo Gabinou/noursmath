@@ -866,10 +866,13 @@ TEMPLATE_TYPES_INT
 
 /******************************* PATHFINDING ***********************************/
 
-extern int32_t * pathfinding_Astar_List_int32_t(int32_t * costmap, size_t row_len, size_t col_len, struct nmath_point_int32_t start, struct nmath_point_int32_t end);
+extern int32_t * pathfinding_Astar_List_int32_t(int32_t * path_list, int32_t * costmap, size_t row_len, size_t col_len, struct nmath_point_int32_t start, struct nmath_point_int32_t end);
+
 extern int32_t * pathfinding_Astar_Map_int32_t(int32_t * path_map, int32_t * costmap, size_t row_len, size_t col_len, struct nmath_point_int32_t start, struct nmath_point_int32_t end);
 
-extern int32_t * came_from2path_list(int32_t * came_from, size_t row_len, size_t col_len, int32_t x_start, int32_t y_start, int32_t x_end, int32_t y_end);
+extern int32_t * came_from2path_list(int32_t * path_list, int32_t * came_from, size_t row_len, size_t col_len, int32_t x_start, int32_t y_start, int32_t x_end, int32_t y_end);
+
+extern int32_t * came_from2path_map(int32_t * path_map, int32_t * came_from, size_t row_len, size_t col_len, int32_t x_start, int32_t y_start, int32_t x_end, int32_t y_end);
 
 #define REGISTER_ENUM(type) extern struct nmath_sq_neighbors_##type pathfinding_Direction_Block_##type(type * costmap_pushpull, size_t row_len, size_t col_len, struct nmath_point_##type start);
 TEMPLATE_TYPES_SINT

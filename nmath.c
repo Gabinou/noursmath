@@ -1886,9 +1886,9 @@ int32_t * came_from2path_map(int32_t * path_map, int32_t * came_from, size_t row
     return (path_map);
 }
 
-int32_t * came_from2path_list(int32_t * came_from, size_t row_len, size_t col_len, int32_t x_start, int32_t y_start, int32_t x_end, int32_t y_end) {
+int32_t * came_from2path_list(int32_t * path_list, int32_t * came_from, size_t row_len, size_t col_len, int32_t x_start, int32_t y_start, int32_t x_end, int32_t y_end) {
     struct nmath_point_int32_t current = {x_end, y_end};
-    int32_t * path_list = DARR_INIT(path_list, int32_t, row_len);
+    DARR_NUM(path_list) = 0;
     for (size_t i = 0; i < NMATH_ITERATIONS_LIMIT; i++) {
         DARR_PUT(path_list, current.x);
         DARR_PUT(path_list, current.y);
@@ -1913,8 +1913,8 @@ int32_t * came_from2path_list(int32_t * came_from, size_t row_len, size_t col_le
     return (path_list);
 }
 
-int32_t * pathfinding_Astar_List_int32_t(int32_t * costmap, size_t row_len, size_t col_len, struct nmath_point_int32_t start, struct nmath_point_int32_t end) {
-    /* Assumes square grid */
+int32_t * pathfinding_Astar_List_int32_t(int32_t * path_list, int32_t * costmap, size_t row_len, size_t col_len, struct nmath_point_int32_t start, struct nmath_point_int32_t end) {
+    /* Assumes square grid, path_list is a DARR */
     /* [1]: http://www.redblobgames.com/pathfinding/a-star/introduction.html */
 
     int32_t * cost_tomove = calloc(row_len * col_len, sizeof(*cost_tomove));
@@ -1922,7 +1922,6 @@ int32_t * pathfinding_Astar_List_int32_t(int32_t * costmap, size_t row_len, size
     assert((start.x != end.x) || (start.y != end.y));
     assert(costmap[start.y * col_len + start.x] >= NMATH_MOVEMAP_MOVEABLEMIN);
     assert(costmap[end.y * col_len + end.x] >= NMATH_MOVEMAP_MOVEABLEMIN);
-
     // frontier points queue, by priority
     // lowest (movcost + distance) is top of queue.
     struct nmath_nodeq_int32_t * frontier_queue = DARR_INIT(frontier_queue, struct nmath_nodeq_int32_t, row_len * col_len);
@@ -1965,7 +1964,7 @@ int32_t * pathfinding_Astar_List_int32_t(int32_t * costmap, size_t row_len, size
             }
         }
     }
-    int32_t * path_list = came_from2path_list(came_from, row_len, col_len, start.x, start.y, end.x, end.y);
+    path_list = came_from2path_list(path_list, came_from, row_len, col_len, start.x, start.y, end.x, end.y);
     free(came_from);
     free(cost_tomove);
     return (path_list);
