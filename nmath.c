@@ -1861,11 +1861,11 @@ TEMPLATE_TYPES_SINT
 
 int32_t * came_from2path_list(int32_t * came_from, size_t row_len, size_t col_len, int32_t x_start, int32_t y_start, int32_t x_end, int32_t y_end) {
     struct nmath_point_int32_t current;
-    int32_t * path_list = DARR_INIT(path_list, int32_t, col_len * NMATH_TWO_D);
     size_t distance = linalg_distance_manhattan_int32_t(x_start, y_start, x_end, y_end);
-    while ((current.x != x_start) && (current.y != y_start)) {
-        DARR_PUT(path_list, current.x);
-        DARR_PUT(path_list, current.y);
+    int32_t * path_list = DARR_INIT(path_list, int32_t, distance * NMATH_TWO_D);
+      for (size_t i = 0; i < (distance - 1); i++) {
+        path_list[i*NMATH_TWO_D] = current.x;
+        path_list[i*NMATH_TWO_D] = current.y;
         switch (came_from[current.y * col_len + current.x]) {
             case NMATH_DIRECTION_UP:
                 current.y += 1;
@@ -1881,8 +1881,9 @@ int32_t * came_from2path_list(int32_t * came_from, size_t row_len, size_t col_le
                 break;
         }
     }
-    DARR_PUT(path_list, x_start);
+    path_list, x_start);
     DARR_PUT(path_list, y_start);
+    return(path_list);
 }
 
 /* A_star algorithm */
