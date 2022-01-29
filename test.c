@@ -2904,7 +2904,6 @@ void test_pathfinding_Astar() {
     int32_t move = 5;
     range[0] = 1;
     range[1] = 2;
-    dupprintf(globalf, "\nmaps\n");
     int32_t temp_costmapp6[ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING] = {
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -2974,7 +2973,6 @@ void test_pathfinding_Astar() {
         24, 23, 22, 21, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,  0,  0,  0,  0,  0, 0,  0, 0, 0,
         25, 24, 23, 22, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,  0,  0,  0,  0,  0,  0, 0,  0, 0, 0,
     };
-    dupprintf(globalf, "\n tests batch 1\n");
     int32_t * costmapp6 = NULL;
     int32_t * movemapp6 = NULL;
     costmapp6 = calloc(sizeof(*costmapp6), COL_LEN_TEST_PATHFINDING * ROW_LEN_TEST_PATHFINDING);
@@ -2996,31 +2994,30 @@ void test_pathfinding_Astar() {
         int32_t current = computed_movemapp6[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];
         lok(current > 0);
     }
+    linalg_matrix_print_int32_t(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
 
-    dupprintf(globalf, "\n tests batch 2\n");
-    printf("\n tests batch 2.0\n");
     int32_t * path_list6 = pathfinding_Astar_List_int32_t(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end);
     int32_t * path_map6 = calloc(ROW_LEN_TEST_PATHFINDING * COL_LEN_TEST_PATHFINDING, sizeof(*path_map6));
     path_map6 = pathfinding_Astar_Map_int32_t(path_map6, costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end);
     lok(path_map6);
-    dupprintf(globalf, "\n call 1 \n");
-    linalg_matrix_print_int32_t(path_map6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
+    // linalg_matrix_print_int32_t(path_map6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
 
-    dupprintf(globalf, "\n call 2 \n");
     int32_t * path_matrix6 = linalg_list2matrix_int32_t(path_list6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, DARR_NUM(path_list6) / NMATH_TWO_D);
-    dupprintf(globalf, "\n printing \n");
+
+    dupprintf(globalf, "\n");
     linalg_matrix_print_int32_t(path_matrix6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
+    dupprintf(globalf, "\n");
+    linalg_matrix_print_int32_t(path_map6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
 
     for (size_t row = 0; row < ROW_LEN_TEST_PATHFINDING; row++) {
         for (size_t col = 0; col < COL_LEN_TEST_PATHFINDING; col++) {
-            dupprintf(globalf, "\n row %d col %d \n", row, col);
             lok(path_matrix6[row * COL_LEN_TEST_PATHFINDING + col] == path_map6[row * COL_LEN_TEST_PATHFINDING + col]);
         }
     }
 
     DARR_FREE(path_list6);
     free(path_map6);
-    dupprintf(globalf, "\n end\n");
+    // dupprintf(globalf, "\n end\n");
 }
 
 #define REGISTER_ENUM(type) void test_pathfinding_##type() {\

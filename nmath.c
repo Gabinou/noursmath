@@ -1863,9 +1863,11 @@ TEMPLATE_TYPES_SINT
 
 int32_t * came_from2path_map(int32_t * path_map, int32_t * came_from, size_t row_len, size_t col_len, int32_t x_start, int32_t y_start, int32_t x_end, int32_t y_end) {
     struct nmath_point_int32_t current = {x_end, y_end};
-    size_t distance = linalg_distance_manhattan_int32_t(x_start, y_start, x_end, y_end);
-    for (size_t i = 0; i < (distance + NMATH_ENDPOINTS_NUM); i++) {
+    for (size_t i = 0; i < NMATH_ITERATIONS_LIMIT; i++) {
         path_map[current.y * col_len + current.x] = 1;
+        if ((current.x == x_start) && (current.y == y_start)) {
+            break;
+        }
         switch (came_from[current.y * col_len + current.x]) {
             case NMATH_DIRECTION_UP:
                 current.y -= 1;
@@ -1887,12 +1889,13 @@ int32_t * came_from2path_map(int32_t * path_map, int32_t * came_from, size_t row
 
 int32_t * came_from2path_list(int32_t * came_from, size_t row_len, size_t col_len, int32_t x_start, int32_t y_start, int32_t x_end, int32_t y_end) {
     struct nmath_point_int32_t current = {x_end, y_end};
-    size_t distance = linalg_distance_manhattan_int32_t(x_start, y_start, x_end, y_end);
-    int32_t * path_list = DARR_INIT(path_list, int32_t, ((distance + NMATH_ENDPOINTS_NUM) * NMATH_TWO_D));
-    DARR_NUM(path_list) = (distance + 1) * NMATH_TWO_D;
-    for (size_t i = 0; i < (distance + NMATH_ENDPOINTS_NUM); i++) {
-        path_list[i * NMATH_TWO_D] = current.x;
-        path_list[i * NMATH_TWO_D + 1] = current.y;
+    int32_t * path_list = DARR_INIT(path_list, int32_t, row_len);
+    for (size_t i = 0; i < NMATH_ITERATIONS_LIMIT; i++) {
+        DARR_PUT(path_list, current.x);
+        DARR_PUT(path_list, current.y);
+        if ((current.x == x_start) && (current.y == y_start)) {
+            break;
+        }
         switch (came_from[current.y * col_len + current.x]) {
             case NMATH_DIRECTION_UP:
                 current.y -= 1;
@@ -1941,7 +1944,7 @@ int32_t * pathfinding_Astar_List_int32_t(int32_t * costmap, size_t row_len, size
             neighbor.y = nmath_inbounds_int32_t(q_cycle4_zmzp(sq_neighbor) + current.y, 0, row_len - 1);
             neighbor.cost = current.cost + costmap[neighbor.y * col_len + neighbor.x];
 
-            if ((cost_tomove[neighbor.y * col_len + neighbor.x] == 0) || neighbor.cost <  cost_tomove[neighbor.y * col_len + neighbor.x]) {
+            if (((cost_tomove[neighbor.y * col_len + neighbor.x] == 0) || neighbor.cost <  cost_tomove[neighbor.y * col_len + neighbor.x]) && (costmap[neighbor.y * col_len + neighbor.x] >= NMATH_MOVEMAP_MOVEABLEMIN)) {
                 // distance is heuristic for closeness to goal
                 size_t distance = linalg_distance_manhattan_int32_t(end.x, end.y, neighbor.x, neighbor.y);
                 cost_tomove[neighbor.y * col_len + neighbor.x] = neighbor.cost;
@@ -1965,14 +1968,13 @@ int32_t * pathfinding_Astar_List_int32_t(int32_t * costmap, size_t row_len, size
         }
     }
 
-    linalg_matrix_print_int32_t(came_from, row_len, col_len);
+    // linalg_matrix_print_int32_t(came_from, row_len, col_len);
     int32_t * path_list = came_from2path_list(came_from, row_len, col_len, start.x, start.y, end.x, end.y);
 
-
-    printf("path_list %d \n", DARR_NUM(path_list));
-    for (size_t i = 0; i < DARR_NUM(path_list) / NMATH_TWO_D; i++) {
-        printf("path_list %d %d \n", path_list[i * NMATH_TWO_D], path_list[(i * NMATH_TWO_D) + 1]);
-    }
+    // printf("path_list %d \n", DARR_NUM(path_list));
+    // for (size_t i = 0; i < DARR_NUM(path_list) / NMATH_TWO_D; i++) {
+    //     printf("path_list %d %d \n", path_list[i * NMATH_TWO_D], path_list[(i * NMATH_TWO_D) + 1]);
+    // }
     free(came_from);
     free(cost_tomove);
     return (path_list);
@@ -2008,7 +2010,7 @@ int32_t * pathfinding_Astar_Map_int32_t(int32_t * path_map, int32_t * costmap, s
             neighbor.y = nmath_inbounds_int32_t(q_cycle4_zmzp(sq_neighbor) + current.y, 0, row_len - 1);
             neighbor.cost = current.cost + costmap[neighbor.y * col_len + neighbor.x];
 
-            if ((cost_tomove[neighbor.y * col_len + neighbor.x] == 0) || neighbor.cost <  cost_tomove[neighbor.y * col_len + neighbor.x]) {
+            if (((cost_tomove[neighbor.y * col_len + neighbor.x] == 0) || neighbor.cost <  cost_tomove[neighbor.y * col_len + neighbor.x]) && (costmap[neighbor.y * col_len + neighbor.x] >= NMATH_MOVEMAP_MOVEABLEMIN)) {
                 // distance is heuristic for closeness to goal
                 size_t distance = linalg_distance_manhattan_int32_t(end.x, end.y, neighbor.x, neighbor.y);
                 cost_tomove[neighbor.y * col_len + neighbor.x] = neighbor.cost;
@@ -2032,10 +2034,9 @@ int32_t * pathfinding_Astar_Map_int32_t(int32_t * path_map, int32_t * costmap, s
         }
     }
 
-    linalg_matrix_print_int32_t(came_from, row_len, col_len);
+    // linalg_matrix_print_int32_t(came_from, row_len, col_len);
     path_map = memset(path_map, 0, row_len * col_len * sizeof(*path_map));
     path_map = came_from2path_map(path_map, came_from, row_len, col_len, start.x, start.y, end.x, end.y);
-
     free(came_from);
     return (path_map);
 }
