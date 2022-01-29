@@ -9,7 +9,7 @@
 #include <assert.h>
 #include <math.h>
 
-/******************************* NOURS_MATH v0.2 *****************************/
+/******************************* NOURS_MATH v0.3 *****************************/
 /* Math library I made during the development of my game, Codename:Firesaga
 * 3 Main modules:
 *     q_math, quick math module
@@ -947,14 +947,6 @@ TEMPLATE_TYPES_SINT
 
 #define REGISTER_ENUM(type) extern type * pathfinding_Map_unitGradient_##type(type * in_costmap, size_t row_len, size_t col_len, struct nmath_point_##type * in_targets, size_t unit_num);
 TEMPLATE_TYPES_SINT
-#undef REGISTER_ENUM
-
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Path_##type(type * costmap, size_t row_len, size_t col_len, struct nmath_point_##type start, struct nmath_point_##type end, uint8_t mode_path);
-TEMPLATE_TYPES_INT
-#undef REGISTER_ENUM
-
-#define REGISTER_ENUM(type) extern type * pathfinding_Map_Path_noM_##type(type *out, type * move_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, struct nmath_point_##type end);
-TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * pathfinding_Path_step2position_##type(type * step_list, size_t list_len, struct nmath_point_##type start);

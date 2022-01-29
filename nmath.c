@@ -1044,7 +1044,6 @@ TEMPLATE_TYPES_BOOL
 
 /******************************* PATHFINDING ***********************************/
 
-
 #define REGISTER_ENUM(type) type nmath_Direction_Compute_##type(type x_0, type y_0, type x_1, type y_1) { \
     /* Movement direction for 1 tile steps. on a square grid*/ \
     type direction = 0; \
@@ -2026,80 +2025,6 @@ int32_t * pathfinding_Astar_Map_int32_t(int32_t * path_map, int32_t * costmap, s
     free(came_from);
     return (path_map);
 }
-
-// bad idea to make a path from the movemap.
-//-> sometimes you want a path to outside the movemap.
-// #define REGISTER_ENUM(type) type * pathfinding_Map_Path_##type(type * move_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, struct nmath_point_##type end, uint8_t mode_path) {\
-//     type * path_position = DARR_INIT(path_position, type, row_len * col_len * NMATH_TWO_D);\
-//     type  * out = DARR_INIT(out, type, row_len * col_len * NMATH_TWO_D);\
-//     struct nmath_point_##type current = end, neighbor, next;\
-//     type  current_cost;\
-//     if ((move_matrix[start.y * col_len + start.x] >= NMATH_MOVEMAP_MOVEABLEMIN) || (move_matrix[end.y * col_len + end.x] >= NMATH_MOVEMAP_MOVEABLEMIN)) {\
-//         while ((current.x != start.x) || (current.y != start.y)) {\
-//             DARR_PUT(path_position, current.x);\
-//             DARR_PUT(path_position, current.y);\
-//             current_cost = type##_MAX;\
-//             for (type  sq_neighbor = 0; sq_neighbor < NMATH_SQUARE_NEIGHBOURS; sq_neighbor++) {\
-//                 neighbor.x = nmath_inbounds_##type(q_cycle4_mzpz(sq_neighbor) + current.x, 0, col_len - 1);\
-//                 neighbor.y = nmath_inbounds_##type(q_cycle4_zmzp(sq_neighbor) + current.y, 0, row_len - 1);\
-//                 if (move_matrix[neighbor.y * col_len + neighbor.x] >= NMATH_MOVEMAP_MOVEABLEMIN) {\
-//                     if (current_cost > move_matrix[neighbor.y * col_len + neighbor.x]) {\
-//                         current_cost = move_matrix[neighbor.y * col_len + neighbor.x];\
-//                         next = neighbor;\
-//                     }\
-//                 }\
-//             }\
-//             current = next;\
-//         }\
-//     } else {\
-//         printf("pathfinding_Map_Path invalid start or end nmath_point_##type");\
-//     }\
-//     DARR_PUT(path_position, current.x);\
-//     DARR_PUT(path_position, current.y);\
-//     switch (mode_path) {\
-//         case NMATH_PATH_STEP:\
-//             for (type  i = ((DARR_NUM(path_position) / NMATH_TWO_D) - 1); i > 0 ; i--) {\
-//                 DARR_PUT(out, (path_position[(i - 1) * NMATH_TWO_D + 0] - path_position[i * NMATH_TWO_D + 0]));\
-//                 DARR_PUT(out, (path_position[(i - 1) * NMATH_TWO_D + 1] - path_position[i * NMATH_TWO_D + 1]));\
-//             }\
-//             break;\
-//         case NMATH_PATH_POSITION:\
-//             out = path_position;\
-//             break;\
-//     }\
-//     return (out);\
-// }
-// TEMPLATE_TYPES_SINT
-// #undef REGISTER_ENUM
-
-/* A_star algorithm? */
-#define REGISTER_ENUM(type) type * pathfinding_Map_Path_noM_##type(type * out, type * move_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, struct nmath_point_##type end) {\
-    struct nmath_point_##type current = end, neighbor, next;\
-    type  current_cost;\
-    if ((move_matrix[start.y * col_len + start.x] >= NMATH_MOVEMAP_MOVEABLEMIN) || (move_matrix[end.y * col_len + end.x] >= NMATH_MOVEMAP_MOVEABLEMIN)) {\
-        while ((current.x != start.x) || (current.y != start.y)) {\
-            DARR_PUT(out, current.x);\
-            DARR_PUT(out, current.y);\
-            current_cost = type##_MAX;\
-            for (type  sq_neighbor = 0; sq_neighbor < NMATH_SQUARE_NEIGHBOURS; sq_neighbor++) {\
-                neighbor.x = nmath_inbounds_##type(q_cycle4_mzpz(sq_neighbor) + current.x, 0, col_len - 1);\
-                neighbor.y = nmath_inbounds_##type(q_cycle4_zmzp(sq_neighbor) + current.y, 0, row_len - 1);\
-                if (move_matrix[neighbor.y * col_len + neighbor.x] >= NMATH_MOVEMAP_MOVEABLEMIN) {\
-                    if (current_cost > move_matrix[neighbor.y * col_len + neighbor.x]) {\
-                        current_cost = move_matrix[neighbor.y * col_len + neighbor.x];\
-                        next = neighbor;\
-                    }\
-                }\
-            }\
-            current = next;\
-        }\
-    }\
-    DARR_PUT(out, current.x);\
-    DARR_PUT(out, current.y);\
-    return (out);\
-}
-TEMPLATE_TYPES_INT
-#undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * pathfinding_Path_step2position_##type(type  * step_list, size_t list_len, struct nmath_point_##type start) {\
     type  * path_position = DARR_INIT(path_position, type, ((list_len + 1) * 2));\
