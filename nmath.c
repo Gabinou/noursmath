@@ -1865,7 +1865,7 @@ int32_t * came_from2path_list(int32_t * came_from, size_t row_len, size_t col_le
     int32_t * path_list = DARR_INIT(path_list, int32_t, distance * NMATH_TWO_D);
       for (size_t i = 0; i < (distance - 1); i++) {
         path_list[i*NMATH_TWO_D] = current.x;
-        path_list[i*NMATH_TWO_D] = current.y;
+        path_list[i*NMATH_TWO_D +1] = current.y;
         switch (came_from[current.y * col_len + current.x]) {
             case NMATH_DIRECTION_UP:
                 current.y += 1;
@@ -1881,8 +1881,8 @@ int32_t * came_from2path_list(int32_t * came_from, size_t row_len, size_t col_le
                 break;
         }
     }
-    path_list, x_start);
-    DARR_PUT(path_list, y_start);
+    path_list[(distance - 1)*NMATH_TWO_D] =x_end;
+    path_list[(distance - 1)*NMATH_TWO_D +1] = y_end;
     return(path_list);
 }
 
