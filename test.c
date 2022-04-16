@@ -4239,6 +4239,17 @@ void test_bops() {
     a = 1, b = 2;
     a = nmath_bplus(a, b, max);
     lok(a == 3);
+
+    a = 1, b = 20;
+    max = -10;
+    a = nmath_bminus(a, b, max);
+    lok(a == max);
+
+    a = 5, b = 8;
+    max = 35;
+    a = nmath_bmultp(a, b, max);
+    lok(a == max);
+
 }
 
 int main() {
