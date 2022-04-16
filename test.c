@@ -667,6 +667,14 @@ void linalg_uint8_t() {
     free(matrixed2d);
     DARR_FREE(listeded2d);
 }
+void linalg_uint_fast64_t() {}
+void linalg_uint_fast32_t() {}
+void linalg_uint_fast16_t() {}
+void linalg_uint_fast8_t() {}
+void linalg_int_fast64_t() {}
+void linalg_int_fast32_t() {}
+void linalg_int_fast16_t() {}
+void linalg_int_fast8_t() {}
 
 void linalg_int8_t() {
     int8_t * temp2D1 = calloc(LINALG_ROW_LEN * LINALG_COL_LEN, sizeof(int8_t));
@@ -4223,15 +4231,27 @@ void test_pathfinding_Astar() {
 TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
+void test_bops() {
+    int32_t a = 1, b = 90;
+    int32_t max = 10;
+    a = bplus(a, b, max);
+    lok(a == max);
+    a = 1, b = 2;
+    a = bplus(a, b, max);
+    lok(a == 3);
+    printf("UINT8_MIN %d\n", UINT8_MIN);
+}
+
 int main() {
     globalf = fopen("nmath_test_results.txt", "w+");
     dupprintf(globalf, "\nHello, World! I am testing noursmath.\n");
-    // lrun("log2", test_log2);
-    // lrun("orders_indices", orders_indices_uint32_t);
-    // lrun("test_q_math", test_q_math);
-    // lrun("test_double", linalg_double);
-    // lrun("test_float", linalg_float);
+    lrun("log2", test_log2);
+    lrun("orders_indices", orders_indices_uint32_t);
+    lrun("test_q_math", test_q_math);
+    lrun("test_double", linalg_double);
+    lrun("test_float", linalg_float);
     lrun("test_pathfinding_Astar", test_pathfinding_Astar);
+    lrun("test_bops", test_bops);
 
 // #define REGISTER_ENUM(type) lrun(STRINGIFY(path_##type), test_pathfinding_##type);
 //     TEMPLATE_TYPES_SINT

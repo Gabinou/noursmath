@@ -463,41 +463,85 @@ TEMPLATE_TYPES_FLOAT
 /* -- SAFE MATH -- */
 
 /* -- bounded operations -- */
-#define bplus(a, b, max) a > (max - b)? max : a + b;
-#define bplus_int8_t(a, b) a > (INT8_MAX - b)? INT8_MAX : a + b;
-#define bplus_uint8_t(a, b) a > (UINT8_MAX - b)? UINT8_MAX : a + b;
-#define bplus_int16_t(a, b) a > (INT16_MAX - b)? INT16_MAX : a + b;
-#define bplus_uint16_t(a, b) a > (UINT16_MAX - b)? UINT16_MAX : a + b;
-#define bplus_int32_t(a, b) a > (INT32_MAX - b)? INT32_MAX : a + b;
-#define bplus_uint32_t(a, b) a > (UINT32_MAX - b)? UINT32_MAX : a + b;
-#define bplus_int64_t(a, b) a > (INT64_MAX - b)? INT64_MAX : a + b;
-#define bplus_uint64_t(a, b) a > (UINT64_MAX - b)? UINT64_MAX : a + b;
-#define bplus_int_fast8_t(a, b) a > (INT_FAST8_MAX - b)? INT_FAST8_MAX : a + b;
-#define bplus_int_fast16_t(a, b) a > (INT_FAST16_MAX - b)? INT_FAST16_MAX : a + b;
-#define bplus_int_fast32_t(a, b) a > (INT_FAST32_MAX - b)? INT_FAST32_MAX : a + b;
-#define bplus_int_fast64_t(a, b) a > (INT_FAST64_MAX - b)? INT_FAST64_MAX : a + b;
-#define bplus_uint_fast8_t(a, b) a > (UINT_FAST8_MAX - b)? UINT_FAST8_MAX : a + b;
-#define bplus_uint_fast16_t(a, b) a > (UINT_FAST16_MAX - b)? UINT_FAST16_MAX : a + b;
-#define bplus_uint_fast32_t(a, b) a > (UINT_FAST32_MAX - b)? UINT_FAST32_MAX : a + b;
-#define bplus_uint_fast64_t(a, b) a > (UINT_FAST64_MAX - b)? UINT_FAST64_MAX : a + b;
+/* NOTE: INTENDED FOR INTEGERS, WORKS FOR FLOATS SOMETIMES */
+/* No division, integer division always tends to 0 */
+/* Integer multiplication always tends to bounds. */
 
-#define bminus(a, b, min) (a < min + b) ? min : a - b;
-#define bminus_int8_t(a, b) a < (INT8_MAX + b)? INT8_MAX : a - b;
-#define bminus_uint8_t(a, b) a < (UINT8_MAX + b)? UINT8_MAX : a - b;
-#define bminus_int16_t(a, b) a < (INT16_MAX + b)? INT16_MAX : a - b;
-#define bminus_uint16_t(a, b) a < (UINT16_MAX + b)? UINT16_MAX : a - b;
-#define bminus_int32_t(a, b) a < (INT32_MAX + b)? INT32_MAX : a - b;
-#define bminus_uint32_t(a, b) a < (UINT32_MAX + b)? UINT32_MAX : a - b;
-#define bminus_int64_t(a, b) a < (INT64_MAX + b)? INT64_MAX : a - b;
-#define bminus_uint64_t(a, b) a < (UINT64_MAX + b)? UINT64_MAX : a - b;
-#define bminus_int_fast8_t(a, b) a < (INT_FAST8_MAX + b)? INT_FAST8_MAX : a - b;
-#define bminus_int_fast16_t(a, b) a < (INT_FAST16_MAX + b)? INT_FAST16_MAX : a - b;
-#define bminus_int_fast32_t(a, b) a < (INT_FAST32_MAX + b)? INT_FAST32_MAX : a - b;
-#define bminus_int_fast64_t(a, b) a < (INT_FAST64_MAX + b)? INT_FAST64_MAX : a - b;
-#define bminus_uint_fast8_t(a, b) a < (UINT_FAST8_MAX + b)? UINT_FAST8_MAX : a - b;
-#define bminus_uint_fast16_t(a, b) a < (UINT_FAST16_MAX + b)? UINT_FAST16_MAX : a - b;
-#define bminus_uint_fast32_t(a, b) a < (UINT_FAST32_MAX + b)? UINT_FAST32_MAX : a - b;
-#define bminus_uint_fast64_t(a, b) a < (UINT_FAST64_MAX + b)? UINT_FAST64_MAX : a - b;
+/* b > 0*/
+#define nmath_bplus(a, b, max) a > (max - b)? max : a + b;
+#define nmath_bplus_int8_t(a, b) a > (INT8_MAX - b)? INT8_MAX : a + b;
+#define nmath_bplus_uint8_t(a, b) a > (UINT8_MAX - b)? UINT8_MAX : a + b;
+#define nmath_bplus_int16_t(a, b) a > (INT16_MAX - b)? INT16_MAX : a + b;
+#define nmath_bplus_uint16_t(a, b) a > (UINT16_MAX - b)? UINT16_MAX : a + b;
+#define nmath_bplus_int32_t(a, b) a > (INT32_MAX - b)? INT32_MAX : a + b;
+#define nmath_bplus_uint32_t(a, b) a > (UINT32_MAX - b)? UINT32_MAX : a + b;
+#define nmath_bplus_int64_t(a, b) a > (INT64_MAX - b)? INT64_MAX : a + b;
+#define nmath_bplus_uint64_t(a, b) a > (UINT64_MAX - b)? UINT64_MAX : a + b;
+#define nmath_bplus_int_fast8_t(a, b) a > (INT_FAST8_MAX - b)? INT_FAST8_MAX : a + b;
+#define nmath_bplus_int_fast16_t(a, b) a > (INT_FAST16_MAX - b)? INT_FAST16_MAX : a + b;
+#define nmath_bplus_int_fast32_t(a, b) a > (INT_FAST32_MAX - b)? INT_FAST32_MAX : a + b;
+#define nmath_bplus_int_fast64_t(a, b) a > (INT_FAST64_MAX - b)? INT_FAST64_MAX : a + b;
+#define nmath_bplus_uint_fast8_t(a, b) a > (UINT_FAST8_MAX - b)? UINT_FAST8_MAX : a + b;
+#define nmath_bplus_uint_fast16_t(a, b) a > (UINT_FAST16_MAX - b)? UINT_FAST16_MAX : a + b;
+#define nmath_bplus_uint_fast32_t(a, b) a > (UINT_FAST32_MAX - b)? UINT_FAST32_MAX : a + b;
+#define nmath_bplus_uint_fast64_t(a, b) a > (UINT_FAST64_MAX - b)? UINT_FAST64_MAX : a + b;
+
+#define nmath_bminus(a, b, min) (a < min + b) ? min : a - b;
+#define nmath_bminus_int8_t(a, b) a < (INT8_MIN + b)? INT8_MIN : a - b;
+#define nmath_bminus_uint8_t(a, b) a < b ? 0 : a - b;
+#define nmath_bminus_int16_t(a, b) a < (INT16_MIN + b)? INT16_MIN : a - b;
+#define nmath_bminus_uint16_t(a, b) a < b? 0 : a - b;
+#define nmath_bminus_int32_t(a, b) a < (INT32_MIN + b)? INT32_MIN : a - b;
+#define nmath_bminus_uint32_t(a, b) a < b? 0 : a - b;
+#define nmath_bminus_int64_t(a, b) a < (INT64_MIN + b)? INT64_MIN : a - b;
+#define nmath_bminus_uint64_t(a, b) a < b? 0 : a - b;
+#define nmath_bminus_int_fast8_t(a, b) a < (INT_FAST8_MIN + b)? INT_FAST8_MIN : a - b;
+#define nmath_bminus_int_fast16_t(a, b) a < (INT_FAST16_MIN + b)? INT_FAST16_MIN : a - b;
+#define nmath_bminus_int_fast32_t(a, b) a < (INT_FAST32_MIN + b)? INT_FAST32_MIN : a - b;
+#define nmath_bminus_int_fast64_t(a, b) a < (INT_FAST64_MIN + b)? INT_FAST64_MIN : a - b;
+#define nmath_bminus_uint_fast8_t(a, b) a < b? 0 : a - b;
+#define nmath_bminus_uint_fast16_t(a, b) a < b? 0 : a - b;
+#define nmath_bminus_uint_fast32_t(a, b) a < b? 0 : a - b;
+#define nmath_bminus_uint_fast64_t(a, b) a < b? 0 : a - b;
+
+/* positive result */
+#define nmath_bmultp(a, b, max) a > (max / b)? max : a * b;
+#define nmath_bmultp_int8_t(a, b) a > (INT8_MAX / b)? INT8_MAX : a * b;
+#define nmath_bmultp_uint8_t(a, b) a > (UINT8_MAX / b)? UINT8_MAX : a * b;
+#define nmath_bmultp_int16_t(a, b) a > (INT16_MAX / b)? INT16_MAX : a * b;
+#define nmath_bmultp_uint16_t(a, b) a > (UINT16_MAX / b)? UINT16_MAX : a * b;
+#define nmath_bmultp_int32_t(a, b) a > (INT32_MAX / b)? INT32_MAX : a * b;
+#define nmath_bmultp_uint32_t(a, b) a > (UINT32_MAX / b)? UINT32_MAX : a * b;
+#define nmath_bmultp_int64_t(a, b) a > (INT64_MAX / b)? INT64_MAX : a * b;
+#define nmath_bmultp_uint64_t(a, b) a > (UINT64_MAX / b)? UINT64_MAX : a * b;
+#define nmath_bmultp_int_fast8_t(a, b) a > (INT_FAST8_MAX / b)? INT_FAST8_MAX : a * b;
+#define nmath_bmultp_int_fast16_t(a, b) a > (INT_FAST16_MAX / b)? INT_FAST16_MAX : a * b;
+#define nmath_bmultp_int_fast32_t(a, b) a > (INT_FAST32_MAX / b)? INT_FAST32_MAX : a * b;
+#define nmath_bmultp_int_fast64_t(a, b) a > (INT_FAST64_MAX / b)? INT_FAST64_MAX : a * b;
+#define nmath_bmultp_uint_fast8_t(a, b) a > (UINT_FAST8_MAX / b)? UINT_FAST8_MAX : a * b;
+#define nmath_bmultp_uint_fast16_t(a, b) a > (UINT_FAST16_MAX / b)? UINT_FAST16_MAX : a * b;
+#define nmath_bmultp_uint_fast32_t(a, b) a > (UINT_FAST32_MAX / b)? UINT_FAST32_MAX : a * b;
+#define nmath_bmultp_uint_fast64_t(a, b) a > (UINT_FAST64_MAX / b)? UINT_FAST64_MAX : a * b;
+
+/* negative result */
+#define nmath_bmultn(a, b, min) (a < min / b) ? min : a - b;
+#define nmath_bmultn_int8_t(a, b) a < (INT8_MIN / b)? INT8_MIN : a * b;
+#define nmath_bmultn_uint8_t(a, b) a < b ? 0 : a * b;
+#define nmath_bmultn_int16_t(a, b) a < (INT16_MIN / b)? INT16_MIN : a * b;
+#define nmath_bmultn_uint16_t(a, b) a < b? 0 : a * b;
+#define nmath_bmultn_int32_t(a, b) a < (INT32_MIN / b)? INT32_MIN : a * b;
+#define nmath_bmultn_uint32_t(a, b) a < b? 0 : a * b;
+#define nmath_bmultn_int64_t(a, b) a < (INT64_MIN / b)? INT64_MIN : a * b;
+#define nmath_bmultn_uint64_t(a, b) a < b? 0 : a * b;
+#define nmath_bmultn_int_fast8_t(a, b) a < (INT_FAST8_MIN / b)? INT_FAST8_MIN : a * b;
+#define nmath_bmultn_int_fast16_t(a, b) a < (INT_FAST16_MIN / b)? INT_FAST16_MIN : a * b;
+#define nmath_bmultn_int_fast32_t(a, b) a < (INT_FAST32_MIN / b)? INT_FAST32_MIN : a * b;
+#define nmath_bmultn_int_fast64_t(a, b) a < (INT_FAST64_MIN / b)? INT_FAST64_MIN : a * b;
+#define nmath_bmultn_uint_fast8_t(a, b) a < b? 0 : a * b;
+#define nmath_bmultn_uint_fast16_t(a, b) a < b? 0 : a * b;
+#define nmath_bmultn_uint_fast32_t(a, b) a < b? 0 : a * b;
+#define nmath_bmultn_uint_fast64_t(a, b) a < b? 0 : a * b;
+
 
 /* -- MULTIPLY N TIMES -- */
 
