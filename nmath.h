@@ -245,26 +245,42 @@ enum NMATH_MODE_PATHS {
 };
 
 #define uint64_t_MAX UINT64_MAX
+#define uint_fast64_t_MAX UINT64_MAX
 #define uint32_t_MAX UINT32_MAX
+#define uint_fast32_t_MAX UINT32_MAX
 #define uint16_t_MAX UINT16_MAX
+#define uint_fast16_t_MAX UINT16_MAX
 #define uint8_t_MAX UINT8_MAX
+#define uint_fast8_t_MAX UINT8_MAX
 #define int64_t_MAX INT64_MAX
+#define int_fast64_t_MAX INT64_MAX
 #define int32_t_MAX INT32_MAX
+#define int_fast32_t_MAX INT32_MAX
 #define int16_t_MAX INT16_MAX
+#define int_fast16_t_MAX INT16_MAX
 #define int8_t_MAX INT8_MAX
+#define int_fast8_t_MAX INT8_MAX
 
 #ifndef TEMPLATE_TYPES_UINT
 #define TEMPLATE_TYPES_UINT REGISTER_ENUM(uint8_t) \
 REGISTER_ENUM(uint16_t) \
 REGISTER_ENUM(uint32_t) \
-REGISTER_ENUM(uint64_t)
+REGISTER_ENUM(uint64_t) \
+REGISTER_ENUM(uint_fast8_t) \
+REGISTER_ENUM(uint_fast16_t) \
+REGISTER_ENUM(uint_fast32_t) \
+REGISTER_ENUM(uint_fast64_t)
 #endif  /* TEMPLATE_TYPES_UINT */
 
 #ifndef TEMPLATE_TYPES_SINT
 #define TEMPLATE_TYPES_SINT REGISTER_ENUM(int8_t) \
 REGISTER_ENUM(int16_t) \
 REGISTER_ENUM(int32_t) \
-REGISTER_ENUM(int64_t)
+REGISTER_ENUM(int64_t) \
+REGISTER_ENUM(int_fast8_t) \
+REGISTER_ENUM(int_fast16_t) \
+REGISTER_ENUM(int_fast32_t) \
+REGISTER_ENUM(int_fast64_t)
 #endif  /* TEMPLATE_TYPES_SINT */
 
 #ifndef TEMPLATE_TYPES_INT
@@ -283,24 +299,40 @@ REGISTER_ENUM(double)
 
 enum NMATH_ZEROS_INT {
     NMATH_ZERO_uint8_t = 0,
+    NMATH_ZERO_uint_fast8_t = 0,
     NMATH_ZERO_uint16_t = 0,
+    NMATH_ZERO_uint_fast16_t = 0,
     NMATH_ZERO_uint32_t = 0,
+    NMATH_ZERO_uint_fast32_t = 0,
     NMATH_ZERO_uint64_t = 0,
+    NMATH_ZERO_uint_fast64_t = 0,
     NMATH_ZERO_int8_t = 0,
+    NMATH_ZERO_int_fast8_t = 0,
     NMATH_ZERO_int16_t = 0,
+    NMATH_ZERO_int_fast16_t = 0,
     NMATH_ZERO_int32_t = 0,
+    NMATH_ZERO_int_fast32_t = 0,
     NMATH_ZERO_int64_t = 0,
+    NMATH_ZERO_int_fast64_t = 0,
 };
 
 enum NMATH_ONES_INT {
     NMATH_ONE_uint8_t = 1,
+    NMATH_ONE_uint_fast8_t = 1,
     NMATH_ONE_uint16_t = 1,
+    NMATH_ONE_uint_fast16_t = 1,
     NMATH_ONE_uint32_t = 1,
+    NMATH_ONE_uint_fast32_t = 1,
     NMATH_ONE_uint64_t = 1,
+    NMATH_ONE_uint_fast64_t = 1,
     NMATH_ONE_int8_t = 1,
+    NMATH_ONE_int_fast8_t = 1,
     NMATH_ONE_int16_t = 1,
+    NMATH_ONE_int_fast16_t = 1,
     NMATH_ONE_int32_t = 1,
+    NMATH_ONE_int_fast32_t = 1,
     NMATH_ONE_int64_t = 1,
+    NMATH_ONE_int_fast64_t = 1,
 };
 
 
@@ -417,15 +449,146 @@ TEMPLATE_TYPES_INT
 
 
 #define REGISTER_ENUM(type) extern type nmath_inbounds_##type(type pos, type boundmin, type boundmax);
+
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
-/************************* QUICK MATH *****************************/
+/* --- QUICK MATH --- */
 
 #ifndef log2// because tcc SUCKS, does NOT DEFINE log2
 #define log2(x) (log(x)/log(2.0f))
 #endif
+
+/* -- SAFE MATH -- */
+
+/* -- bounded operations -- */
+#define bplus(a,b,max) a > (max - b)? max : a + b;
+#define bplus_int8_t(a,b) a > (INT8_MAX - b)? INT8_MAX : a + b;
+#define bplus_uint8_t(a,b) a > (UINT8_MAX - b)? UINT8_MAX : a + b;
+#define bplus_int16_t(a,b) a > (INT16_MAX - b)? INT16_MAX : a + b;
+#define bplus_uint16_t(a,b) a > (UINT16_MAX - b)? UINT16_MAX : a + b;
+#define bplus_int32_t(a,b) a > (INT32_MAX - b)? INT32_MAX : a + b;
+#define bplus_uint32_t(a,b) a > (UINT32_MAX - b)? UINT32_MAX : a + b;
+#define bplus_int64_t(a,b) a > (INT64_MAX - b)? INT64_MAX : a + b;
+#define bplus_uint64_t(a,b) a > (UINT64_MAX - b)? UINT64_MAX : a + b;
+#define bplus_int_fast8_t(a,b) a > (INT_FAST8_MAX - b)? INT_FAST8_MAX : a + b;
+#define bplus_int_fast16_t(a,b) a > (INT_FAST16_MAX - b)? INT_FAST16_MAX : a + b;
+#define bplus_int_fast32_t(a,b) a > (INT_FAST32_MAX - b)? INT_FAST32_MAX : a + b;
+#define bplus_int_fast64_t(a,b) a > (INT_FAST64_MAX - b)? INT_FAST64_MAX : a + b;
+#define bplus_uint_fast8_t(a,b) a > (UINT_FAST8_MAX - b)? UINT_FAST8_MAX : a + b;
+#define bplus_uint_fast16_t(a,b) a > (UINT_FAST16_MAX - b)? UINT_FAST16_MAX : a + b;
+#define bplus_uint_fast32_t(a,b) a > (UINT_FAST32_MAX - b)? UINT_FAST32_MAX : a + b;
+#define bplus_uint_fast64_t(a,b) a > (UINT_FAST64_MAX - b)? UINT_FAST64_MAX : a + b;
+
+
+#define bminus(a,b,min) (a < min + b) ? min : a - b;
+
+/* -- MULTIPLY N TIMES -- */
+
+extern float nmath_slowpow(float base, int_fast8_t exponent);
+
+/* DOES NOT WORK IF n is NOT A NUMBER TOKEN */
+#define nmath_fastpow(s, n) nmath_fastpow##n(s)
+#define nmath_fastpow1(s) s
+#define nmath_fastpow2(s) nmath_fastpow1(s) * nmath_fastpow1(s)
+#define nmath_fastpow3(s) nmath_fastpow1(s) * nmath_fastpow2(s)
+#define nmath_fastpow4(s) nmath_fastpow1(s) * nmath_fastpow3(s)
+#define nmath_fastpow5(s) nmath_fastpow1(s) * nmath_fastpow4(s)
+#define nmath_fastpow6(s) nmath_fastpow1(s) * nmath_fastpow5(s)
+#define nmath_fastpow7(s) nmath_fastpow1(s) * nmath_fastpow6(s)
+#define nmath_fastpow8(s) nmath_fastpow1(s) * nmath_fastpow7(s)
+#define nmath_fastpow9(s) nmath_fastpow1(s) * nmath_fastpow8(s)
+#define nmath_fastpow10(s) nmath_fastpow1(s) * nmath_fastpow9(s)
+#define nmath_fastpow11(s) nmath_fastpow1(s) * nmath_fastpow10(s)
+#define nmath_fastpow12(s) nmath_fastpow2(s) * nmath_fastpow10(s)
+#define nmath_fastpow13(s) nmath_fastpow3(s) * nmath_fastpow10(s)
+#define nmath_fastpow14(s) nmath_fastpow4(s) * nmath_fastpow10(s)
+#define nmath_fastpow15(s) nmath_fastpow5(s) * nmath_fastpow10(s)
+#define nmath_fastpow16(s) nmath_fastpow6(s) * nmath_fastpow10(s)
+#define nmath_fastpow17(s) nmath_fastpow7(s) * nmath_fastpow10(s)
+#define nmath_fastpow18(s) nmath_fastpow8(s) * nmath_fastpow10(s)
+#define nmath_fastpow19(s) nmath_fastpow9(s) * nmath_fastpow10(s)
+#define nmath_fastpow20(s) nmath_fastpow10(s) * nmath_fastpow10(s)
+#define nmath_fastpow21(s) nmath_fastpow1(s) * nmath_fastpow20(s)
+#define nmath_fastpow22(s) nmath_fastpow2(s) * nmath_fastpow20(s)
+#define nmath_fastpow23(s) nmath_fastpow3(s) * nmath_fastpow20(s)
+#define nmath_fastpow24(s) nmath_fastpow4(s) * nmath_fastpow20(s)
+#define nmath_fastpow25(s) nmath_fastpow5(s) * nmath_fastpow20(s)
+#define nmath_fastpow26(s) nmath_fastpow6(s) * nmath_fastpow20(s)
+#define nmath_fastpow27(s) nmath_fastpow7(s) * nmath_fastpow20(s)
+#define nmath_fastpow28(s) nmath_fastpow8(s) * nmath_fastpow20(s)
+#define nmath_fastpow29(s) nmath_fastpow9(s) * nmath_fastpow20(s)
+#define nmath_fastpow30(s) nmath_fastpow10(s) * nmath_fastpow20(s)
+#define nmath_fastpow31(s) nmath_fastpow1(s) * nmath_fastpow30(s)
+#define nmath_fastpow32(s) nmath_fastpow2(s) * nmath_fastpow30(s)
+#define nmath_fastpow33(s) nmath_fastpow3(s) * nmath_fastpow30(s)
+#define nmath_fastpow34(s) nmath_fastpow4(s) * nmath_fastpow30(s)
+#define nmath_fastpow35(s) nmath_fastpow5(s) * nmath_fastpow30(s)
+#define nmath_fastpow36(s) nmath_fastpow6(s) * nmath_fastpow30(s)
+#define nmath_fastpow37(s) nmath_fastpow7(s) * nmath_fastpow30(s)
+#define nmath_fastpow38(s) nmath_fastpow8(s) * nmath_fastpow30(s)
+#define nmath_fastpow39(s) nmath_fastpow9(s) * nmath_fastpow30(s)
+#define nmath_fastpow40(s) nmath_fastpow10(s) * nmath_fastpow30(s)
+#define nmath_fastpow41(s) nmath_fastpow1(s) * nmath_fastpow40(s)
+#define nmath_fastpow42(s) nmath_fastpow2(s) * nmath_fastpow40(s)
+#define nmath_fastpow43(s) nmath_fastpow3(s) * nmath_fastpow40(s)
+#define nmath_fastpow44(s) nmath_fastpow4(s) * nmath_fastpow40(s)
+#define nmath_fastpow45(s) nmath_fastpow5(s) * nmath_fastpow40(s)
+#define nmath_fastpow46(s) nmath_fastpow6(s) * nmath_fastpow40(s)
+#define nmath_fastpow47(s) nmath_fastpow7(s) * nmath_fastpow40(s)
+#define nmath_fastpow48(s) nmath_fastpow8(s) * nmath_fastpow40(s)
+#define nmath_fastpow49(s) nmath_fastpow9(s) * nmath_fastpow40(s)
+#define nmath_fastpow50(s) nmath_fastpow10(s) * nmath_fastpow40(s)
+#define nmath_fastpow51(s) nmath_fastpow1(s) * nmath_fastpow50(s)
+#define nmath_fastpow52(s) nmath_fastpow2(s) * nmath_fastpow50(s)
+#define nmath_fastpow53(s) nmath_fastpow3(s) * nmath_fastpow50(s)
+#define nmath_fastpow54(s) nmath_fastpow4(s) * nmath_fastpow50(s)
+#define nmath_fastpow55(s) nmath_fastpow5(s) * nmath_fastpow50(s)
+#define nmath_fastpow56(s) nmath_fastpow6(s) * nmath_fastpow50(s)
+#define nmath_fastpow57(s) nmath_fastpow7(s) * nmath_fastpow50(s)
+#define nmath_fastpow58(s) nmath_fastpow8(s) * nmath_fastpow50(s)
+#define nmath_fastpow59(s) nmath_fastpow9(s) * nmath_fastpow50(s)
+#define nmath_fastpow60(s) nmath_fastpow10(s) * nmath_fastpow50(s)
+#define nmath_fastpow61(s) nmath_fastpow1(s) * nmath_fastpow60(s)
+#define nmath_fastpow62(s) nmath_fastpow2(s) * nmath_fastpow60(s)
+#define nmath_fastpow63(s) nmath_fastpow3(s) * nmath_fastpow60(s)
+#define nmath_fastpow64(s) nmath_fastpow4(s) * nmath_fastpow60(s)
+#define nmath_fastpow65(s) nmath_fastpow5(s) * nmath_fastpow60(s)
+#define nmath_fastpow66(s) nmath_fastpow6(s) * nmath_fastpow60(s)
+#define nmath_fastpow67(s) nmath_fastpow7(s) * nmath_fastpow60(s)
+#define nmath_fastpow68(s) nmath_fastpow8(s) * nmath_fastpow60(s)
+#define nmath_fastpow69(s) nmath_fastpow9(s) * nmath_fastpow60(s)
+#define nmath_fastpow70(s) nmath_fastpow10(s) * nmath_fastpow60(s)
+#define nmath_fastpow71(s) nmath_fastpow1(s) * nmath_fastpow70(s)
+#define nmath_fastpow72(s) nmath_fastpow2(s) * nmath_fastpow70(s)
+#define nmath_fastpow73(s) nmath_fastpow3(s) * nmath_fastpow70(s)
+#define nmath_fastpow74(s) nmath_fastpow4(s) * nmath_fastpow70(s)
+#define nmath_fastpow75(s) nmath_fastpow5(s) * nmath_fastpow70(s)
+#define nmath_fastpow76(s) nmath_fastpow6(s) * nmath_fastpow70(s)
+#define nmath_fastpow77(s) nmath_fastpow7(s) * nmath_fastpow70(s)
+#define nmath_fastpow78(s) nmath_fastpow8(s) * nmath_fastpow70(s)
+#define nmath_fastpow79(s) nmath_fastpow9(s) * nmath_fastpow70(s)
+#define nmath_fastpow80(s) nmath_fastpow10(s) * nmath_fastpow70(s)
+#define nmath_fastpow81(s) nmath_fastpow1(s) * nmath_fastpow80(s)
+#define nmath_fastpow82(s) nmath_fastpow2(s) * nmath_fastpow80(s)
+#define nmath_fastpow83(s) nmath_fastpow3(s) * nmath_fastpow80(s)
+#define nmath_fastpow84(s) nmath_fastpow4(s) * nmath_fastpow80(s)
+#define nmath_fastpow85(s) nmath_fastpow5(s) * nmath_fastpow80(s)
+#define nmath_fastpow86(s) nmath_fastpow6(s) * nmath_fastpow80(s)
+#define nmath_fastpow87(s) nmath_fastpow7(s) * nmath_fastpow80(s)
+#define nmath_fastpow88(s) nmath_fastpow8(s) * nmath_fastpow80(s)
+#define nmath_fastpow89(s) nmath_fastpow9(s) * nmath_fastpow80(s)
+#define nmath_fastpow90(s) nmath_fastpow10(s) * nmath_fastpow80(s)
+#define nmath_fastpow91(s) nmath_fastpow1(s) * nmath_fastpow90(s)
+#define nmath_fastpow92(s) nmath_fastpow2(s) * nmath_fastpow90(s)
+#define nmath_fastpow93(s) nmath_fastpow3(s) * nmath_fastpow90(s)
+#define nmath_fastpow94(s) nmath_fastpow4(s) * nmath_fastpow90(s)
+#define nmath_fastpow95(s) nmath_fastpow5(s) * nmath_fastpow90(s)
+#define nmath_fastpow96(s) nmath_fastpow6(s) * nmath_fastpow90(s)
+#define nmath_fastpow97(s) nmath_fastpow7(s) * nmath_fastpow90(s)
+#define nmath_fastpow98(s) nmath_fastpow8(s) * nmath_fastpow90(s)
+#define nmath_fastpow99(s) nmath_fastpow9(s) * nmath_fastpow90(s)
 
 /************************* PERIODIC CYCLES *****************************/
 // m:-1, p:1, z:0

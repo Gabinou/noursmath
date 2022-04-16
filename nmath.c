@@ -2,6 +2,19 @@
 
 /*********************************** DTAB ************************************/
 
+
+/************************* MULTIPLY N TIMES *****************************/
+
+float nmath_slowpow(float base, int_fast8_t exponent) {
+    /* Super fast for -O1/-O2 optimization (as fast as fastpow) */
+    float out = exponent > 0 ? base : 1;
+    for (int_fast8_t i = 0; i < (exponent - 1); i++) {
+        out *= base;
+    }
+    return (out);
+}
+
+
 /****************************** STRING HASHING *******************************/
 uint64_t dtab_hash_djb2(const char * str) {
     /* djb2 hashing algorithm by Dan Bernstein.
@@ -1932,6 +1945,7 @@ int32_t * pathfinding_Astar_List_int32_t(int32_t * path_list, int32_t * costmap,
     DARR_PUT(frontier_queue, current);
     while (DARR_NUM(frontier_queue) > 0) {
         current = DARR_POP(frontier_queue);
+
         if ((current.x == end.x) && (current.y == end.y)) {
             break;
         }
@@ -1950,15 +1964,14 @@ int32_t * pathfinding_Astar_List_int32_t(int32_t * path_list, int32_t * costmap,
                 neighbor.priority = neighbor.cost + distance; // Core of Astar
 
                 /* Find index to insert neighbor into queue, low is top */
-                size_t index = 0;
                 if (DARR_NUM(frontier_queue) == 0) {
                     DARR_PUT(frontier_queue, neighbor);
                 } else {
-                    index = DARR_NUM(frontier_queue) - 1;
-                    while ((neighbor.priority > frontier_queue[index].priority) && (index > 0)) {
+                    size_t index = DARR_NUM(frontier_queue);
+                    while ((neighbor.priority > frontier_queue[index - 1].priority) && (index > 0)) {
                         index--;
                     }
-                    DARR_INSERT(frontier_queue, neighbor, index + 1);
+                    DARR_INSERT(frontier_queue, neighbor, index);
                 }
                 came_from[neighbor.y * col_len + neighbor.x] =  nmath_Direction_Compute_int32_t(current.x, current.y, neighbor.x, neighbor.y);
             }
