@@ -481,7 +481,6 @@ TEMPLATE_TYPES_FLOAT
 #define bplus_uint_fast32_t(a, b) a > (UINT_FAST32_MAX - b)? UINT_FAST32_MAX : a + b;
 #define bplus_uint_fast64_t(a, b) a > (UINT_FAST64_MAX - b)? UINT_FAST64_MAX : a + b;
 
-
 #define bminus(a, b, min) (a < min + b) ? min : a - b;
 #define bminus_int8_t(a, b) a < (INT8_MAX + b)? INT8_MAX : a - b;
 #define bminus_uint8_t(a, b) a < (UINT8_MAX + b)? UINT8_MAX : a - b;
