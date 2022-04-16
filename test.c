@@ -4234,12 +4234,11 @@ TEMPLATE_TYPES_SINT
 void test_bops() {
     int32_t a = 1, b = 90;
     int32_t max = 10;
-    a = bplus(a, b, max);
+    a = nmath_bplus(a, b, max);
     lok(a == max);
     a = 1, b = 2;
-    a = bplus(a, b, max);
+    a = nmath_bplus(a, b, max);
     lok(a == 3);
-    printf("UINT8_MIN %d\n", UINT8_MIN);
 }
 
 int main() {
