@@ -468,7 +468,7 @@ TEMPLATE_TYPES_FLOAT
 /* Integer multiplication always tends to bounds. */
 
 /* b > 0*/
-#define nmath_bplus(a, b, max) a > (max - b)? max : a + b;
+#define nmath_bplus(a, b, max) (a) > (max - (b)) ? max : (a) + (b);
 #define nmath_bplus_int8_t(a, b) a > (INT8_MAX - b)? INT8_MAX : a + b;
 #define nmath_bplus_uint8_t(a, b) a > (UINT8_MAX - b)? UINT8_MAX : a + b;
 #define nmath_bplus_int16_t(a, b) a > (INT16_MAX - b)? INT16_MAX : a + b;
