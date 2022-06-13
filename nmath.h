@@ -157,6 +157,22 @@ S for stringify, H for hash */
 
 #endif /* DTAB */
 
+/************************ BitARR: Bit array for C99 v1.0 ********************/
+
+typedef uint_fast32_t bit_array_t; // for convenience
+
+// Init BitArray:
+// bit_array_t arr[NMATH_BIT_ARRAY_SIZE(bits)]
+// bit_array_t * arr = calloc(NMATH_BIT_ARRAY_SIZE(bits), sizeof(bit_array_t));
+// bit_array_t * arr = malloc(bits / CHAR_BIT);
+// bits should be a multiple of sizeof(bit_array_t)
+#define NMATH_BIT_ARRAY_BITSPER (sizeof(bit_array_t) * CHAR_BIT)
+#define NMATH_BIT_ARRAY_SIZE(bits) ((bits) / NMATH_BIT_ARRAY_BITSPER)
+#define NMATH_BIT_ARRAY_BYTESIZE(bits) ((bits) / CHAR_BIT)
+
+#define NMATH_BIT_ARRAY_SET(arr, ind) arr[(ind)/(NMATH_BIT_ARRAY_BITSIZE)] |= (1 << ((ind)%(NMATH_BIT_ARRAY_BITSIZE)))
+#define NMATH_BIT_ARRAY_GET(arr, ind) arr[(ind)/(NMATH_BIT_ARRAY_BITSIZE)] &  (1 << ((ind)%(NMATH_BIT_ARRAY_BITSIZE)))
+
 /******************************** CONSTANTS *********************************/
 
 enum NMATH_ITERATIONS_LIMIT {
