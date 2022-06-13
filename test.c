@@ -4249,7 +4249,28 @@ void test_bops() {
     max = 35;
     a = nmath_bmultp(a, b, max);
     lok(a == max);
+}
 
+void test_bit_array() {
+    size_t bits = 128;
+    lok(sizeof(bit_array_t) == 8);
+    lok(NMATH_BIT_ARRAY_BITSPER == 8 * CHAR_BIT);
+    bit_array_t arr[2] = {0};
+    lok(NMATH_BIT_ARRAY_BITSPER * 2 == bits);
+    lok(arr[0] == 0);
+    lok(arr[1] == 0);
+    for (size_t i = 0; i < bits; i++) {
+        // printf("%d \n", NMATH_BIT_ARRAY_GET(arr, i));
+        lok(NMATH_BIT_ARRAY_GET(arr, i) == 0);
+        NMATH_BIT_ARRAY_SET(arr, i);
+    }
+    for (size_t i = 0; i < bits; i++) {
+        NMATH_BIT_ARRAY_SET(arr, i);
+    }
+    for (size_t i = 0; i < bits; i++) {
+        //     // printf("%d \n", NMATH_BIT_ARRAY_GET(arr, i));
+        lok(NMATH_BIT_ARRAY_GET(arr, i) == 1);
+    }
 }
 
 int main() {
@@ -4262,6 +4283,7 @@ int main() {
     lrun("test_float", linalg_float);
     lrun("test_pathfinding_Astar", test_pathfinding_Astar);
     lrun("test_bops", test_bops);
+    lrun("test_bit_array", test_bit_array);
 
 // #define REGISTER_ENUM(type) lrun(STRINGIFY(path_##type), test_pathfinding_##type);
 //     TEMPLATE_TYPES_SINT

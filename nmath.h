@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <assert.h>
+#include <limits.h>
 #include <math.h>
 
 /******************************* NOURS_MATH v0.3 *****************************/
@@ -162,16 +163,18 @@ S for stringify, H for hash */
 typedef uint_fast32_t bit_array_t; // for convenience
 
 // Init BitArray:
-// bit_array_t arr[NMATH_BIT_ARRAY_SIZE(bits)]
 // bit_array_t * arr = calloc(NMATH_BIT_ARRAY_SIZE(bits), sizeof(bit_array_t));
 // bit_array_t * arr = malloc(bits / CHAR_BIT);
 // bits should be a multiple of sizeof(bit_array_t)
-#define NMATH_BIT_ARRAY_BITSPER (sizeof(bit_array_t) * CHAR_BIT)
+#define NMATH_BIT_ARRAY_BITSPER 64
+// #define NMATH_BIT_ARRAY_BITSPER (sizeof(bit_array_t) * CHAR_BIT)
 #define NMATH_BIT_ARRAY_SIZE(bits) ((bits) / NMATH_BIT_ARRAY_BITSPER)
 #define NMATH_BIT_ARRAY_BYTESIZE(bits) ((bits) / CHAR_BIT)
 
-#define NMATH_BIT_ARRAY_SET(arr, ind) arr[(ind)/(NMATH_BIT_ARRAY_BITSIZE)] |= (1 << ((ind)%(NMATH_BIT_ARRAY_BITSIZE)))
-#define NMATH_BIT_ARRAY_GET(arr, ind) arr[(ind)/(NMATH_BIT_ARRAY_BITSIZE)] &  (1 << ((ind)%(NMATH_BIT_ARRAY_BITSIZE)))
+#define NMATH_BIT_ARRAY_SET(arr, ind) (arr[(ind)/(NMATH_BIT_ARRAY_BITSPER)] |= (1 << ((ind)%(NMATH_BIT_ARRAY_BITSPER))))
+#define NMATH_BIT_ARRAY_CLEAR(arr, ind) (arr[(ind)/(NMATH_BIT_ARRAY_BITSPER)] &= ~(1 << ((ind)%(NMATH_BIT_ARRAY_BITSPER))))
+// #define NMATH_BIT_ARRAY_GET(arr, ind) ((arr[(ind)/(NMATH_BIT_ARRAY_BITSPER)] &  (1 << ((ind)%(NMATH_BIT_ARRAY_BITSPER)))) != 0)
+#define NMATH_BIT_ARRAY_GET(arr, ind) ((arr[(ind)/(NMATH_BIT_ARRAY_BITSPER)] & (1 << ((ind)%(NMATH_BIT_ARRAY_BITSPER))))==0)
 
 /******************************** CONSTANTS *********************************/
 
