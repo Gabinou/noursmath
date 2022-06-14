@@ -160,13 +160,13 @@ S for stringify, H for hash */
 
 /************************ BitARR: Bit array for C99 v1.0 ********************/
 
-typedef uint64_t bit_array_t; // for convenience
-
-// Init BitArray:
+// Initializations:
 // bit_array_t arr[bits] = {0};
 // bit_array_t * arr = calloc(NMATH_BIT_ARRAY_SIZE(bits), sizeof(bit_array_t));
 // bit_array_t * arr = malloc(bits / CHAR_BIT);
 // bits should be a multiple of sizeof(bit_array_t)
+
+typedef uint64_t bit_array_t; // for convenience
 
 #define NMATH_BIT_ARRAY_BITSPER (sizeof(bit_array_t) * CHAR_BIT)
 #define NMATH_BIT_ARRAY_SIZE(bits) ((bits) / NMATH_BIT_ARRAY_BITSPER)
