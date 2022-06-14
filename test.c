@@ -4259,16 +4259,19 @@ void test_bit_array() {
     lok(NMATH_BIT_ARRAY_BITSPER * 2 == bits);
     lok(arr[0] == 0);
     lok(arr[1] == 0);
+    // NMATH_BIT_ARRAY_SET(arr, 1);
+    // lok(NMATH_BIT_ARRAY_GET(arr, 0) == 0);
+    // lok(NMATH_BIT_ARRAY_GET(arr, 1) == 1);
+    // lok(NMATH_BIT_ARRAY_GET(arr, 2) == 0);
+    // lok(NMATH_BIT_ARRAY_GET(arr, 64) == 0);
+    // lok(NMATH_BIT_ARRAY_GET(arr, 65) == 0);
+    // lok(NMATH_BIT_ARRAY_GET(arr, 66) == 0);
     for (size_t i = 0; i < bits; i++) {
-        // printf("%d \n", NMATH_BIT_ARRAY_GET(arr, i));
+        printf("%d %d \n", i, NMATH_BIT_ARRAY_GET(arr, i) != 0);
         lok(NMATH_BIT_ARRAY_GET(arr, i) == 0);
         NMATH_BIT_ARRAY_SET(arr, i);
     }
     for (size_t i = 0; i < bits; i++) {
-        NMATH_BIT_ARRAY_SET(arr, i);
-    }
-    for (size_t i = 0; i < bits; i++) {
-        //     // printf("%d \n", NMATH_BIT_ARRAY_GET(arr, i));
         lok(NMATH_BIT_ARRAY_GET(arr, i) == 1);
     }
 }
