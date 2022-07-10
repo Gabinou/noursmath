@@ -2860,6 +2860,36 @@ void test_q_math() {
     out = q_sequence_pingpong_int32_t(current, upper, lower);
     lok(out == 2);
 
+    lower = -2;
+    upper = 3;
+    current = 0;
+    out = q_sequence_pingpong_int32_t(current, upper, lower);
+    lok(out == -2);
+    current = 1;
+    out = q_sequence_pingpong_int32_t(current, upper, lower);
+    lok(out == -1);
+    current = 2;
+    out = q_sequence_pingpong_int32_t(current, upper, lower);
+    lok(out == 0);
+    current = 3;
+    out = q_sequence_pingpong_int32_t(current, upper, lower);
+    lok(out == 1);
+    current = 4;
+    out = q_sequence_pingpong_int32_t(current, upper, lower);
+    lok(out == 2);
+    current = 5;
+    out = q_sequence_pingpong_int32_t(current, upper, lower);
+    lok(out == 1);
+    current = 6;
+    out = q_sequence_pingpong_int32_t(current, upper, lower);
+    lok(out == 0);
+    current = 7;
+    out = q_sequence_pingpong_int32_t(current, upper, lower);
+    lok(out == -1);
+    current = 8;
+    out = q_sequence_pingpong_int32_t(current, upper, lower);
+    lok(out == -2);
+
     lower = 0;
     upper = 6;
     current = 0;
@@ -2902,8 +2932,8 @@ void test_q_math() {
 }
 
 void test_pathfinding_Astar() {
-    dupprintf(globalf, "\ntest_pathfinding_Astar\n");
-    dupprintf(globalf, "\nconstants\n");
+    // dupprintf(globalf, "\ntest_pathfinding_Astar\n");
+    // dupprintf(globalf, "\nconstants\n");
     struct nmath_point_int32_t start = {10, 6};
     struct nmath_point_int32_t end = {15, 1};
     struct nmath_hexpoint_int32_t hexstart = {10, -4, 6};
@@ -3002,7 +3032,7 @@ void test_pathfinding_Astar() {
         int32_t current = computed_movemapp6[temp_row * COL_LEN_TEST_PATHFINDING + temp_col];
         lok(current > 0);
     }
-    linalg_matrix_print_int32_t(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
+    // linalg_matrix_print_int32_t(costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
 
     int32_t * path_list6 = DARR_INIT(path_list6, int32_t, 32);
     path_list6 = pathfinding_Astar_List_int32_t(path_list6, costmapp6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, start, end);
@@ -3013,10 +3043,10 @@ void test_pathfinding_Astar() {
 
     int32_t * path_matrix6 = linalg_list2matrix_int32_t(path_list6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING, DARR_NUM(path_list6) / NMATH_TWO_D);
 
-    dupprintf(globalf, "\n");
-    linalg_matrix_print_int32_t(path_matrix6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
-    dupprintf(globalf, "\n");
-    linalg_matrix_print_int32_t(path_map6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
+    // dupprintf(globalf, "\n");
+    // linalg_matrix_print_int32_t(path_matrix6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
+    // dupprintf(globalf, "\n");
+    // linalg_matrix_print_int32_t(path_map6, ROW_LEN_TEST_PATHFINDING, COL_LEN_TEST_PATHFINDING);
 
     for (size_t row = 0; row < ROW_LEN_TEST_PATHFINDING; row++) {
         for (size_t col = 0; col < COL_LEN_TEST_PATHFINDING; col++) {
@@ -4260,7 +4290,6 @@ void test_bit_array() {
     lok(arr[0] == 0);
     lok(arr[1] == 0);
     for (size_t i = 0; i < bits; i++) {
-        printf("%d %d \n", i, NMATH_BIT_ARRAY_GET(arr, i) != 0);
         lok(NMATH_BIT_ARRAY_GET(arr, i) == 0);
         NMATH_BIT_ARRAY_SET(arr, i);
     }
@@ -4277,7 +4306,7 @@ int main() {
     lrun("test_q_math", test_q_math);
     lrun("test_double", linalg_double);
     lrun("test_float", linalg_float);
-    lrun("test_pathfinding_Astar", test_pathfinding_Astar);
+    lrun("test_path_A", test_pathfinding_Astar);
     lrun("test_bops", test_bops);
     lrun("test_bit_array", test_bit_array);
 
