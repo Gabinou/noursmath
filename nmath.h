@@ -112,7 +112,7 @@ struct dtab {
     size_t bytesize;
     size_t len; /* allocated length */
     size_t num; /* number of active elements (num < len) */
-    uint64_t * keys;
+    size_t * keys;
     void * values;
 };
 
@@ -124,6 +124,12 @@ extern void dtab_del_scramble(struct dtab * dtab_ptr, uint64_t in_hash);
 
 #define DTAB_STRINGIFY(name) #name
 
+/* NOTE: no do {} while(0); for DTAB_INIT to be able to do:
+        dtab_ptr = DTAB_INIT(dtab_ptr, type)
+which becomes
+dtab_ptr = dtab_ptr = malloc(sizeof(*dtab_ptr));
+...
+*/
 #define DTAB_INIT(dtab_ptr, type) dtab_ptr = malloc(sizeof(*dtab_ptr));\
 dtab_ptr->len = DTAB_LEN_INIT;\
 dtab_ptr->num = DTAB_NUM_INIT;\
@@ -131,7 +137,8 @@ dtab_ptr->values = calloc(DTAB_LEN_INIT, sizeof(type));\
 dtab_ptr->keys = malloc(sizeof(*dtab_ptr->keys) * (DTAB_LEN_INIT));\
 dtab_ptr->keys[DTAB_NULL] = DTAB_NULL;\
 dtab_ptr->bytesize = sizeof(type);
-#define DTAB_GROW(dtab_ptr)  do {\
+
+#define DTAB_GROW(dtab_ptr) do {\
     dtab_ptr->len*=DTAB_GROWTH_FACTOR;\
     dtab_ptr->keys = realloc(dtab_ptr->keys, dtab_ptr->len * sizeof(uint64_t));\
     dtab_ptr->values = realloc(dtab_ptr->values, dtab_ptr->len * dtab_ptr->bytesize);} while(0)
@@ -366,6 +373,8 @@ enum DIMENSIONS {
     NMATH_THREE_D = 3,
 };
 #define NMATH_MINLEN 12
+#define NMATH_MIN(a, b) ((a) >= (b) ? (b) : (a))
+#define NMATH_MAX(a, b) ((a) >= (b) ? (a) : (b))
 
 /******************************** STRUCTS ****************************/
 
@@ -716,6 +725,8 @@ extern float nmath_slowpow(float base, int_fast8_t exponent);
 #define q_cycle6_zzmppm(i) (q_cycle6_zzzpzm(i) + q_cycle6_zzmzpz(i))
 #define q_cycle6_pmzzmp(i) (q_cycle6_zmzzzp(i) + q_cycle6_pzzzmz(i))
 
+extern int32_t q_sequence_fgeometric_int32_t(int32_t start, int32_t destination, float geo_factor);
+
 #define REGISTER_ENUM(type) extern type q_sequence_geometric_##type(type start, type destination, type geo_factor);
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
@@ -739,6 +750,19 @@ TEMPLATE_TYPES_FLOAT
 #define  carmack_sqrt_uint64_t q_sqrt_uint64_t
 #define  carmack_sqrt_float q_sqrt_float
 #define  carmack_sqrt_double q_sqrt_double
+
+/***************************** FIRST SET BIT **********************************/
+#define REGISTER_ENUM(type) type nmath_firstsetBit_##type(type flags);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+/***************************** SWAPPING **********************************/
+// swapping two elements in an array.
+#define REGISTER_ENUM(type) void nmath_swap_##type(type * arr, type i1, type i2);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
 
 /***************************** INDICES&ORDERS **********************************/
 // indices: array of unique indices with a certain order.
@@ -1085,8 +1109,14 @@ TEMPLATE_TYPES_FLOAT
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) extern type * linalg_matrix2list_noM_##type(type * matrix, type * list, size_t row_len, size_t col_len);
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) extern type * linalg_list2matrix_noM_##type(type * out, type * list, size_t row_len, size_t col_len, size_t list_len);
 TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) extern type * linalg_list2matrix_##type(type * list, size_t row_len, size_t col_len, size_t list_len);

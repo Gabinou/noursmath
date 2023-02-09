@@ -219,6 +219,15 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
+int32_t q_sequence_fgeometric_int32_t(int32_t current, int32_t destination, float geo_factor) {
+    int32_t distance = current - destination;\
+    int32_t sign = (int32_t )copysign(1, distance);\
+    int32_t out = (sign * (int32_t)(distance / geo_factor) < 1) ? sign : (int32_t)(distance / geo_factor);\
+    return (out);\
+
+}
+
+
 // sequence_pingpong: oscillating integer sequence. upper is excluded.
 // modulo: x % 2 = 0,1,2,0,1,2,0...for x++
 // pingpong(x, 2, 0) = 0,1,2,1,0,1,2... for x++
@@ -428,7 +437,7 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
-#define REGISTER_ENUM(type) extern type * linalg_draw_rect_noM_##type(type * out_mat, type origin_x, type origin_y, size_t width, size_t height, size_t row_len, size_t col_len){\
+#define REGISTER_ENUM(type) extern type * linalg_draw_rect_noM_##type(type * out_mat, type origin_x, type origin_y, size_t width,size_t height, size_t row_len, size_t col_len){\
     size_t row_min = origin_y < 0 ? 0 : origin_y;\
     size_t row_max = (origin_y + height) > row_len ? row_len : (origin_y + height);\
     size_t col_min = origin_x < 0 ? 0 : origin_x;\
@@ -958,7 +967,7 @@ TEMPLATE_TYPES_FLOAT
 
 #define REGISTER_ENUM(type) type * linalg_mask_noM_##type(type * out, type * matrix, type * mask, size_t arr_len) {\
     for (size_t i = 0; i < arr_len; i++) {\
-        out[i] = matrix[i] * (mask[i] > 0);\
+        out[i] = matrix[i] && (mask[i] > 0);\
     }\
     return (out);\
 }
@@ -970,7 +979,7 @@ TEMPLATE_TYPES_BOOL
 #define REGISTER_ENUM(type) type * linalg_mask_##type(type * matrix, type * mask, size_t arr_len) {\
     type * out = calloc(arr_len, sizeof(type));\
     for (size_t i = 0; i < arr_len; i++) {\
-        out[i] = matrix[i] * (mask[i] > 0);\
+        out[i] = matrix[i] && (mask[i] > 0);\
     }\
     return (out);\
 }
@@ -1000,6 +1009,22 @@ TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
 
+#define REGISTER_ENUM(type) type * linalg_matrix2list_noM_##type(type * matrix, type * list, size_t row_len, size_t col_len) {\
+    DARR_NUM(list) = 0;\
+    for (size_t col = 0; col < col_len; col++) {\
+        for (size_t row = 0; row < row_len; row++) {\
+            if (matrix[row * col_len + col] > 0) {\
+                DARR_PUT(list, col);\
+                DARR_PUT(list, row);\
+            }\
+        }\
+    }\
+    return (list);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
 #define REGISTER_ENUM(type) type * linalg_matrix2list_##type(type * matrix, size_t row_len, size_t col_len) {\
     type * list = DARR_INIT(list, type, row_len*col_len*2);\
     for (size_t col = 0; col < col_len; col++) {\
@@ -1016,6 +1041,29 @@ TEMPLATE_TYPES_BOOL
 TEMPLATE_TYPES_INT
 TEMPLATE_TYPES_BOOL
 #undef REGISTER_ENUM
+
+/***************************** FIRST SET BIT **********************************/
+// twos complement mathemagics:
+// 9 == 0b1001
+// 2 == 0b1001
+#define REGISTER_ENUM(type) type nmath_firstsetBit_##type(type flags) {\
+    return(flags & -flags);\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
+
+/***************************** SWAPPING **********************************/
+#define REGISTER_ENUM(type) void nmath_swap_##type(type * arr, type i1, type i2) {\
+    type buffer = arr[i1];\
+    arr[i1] = arr[i2];\
+    arr[i2] = buffer;\
+}
+TEMPLATE_TYPES_INT
+TEMPLATE_TYPES_BOOL
+#undef REGISTER_ENUM
+
 
 /***************************** INDICES&ORDERS **********************************/
 
@@ -1183,8 +1231,6 @@ TEMPLATE_TYPES_SINT
                         neighbor_inclosed = true;\
                         if (neighbor.distance < closed[k].distance) {\
                             neighbor_inclosed = false;\
-                            size_t num = DARR_NUM(closed);\
-                            size_t size = sizeof(*closed);\
                             DARR_DEL(closed, k);\
                         }\
                         break;\
@@ -1239,8 +1285,6 @@ TEMPLATE_TYPES_SINT
                         neighbor_inclosed = true;\
                         if (neighbor.distance < closed[k].distance) {\
                             neighbor_inclosed = false;\
-                            size_t num = DARR_NUM(closed);\
-                            size_t size = sizeof(*closed);\
                             DARR_DEL(closed, k);\
                         }\
                         break;\
@@ -1431,7 +1475,7 @@ TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * pathfinding_Map_Attackto_noM_##type(type * attackmap, type * move_matrix, size_t row_len, size_t col_len, type  move, int8_t range[2], uint8_t mode_movetile) {\
-    type *temp_row = NULL, *move_list = NULL, * toadd = NULL;\
+    type *move_list = NULL;\
     type  subrangey_min, subrangey_max;\
     struct nmath_point_##type temp_nmath_point_##type;\
     move_list = linalg_matrix2list_##type(move_matrix, row_len, col_len);\
@@ -1477,7 +1521,7 @@ TEMPLATE_TYPES_INT
 
 
 #define REGISTER_ENUM(type) type * pathfinding_Map_Attackto_##type(type * move_matrix, size_t row_len, size_t col_len, type  move, int8_t range[2], uint8_t mode_output, uint8_t mode_movetile) {\
-    type  * attackmap = NULL, *temp_row = NULL, *move_list = NULL, * toadd = NULL;\
+    type * attackmap = NULL, *move_list = NULL;\
     type  subrangey_min, subrangey_max;\
     struct nmath_point_##type temp_nmath_point_##type;\
     move_list = linalg_matrix2list_##type(move_matrix, row_len, col_len);\
@@ -1534,13 +1578,14 @@ TEMPLATE_TYPES_INT
             }\
         }\
     }\
+    free(move_list);\
     return (attackmap);\
 }
 TEMPLATE_TYPES_INT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type  * pathfinding_Map_Moveto_Hex_##type(type  * cost_matrix, size_t depth_len, size_t col_len, struct nmath_hexpoint_##type start, type move, uint8_t mode_output) {\
-    type  * move_matrix = NULL, * temp_row = NULL;\
+    type  * move_matrix = NULL;\
     switch (mode_output) {\
         case (NMATH_POINTS_MODE_LIST):\
             move_matrix = DARR_INIT(move_matrix, type, depth_len * col_len * NMATH_TWO_D);\
@@ -1556,7 +1601,7 @@ TEMPLATE_TYPES_INT
     }\
     struct nmath_hexnode_##type * open = DARR_INIT(open, struct nmath_hexnode_##type, depth_len * col_len);\
     struct nmath_hexnode_##type * closed = DARR_INIT(closed, struct nmath_hexnode_##type, depth_len * col_len);\
-    struct nmath_hexnode_##type current = {start.x, start.y, start.z, 0}, neighbor;\
+    struct nmath_hexnode_##type current = {start.x, start.y, start.z, 0}, neighbor = {0};\
     DARR_PUT(open, current);\
     bool found;\
     while (DARR_NUM(open) > 0) {\
@@ -1576,7 +1621,7 @@ TEMPLATE_TYPES_INT
                 }\
                 break;\
         }\
-        for (type  hex_neighbor = 0; hex_neighbor < NMATH_HEXAGON_NEIGHBOURS; hex_neighbor++) {\
+        for (type hex_neighbor = 0; hex_neighbor < NMATH_HEXAGON_NEIGHBOURS; hex_neighbor++) {\
             neighbor.x = nmath_inbounds_##type(current.x + q_cycle6_mppmzz(hex_neighbor), 0, col_len - 1);\
             neighbor.z = nmath_inbounds_##type(current.z + q_cycle6_pmzzmp(hex_neighbor), 0, depth_len - 1);\
             if (cost_matrix[current.z * col_len + current.x] >= 0) {\
@@ -1588,8 +1633,6 @@ TEMPLATE_TYPES_INT
                             neighbor_inclosed = true;\
                             if (neighbor.distance < closed[k].distance) {\
                                 neighbor_inclosed = false;\
-                                size_t num = DARR_NUM(closed);\
-                                size_t size = sizeof(*closed);\
                                 DARR_DEL(closed, k);\
                             }\
                             break;\
@@ -1608,7 +1651,6 @@ TEMPLATE_TYPES_SINT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * pathfinding_Map_Moveto_noM_##type(type * move_matrix, type * cost_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, type move) {\
-    type * temp_row = NULL;\
     for (size_t row = 0; row < row_len; row++) {\
         for (size_t col = 0; col < col_len; col++) {\
             move_matrix[(row * col_len + col)] = NMATH_MOVEMAP_BLOCKED;\
@@ -1618,7 +1660,7 @@ TEMPLATE_TYPES_SINT
     struct nmath_node_##type * closed = DARR_INIT(closed, struct nmath_node_##type, row_len * col_len * 2);\
     struct nmath_node_##type current = {start.x, start.y, NMATH_ZERO_##type}, neighbor;\
     DARR_PUT(open, current);\
-    bool found, neighbor_inclosed;\
+    bool neighbor_inclosed;\
     while (DARR_NUM(open) > 0) {\
         current = DARR_POP(open);\
         DARR_PUT(closed, current);\
@@ -1636,8 +1678,6 @@ TEMPLATE_TYPES_SINT
                         neighbor_inclosed = true;\
                         if (neighbor.distance < closed[k].distance) {\
                             neighbor_inclosed = false;\
-                            size_t num = DARR_NUM(closed);\
-                            size_t size = sizeof(*closed);\
                             DARR_DEL(closed, k);\
                         }\
                         break;\
@@ -1656,7 +1696,7 @@ TEMPLATE_TYPES_FLOAT
 #undef REGISTER_ENUM
 
 #define REGISTER_ENUM(type) type * pathfinding_Map_Moveto_##type(type * cost_matrix, size_t row_len, size_t col_len, struct nmath_point_##type start, type move, uint8_t mode_output) {\
-    type * move_matrix = NULL, * temp_row = NULL;\
+    type * move_matrix = NULL;\
     switch (mode_output) {\
         case (NMATH_POINTS_MODE_LIST):\
             move_matrix = DARR_INIT(move_matrix, type, row_len * col_len * NMATH_TWO_D);\
@@ -1703,8 +1743,6 @@ TEMPLATE_TYPES_FLOAT
                         neighbor_inclosed = true;\
                         if (neighbor.distance < closed[k].distance) {\
                             neighbor_inclosed = false;\
-                            size_t num = DARR_NUM(closed);\
-                            size_t size = sizeof(*closed);\
                             DARR_DEL(closed, k);\
                         }\
                         break;\
@@ -1941,7 +1979,7 @@ int32_t * pathfinding_Astar_List_int32_t(int32_t * path_list, int32_t * costmap,
 
     int32_t * out = DARR_INIT(out, int32_t, row_len * col_len * NMATH_TWO_D);
     struct nmath_nodeq_int32_t current = {.x = start.x, .y = start.y, .cost = 0};
-    struct nmath_nodeq_int32_t neighbor, next;
+    struct nmath_nodeq_int32_t neighbor;
     DARR_PUT(frontier_queue, current);
     while (DARR_NUM(frontier_queue) > 0) {
         current = DARR_POP(frontier_queue);
@@ -1996,7 +2034,7 @@ int32_t * pathfinding_Astar_Map_int32_t(int32_t * path_map, int32_t * costmap, s
     // lowest (movcost + distance) is top of queue.
     struct nmath_nodeq_int32_t * frontier_queue = DARR_INIT(frontier_queue, struct nmath_nodeq_int32_t, row_len * col_len);
     struct nmath_nodeq_int32_t current = {.x = start.x, .y = start.y, .cost = 0};
-    struct nmath_nodeq_int32_t neighbor, next;
+    struct nmath_nodeq_int32_t neighbor;
     DARR_PUT(frontier_queue, current);
     while (DARR_NUM(frontier_queue) > 0) {
         current = DARR_POP(frontier_queue);
